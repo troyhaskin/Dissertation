@@ -1,0 +1,669 @@
+% ===================================================================================== %
+%                                        Header                                         %
+% ===================================================================================== %
+\documentclass[10pt,t,xcolor=table]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{appendixnumberbeamer}
+
+
+\makeatletter
+\beamer@compresstrue
+\makeatother
+\useoutertheme{miniframes}
+\usecolortheme{beaver}
+\useinnertheme{circles}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+
+\setbeamercolor{itemize item}{fg=darkred}
+\setbeamercolor{itemize subitem}{fg=darkred}
+\setbeamercolor{section number projected}{bg=darkred}
+
+\setbeamertemplate{footline}{%
+    \begin{beamercolorbox}[leftskip=0.5em,rightskip=0.5em]{palette primary}
+        \vskip0.3em
+        \ifx \TheDepartmentShort \Undefined
+            \TheAuthorShort\hfill \TheInstituteShort
+        \else
+            \TheAuthorShort\hfill \TheDepartmentShort | \TheInstituteShort
+        \fi
+        \vskip0.3em
+    \end{beamercolorbox}
+    
+    \begin{beamercolorbox}[leftskip=0.5em,rightskip=0.5em]{section in head/foot}
+        \vskip0.3em
+        \TheTitleShort \hfill \insertframenumber/\inserttotalframenumber
+        \vskip0.3em
+    \end{beamercolorbox}%
+}
+
+
+
+
+\input{HelperCommands}
+\setlength{\parskip}{0.5em}
+
+\def\Empty{}
+\newlength{\LengthOfArgument}
+\newcommand{\IfEmpty}[3]{
+    \settowidth{\LengthOfArgument}{#1}
+    \ifdim\LengthOfArgument=0pt
+        #2
+    \else
+        #3
+    \fi
+}
+
+\newcommand{\Author}[2][]{
+
+    \IfEmpty{#1}{
+        \def\TheAuthorShort{#2\xspace}
+        \def\TheAuthorLong{#2\xspace}
+        \author{#2}
+    }{
+        \def\TheAuthorShort{#1\xspace}
+        \def\TheAuthorLong{#2\xspace}
+        \author[#1]{#2}
+    }
+}
+
+\newcommand{\Institute}[2][]{
+
+    \IfEmpty{#1}{
+        \def\TheInstituteShort{#2\xspace}
+        \def\TheInstituteLong{#2\xspace}
+        \institute{#2}
+    }{
+        \def\TheInstituteShort{#1\xspace}
+        \def\TheInstituteLong{#2\xspace}
+        \institute[#1]{#2}
+    }
+}
+
+\newcommand{\Title}[2][]{
+
+    \IfEmpty{#1}{
+        \def\TheTitleShort{#2\xspace}
+        \def\TheTitleLong{#2\xspace}
+        \title{#2}
+    }{
+        \def\TheTitleShort{#1\xspace}
+        \def\TheTitleLong{#2\xspace}
+        \title[#1]{#2}
+    }
+}
+
+\newcommand{\Department}[2][]{
+
+    \IfEmpty{#1}{
+        \def\TheDepartmentShort{#2\xspace}
+        \def\TheDepartmentLong{#2\xspace}
+    }{
+        \def\TheDepartmentShort{#1\xspace}
+        \def\TheDepartmentLong{#2\xspace}
+    }
+}
+
+
+
+
+
+
+\newenvironment{Itemize}
+    {\begin{itemize}\setlength{\itemsep}{0.8em}\setlength{\leftmargin}{0.0em}\setlength{\labelwidth}{0em}}
+    {\end{itemize}}
+
+
+
+%\title{On the Stability of Natural Circulation Loops with Phase Change}
+\Title{On the Behavior of Natural Circulation Loops with Phase Change}
+\Institute{University of Wisconsin--Madison}
+\Department{Engineering Physics Department}
+\Author{Troy C. Haskin}
+\date{12/17/2012}
+
+\graphicspath{{./Graphics/}}
+
+\AtBeginSection[]{
+    \begin{frame}<beamer>
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+\AtBeginSubsection[]{
+    \ifnum\value{subsection} > 1
+        \begin{frame}<beamer>
+            \tableofcontents[currentsection,currentsubsection]
+        \end{frame}
+    \fi
+}
+
+
+\logo{\vspace{0.5em}\includegraphics[scale=0.2]{Picture1}}
+
+
+% =========================================================================== %
+%                              Document                                       %
+% =========================================================================== %
+\begin{document}
+
+
+% ======================================================= %
+%                         Titlepage                       %
+% ======================================================= %
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+% ======================================================= %
+%                         Outline                         %
+% ======================================================= %
+\section*{Outline}
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+
+
+% ======================================================= %
+%                       Introduction                      %
+% ======================================================= %
+\input{Introduction}
+
+
+
+% ======================================================= %
+%                     Preliminary Work                    %
+% ======================================================= %
+\section{Preliminary Work}
+    
+    \subsection{MELCOR Simulations}
+    % --------------------------------------------------- %
+    %               RCCS: MELCOR  Simulations             %
+    % --------------------------------------------------- %
+    \begin{frame}[label=MassFlowAnnotate]{Full-scale model under accident conditions}
+        \hspace{4.9em}\includegraphics[height=2.4in]{PowerProfiles_MassFlowRateAnnotationsThesis}
+        
+        \hfill\textit{\tiny\hyperlink{MassFlow4Days}{alternate}}
+    \end{frame}
+
+
+
+    % --------------------------------------------------- %
+    %             RCCS:Mass Flow rate Simulation          %
+    % --------------------------------------------------- %
+    \begin{frame}[c]{RCCS Experiment: Model Simulation}
+        \begin{columns}[c]
+            \begin{column}{0.28\textwidth}
+                \includegraphics[height=1.8in]{RCCSExperimentRiserPlotAid}
+            \end{column}
+            \begin{column}{0.65\textwidth}
+                \includegraphics[width=2.7in,angle=0]{ExperimentMassFlowRateVsTime}
+            \end{column}
+        \end{columns}
+    \end{frame}
+    
+    
+% ======================================================= %
+%                   Thermohydraulic Theory                %
+% ======================================================= %
+\subsection{Thermohydraulics}
+    \subsubsection*{Conservation Laws}
+
+    % --------------------------------------------------- %
+    %                     CLaw: General                   %
+    % --------------------------------------------------- %
+    \begin{frame}{General Conservation Law (CLaw)}
+        Conservation laws balance a vector of conserved variables \qCon over a control volume.\\[2em]
+        
+        Nonlinear form:
+        \begin{equation}
+            \pdiff{\qCon}{t} + \pdiff{\FluxFun{\qCon; z,t}}{z}= \SourceFun{\qCon,z,t}
+            \label{Eqn:GeneralCLaw}
+        \end{equation}
+        
+        Quasilinear form:
+        \begin{equation}
+            \pdiff{\qCon}{t} + \pdiff{\FluxFun{\qCon;z,t}}{\qCon}\pdiff{\qCon(z,t)}{z} = \SourceFun{\qCon,z,t}
+            \label{Eqn:GeneralCLawQuasilinear}
+        \end{equation}
+        
+        Characteristic speeds:
+        \begin{equation}
+            \Lambda = \mbox{Eig}\left[\pdiff{\FluxFun{\qCon;z,t}}{\qCon}\right]\label{Eqn:GeneralSpeeds}
+        \end{equation}
+
+    \end{frame}
+    
+    
+    % --------------------------------------------------- %
+    %                       CLaw: HEM                     %
+    % --------------------------------------------------- %
+    \subsubsection*{Homogeneous Equilibrium Model}
+    \begin{frame}{Homogeneous Equilibrium Model (HEM)}
+        Nonlinear form:
+        \begin{equation}
+            \hspace{-1em}
+            \renewcommand*{\arraystretch}{3}
+            \pdiff{}{t}\begin{bmatrix}
+                            \rho \\
+                            \rhou \\
+                            \rhoi 
+                        \end{bmatrix}
+            + 
+            \pdiff{}{z}\begin{bmatrix}
+                            \rhou                 \\
+                            u\,\rhou + P(\rho,i)   \\
+                            u\left[\rhoi  + P(\rho,i)\right]
+                        \end{bmatrix}
+            =  
+                        \begin{bmatrix}
+                            0 \\% \mdotloss                \\
+                            \rho{g(z)} - \frac{\Keff(\qCon)}{2} |\rhou|u  \\
+                            \dot{Q}\subs{add}(\qCon,z,t)
+                        \end{bmatrix}
+            \label{Eqn:HEMStrongConservative}
+        \end{equation}
+    \end{frame}
+
+
+    % --------------------------------------------------- %
+    %                       CLaw: HEM                     %
+    % --------------------------------------------------- %
+    \begin{frame}[label=AcousticSpeedsMain]{HEM Speeds}
+        Flux Jacobian:
+        \begin{equation}
+            \renewcommand*{\arraystretch}{2.2}
+            \JacobF = 
+                \begin{bmatrix}
+                    0 & 1 & 0 \\
+                    \diff{P}{\rho} - u^2 & 2\,u & \oneo{\rho}\pdiff{P}{i} \\
+                    u \left(\diff{P}{\rho} - h\right) & h & u\left(1 + \oneo{\rho}\pdiff{P}{i}\right) 
+                \end{bmatrix}
+                \label{Eqn:FluxJacobianHEM}
+        \end{equation}
+        
+        Characteristic speeds (\hyperlink{AcousticSpeeds}{plot}):
+        %\hypertarget{AcousticSpeeds}{AcousticSpeeds}
+        \begin{equation}
+            \renewcommand*{\arraystretch}{2.2}
+            \hspace{-1em}
+            \Speeds\subs{\tiny HEM} =   
+                \begin{bmatrix}
+                    u \\
+                    \left(1 + \oneo{2\rho}\pdiff{P}{i}\right)u  \pm \oneo{2 \rho}\;\Sqrt{4 P(\rho,i) \pdiff{P}{i}+\left(u\pdiff{P}{i}\right)^2 + 4 \rho^2 \pdiff{P}{\rho}}
+                \end{bmatrix}
+                \label{Eqn:SpeedsHEM}
+        \end{equation}
+    \end{frame}
+
+
+    \subsubsection*{Thermodynamics}
+    \begin{frame}[label=EOS]{Equation of State}
+        \begin{Itemize}
+            \item{IAPWS-95 non-ideal equation of state for water}
+            \item{Magnificently huge curve fit of Helmholtz free energy potential}
+            \item{Natural variables are \rho and $T$}
+            \item{Back calculate $T$ from \rho and $i$ (\hyperlink{irhoSpace}{plot})}
+        \end{Itemize}
+    \end{frame}
+
+
+
+\subsection{Steady-state Solver}
+    % --------------------------------------------------- %
+    %                     Numerics: General               %
+    % --------------------------------------------------- %
+    \begin{frame}{Collocated Nodal Method {\small(steady-state over simple, closed loop)}}
+        Simplest to derive; hardest to solve.
+        \begin{equation}\renewcommand{\arraystretch}{2.2}
+            \pdiff{\FluxFun{\qCon;z}}{z}
+                     =  
+            \SourceFun{\qCon,z}
+            \label{Eqn:HEMBasicSS}
+        \end{equation}
+        
+        \onslide<2->{
+        Integrating from $z_{i}$ to $z_{i+1}$:
+            \begin{equation}
+                \Flux(\qCon;\Space_{i+1}) - \Flux(\qCon;\Space_i) = \Weight_i \Source(\qCon,\Space_{i}) + \Weight_{i+1} \Source(\qCon,\Space_{i+1}) +   \mathcal{O}(|\Space_{i+1}-\Space_i|^2)
+                \label{Eqn:IntegrationTrueSolution}
+            \end{equation}
+        }
+        
+        \onslide<3->{
+        Residual to drive to $0$:
+            \begin{equation}
+                \mathbf{R}_i(\qCon) = \left[\Flux(\qCon;\Space_{i+1}) - \Flux(\qCon;\Space_i)\right] -
+                        \left[\Weight_i \Source(\qCon,\Space_{i}) + \Weight_{i+1} \Source(\qCon,\Space_{i+1})\right]
+                \label{Eqn:IntegrationApproxSolution}
+            \end{equation}
+        }
+    \end{frame}
+    
+    % --------------------------------------------------- %
+    %                     Numerics: General               %
+    % --------------------------------------------------- %
+    \begin{frame}{Collocated Nodal Method {\small(steady-state over simple, closed loop)}}
+        Simple form for arbitrary node count:
+        \begin{equation}
+            \mathbf{R} = \mathbb{C}_F \Flux - \mathbb{C}_S \Source
+        \end{equation}
+        
+        Connectivity matrices:
+        \begin{align}
+            \mathbb{C}_* &=  \begin{bmatrix}
+                        \mathbf{C}_* & \mathbf{ }   & \mathbf{ } \\
+                        \mathbf{ }   & \mathbf{C}_* & \mathbf{ } \\
+                        \mathbf{ }   & \mathbf{ }   & \mathbf{C}_* 
+                     \end{bmatrix}
+            \label{Eqn:SysConnMatrices}
+        \end{align}
+        
+        \begin{columns}
+            \begin{column}{0.48\textwidth}
+                \begin{align}
+                        \mathbf{C}_F &=  
+                                \begin{bmatrix}
+                                    -1     & +1  &        &        &          \\
+                                           & -1  & +1     &        &          \\
+                                           &     & \ddots & \ddots &          \\
+                                           &     &        &  -1    & +1       \\
+                                    1      &     &        &        & -1
+                                \end{bmatrix}\notag
+                \end{align}
+            \end{column}
+            \begin{column}{0.48\textwidth}
+                \begin{align}
+                        \mathbf{C}_S &=  
+                                \begin{bmatrix}
+                                    \Weight_1 & \Weight_2 &          &              &          \\
+                                              & \Weight_2 & \Weight_3 &              &          \\
+                                              &          & \ddots   & \ddots       &          \\
+                                              &          &          & \Weight_{N-1} & \Weight_N \\
+                                    \Weight_1 &          &          &              & \Weight_N
+                                \end{bmatrix}\notag
+                \end{align}
+            \end{column}
+        \end{columns}
+    \end{frame}
+    
+    
+    
+    % --------------------------------------------------- %
+    %                     Numerics: General               %
+    % --------------------------------------------------- %
+    \begin{frame}{Collocated Nodal Method {\small(steady-state over simple, closed loop)}}
+        Matrices of this form are singular!
+        
+        Sweeping approach used for steady-state solver:
+        \begin{Itemize}
+            \item{Tank state is known.}
+            \item{Assume a momentum.}
+            \item{Sweep through system back to the tank (nonlinear solver over each control volume).}
+            \item{Two possibilities}
+                \begin{Itemize}
+                    \item{Integrated pressure is less than the tank's: reduce momentum}
+                    \item{Integrated pressure is greater than the tank's: increase momentum}
+                \end{Itemize}
+        \end{Itemize}
+        Momentum corrections are made through a secant update using the pressure difference as the minimizer.
+    \end{frame}
+    
+    
+    \begin{frame}{Test Problem}
+            \begin{columns}[T]
+            
+                \begin{column}[T]{0.85\textwidth}
+                    \begin{Itemize}
+                        \item{Single phase}
+                        \item{Constant friction factor}
+                        \item{$10$ kW load}
+                        \item{State:}
+                            \begin{Itemize}
+                                \item{$P = 101325$ Pa}
+                                \item{$T = 300$ K}
+                            \end{Itemize}
+                    \end{Itemize}
+                \end{column}
+                \hspace{1em}
+                \begin{column}[T]{0.24\textwidth}
+                    \includegraphics[height=2.4in]{SimpleNatCirc}
+                \end{column}
+            \end{columns}
+        \end{frame}
+        
+        \begin{frame}{Test Problem}
+            \begin{columns}[T]
+            
+                \begin{column}[T]{0.85\textwidth}
+                    \begin{table}[b]%
+                        \centering
+                        \scriptsize
+                        \setstretch{1.4}
+                        \rowcolors{2}{}{Gray}
+                        \renewcommand{\arraystretch}{1.4}
+                        \newcommand{\Solver}{\textbf{Solver}}
+                        \newcommand{\Hand}{\textbf{Hand}}
+                        \begin{tabular}{ccclcclcc}
+                            \toprule
+                            \textbf{Measure} & \multicolumn{2}{c}{\textbf{Pressure} [kPa]}       && 
+                                               \multicolumn{2}{c}{\textbf{Temperature} [K]}      && 
+                                               \multicolumn{2}{c}{\textbf{Density} [kg/m\sups{\tiny 3}]} \\\cmidrule(r){2-9}
+                            \textbf{Point}   & \Solver & \Hand  && \Solver & \Hand  && \Solver & \Hand  \\\midrule
+                                    1 & 101325 & 101325 && 300.0 & 300   && 996.6 & 996.6\\
+                                    2 & 150192 & 150178 && 300.0 & 300   && 996.6 & 996.6\\
+                                    3 & 150190 & 150175 && 300.0 & 300   && 996.6 & 996.6\\
+                                    4 & 130640 & 130631 && 302.9 & 302.9 && 995.7 & 995.7\\
+                                    5 & 101327 & 101328 && 302.9 & 302.9 && 995.7 & 995.7\\
+                                    6 & 101326 & 101326 && 302.9 & 302.9 && 995.7 & 995.7\\\bottomrule
+                        \end{tabular}
+                    \end{table}
+                \end{column}
+                \hspace{1em}
+                \begin{column}[T]{0.24\textwidth}
+                    \includegraphics[height=2.4in]{SimpleNatCirc}
+                \end{column}
+            \end{columns}
+            
+        \end{frame}
+    
+    
+    
+    \subsection{Stability}
+    % --------------------------------------------------- %
+    %                     Stability: Intro                %
+    % --------------------------------------------------- %
+    \subsubsection*{Derivation}
+    \begin{frame}[label=Perturbation]{Perturbation equations}
+        Assumed that the true solution is a summation of a steady-state and a transient
+        \begin{equation}
+            \qCon(\Space,t) = \qSS(\Space) + \qPer(\Space,t).
+        \end{equation}
+        
+        \onslide<2->{
+            General nonlinear perturbation equation (\hyperlink{StabilityDiagrams}{diagrams}):
+            \begin{equation}
+                \pdiff{\qPer(\Space,t)}{t}  + \pdiff{}{z} \left[\FluxFun{\qSS + \qPer; z,t}\right] = \SourceFun{\qSS + \qPer,z,t} 
+                \label{Eqn:NonlinearStabilityEquation}
+            \end{equation}
+        }
+        
+        \onslide<3->{
+            Taylor expansion about perturbation (neglecting H.O.T.) yields general linear perturbation equation:
+            \begin{equation}
+                \pdiff{\qPer(\Space,t)}{t}  + \pdiff{}{z}\left[\pdiff{\Flux}{\qSS}\qPer\right] = \pdiff{\Source}{\qSS}\qPer
+                \label{Eqn:GeneralLinearizedCLaw}
+            \end{equation}
+        }
+    \end{frame}
+    
+    % --------------------------------------------------- %
+    %                     Stability: Intro                %
+    % --------------------------------------------------- %
+    \subsubsection*{Linear Solutions}
+    \begin{frame}{Solution methods of linear equation}
+        Wave form ansatz:
+        \begin{equation}
+            \widetilde{\qPer} = \qPer^0 \Exp\left[j(\kappa z + \omega t)\right]
+            \label{Eqn:WaveForm}
+        \end{equation}
+        
+        \onslide<2->{
+        Eigenvalues of dynamical system (piecewise integration around loop):
+        \begin{equation}
+            \pdiff{\overline{\qPer}}{t} = \mathbb{A}(\qSS,t)\overline{\qPer}
+            \label{Eqn:EigenvalueStability}
+        \end{equation}
+        }
+        
+        \onslide<3->{
+        Laplace transform (zeros of transfer function):
+        \begin{equation}
+            s \breve{\qPer} - \qPer(z,0) + \pdiff{}{z}\left[\pdiff{\Flux}{\qSS}\breve{\qPer} \right] = \pdiff{\Source}{\qSS}\breve{\qPer} 
+            \label{Eqn:LaplaceTransform}
+        \end{equation}
+        }
+    \end{frame}
+    
+    
+    
+    \subsubsection*{Test Problem Stability}
+    \begin{frame}{Is the Test Problem Stable?}
+            \begin{columns}[T]
+                \begin{column}[T]{0.85\textwidth}
+                    Eigenvalue approach\\[0.50em]
+                    Loop Integrated:
+                    \begin{equation}
+                       \Re(\lambda) =   \begin{bmatrix} 
+                                            -0.0531     \\
+                                            0 \\
+                                            0
+                                        \end{bmatrix}
+                    \end{equation}\\[0.50em]
+                    4-partition Piecewise Integration:
+                    \begin{equation}
+                        \Re(\lambda) =   \begin{bmatrix} 
+                                            \pm 1510        \\
+                                            \pm(\pm 346)    \\
+                                            \pm 56.2        \\
+                                            -0.1            \\
+                                            0               \\
+                                            0               \\
+                                            0
+                                        \end{bmatrix}
+                    \end{equation}
+                \end{column}
+                \hspace{1em}
+                \begin{column}[T]{0.24\textwidth}
+                    \includegraphics[height=2.4in]{SimpleNatCirc}
+                \end{column}
+            \end{columns}
+    \end{frame}
+    
+    
+\section{Proposed Work}
+
+    % --------------------------------------------------- %
+    %                     Numerics: FVM                   %
+    % --------------------------------------------------- %
+    \subsection*{Current Work}
+    \begin{frame}[label=NonrigorMain]{Current Work}
+        ``Staggered'': mass and energy equations are integrated over a different space than the momentum equations
+        \begin{Itemize}
+            \item{Avoids velocity-pressure decoupling}
+            \item{Flexible interpretation of momentums: information propagators}
+            \item{Allows \hyperlink{Nonrigor}{Non-rigorous grids}}
+        \end{Itemize}
+        
+        \vspace{2em}
+        Time integration: Implicit Euler
+        \begin{Itemize}
+            \item{Unconditionally stable and TVD}
+            \item{Very diffusive}
+        \end{Itemize}
+    \end{frame}
+
+    \begin{frame}{Semidiscrete, Donor-Cell equations}
+        \begin{subequations}\label{Eqn:Semidiscrete1}
+            Momentum cells have a ``from'' and ``to'' for handedness.
+            Donor quantities depend on sign of momentum.
+            
+            \begin{align}
+                \pdiff{\rho\subs{k}}{t}  &= - \oneo{\CVvol}\sum{\rhou\subs{d} A\subs{d}}\\[1em]
+                \pdiff{\rhoi\subs{k}}{t} &= - \oneo{\CVvol}\sum{u_d\left[\rhoi_d  + P(\rho_d,i_d)\right] A\subs{k}} + \dot{Q}\subs{add,k}(\qCon,z,t) \\[1em]
+                \pdiff{\rhou\subs{m}}{t} &= - \oneo{\MCvol}\left[u\,\rhou\rvert^\text{to}_\text{from} + P_\text{to} - P_\text{from}\right]A\subs{m} + \\
+                                         &  \qquad\qquad  \frac{A\subs{m}}{\MCvol}
+                                               \int_{\text{from}}^{\text{to}}\left[\rho{g(z)} - \frac{\Keff(\qCon)}{2} u\,|\rhou|\right] \mathrm{d}s \notag
+            \end{align}
+        \end{subequations}
+    \end{frame}
+
+
+    \subsection*{Goals}
+    \begin{frame}{Goals}
+        Path Forward:
+            \begin{Itemize}
+                \item{Complete transient, HEM solver}
+                \item{Look at HEM boiling behavior}
+                \item{Attain true non-simple, closed-loop steady-state calculations}
+            \end{Itemize}
+            \vfill
+        Outcomes
+            \begin{Itemize}
+                \item{Look at }
+                \item{Examine the quasi-steady stability of the RCCS experiment}
+                \item{Stability maps of the three-riser system, in general, for various parameters}
+                \item{Analytical and physical understanding of how boil-off affects flow behavior}
+            \end{Itemize}
+    \end{frame}
+    
+    \subsection*{Goals with Pictures}
+    \begin{frame}[c]{Path Goals ... with Pictures!}
+        \begin{columns}[c]
+            \hspace{1em}
+            \begin{column}[c]{0.6\textwidth}
+                \includegraphics[height=1.60in]{PowerProfiles_MassFlowRateAnnotationsThesis}
+            \end{column}
+            \begin{column}[c]{0.6\textwidth}
+                \includegraphics[height=1.60in]{ExperimentMassFlowRateVsTime}
+            \end{column}
+        \end{columns}
+    \end{frame}
+    
+    
+    \subsection*{Acknowledgements}
+    \begin{frame}[c]{Acknowledgements}
+        \begin{center}
+                NEUP Program and NRC Fellowship.
+        \end{center}
+    \end{frame}
+        
+
+    \subsection*{End}
+    \begin{frame}[c]{Questions}
+        \begin{center}
+                ``The key to wisdom is this: constant and frequent questioning. 
+                  For by doubting we are led to question, and by questioning we arrive at the truth.''\\
+                \hfill --- Peter Abelard
+        \end{center}
+    \end{frame}
+
+
+
+% ======================================================= %
+%                       Appendix                          %
+% ======================================================= %
+\appendix
+\input{Appendix}
+
+\end{document}
+

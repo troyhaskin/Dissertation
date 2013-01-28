@@ -1,0 +1,67 @@
+\appendix{Total Derivatives}\label[appendix]{Appendix:TotalDerivatives}
+
+In \cref{Chapter:Theory}, a function for the thermodynamic pressure was presented that was explicitly a function of the density \rho and the conservative internal energy \IntEnergy/\rho.
+For that function, the total derivative with respect to the conserved variable \rho is
+\begin{align}
+    \diff{P}{\rho} &= \pdiff{P}{\rho} - \frac{\rhoi}{\rho^2}\pdiff{P}{i} \\[0.4em]
+                   &= \pdiff{P}{\rho} - \frac{i}{\rho}\pdiff{P}{i} 
+\end{align}
+and with respect to the conserved variable \rhoi is
+\begin{equation}
+    \diff{P}{(\rhoi)} = \oneo{\rho}\pdiff{P}{i}
+\end{equation}
+
+
+However, since the \EOS presented in \cref{Section:EOS} is explicitly a function of density and temperature, the derivatives that arise from Jacobians have a more complicated form.
+The relationship between a thermodynamic function $\psi$(\rho,\IntEnergy) and \psiEOS(\rho,\Temperature) is, in conservative form,
+\begin{equation}
+    \psi\left(\rho,\frac{\rhoi}{\rho}\right) = \psiEOS\left[\rho,T\left(\rho,\frac{\rhoi}{\rho}\right)\right].
+\label{Eqn:PressureFunctionRelation}
+\end{equation}
+From this equation, the total derivative with respect to \rho is
+\begin{equation}
+    \diff{\psi}{\rho} = \pdiff{\psiEOS}{\rho} + 
+                        \pdiff{\psiEOS}{T}    
+                        \left[\pdiff{T}{\rho}\biggr)_{\!\!\!\! i} - \frac{i}{\rho}\pdiff{T}{i}\biggr)_{\!\!\!\!    \rho}\right]
+    \label{Eqn:TotalwrtRho}
+\end{equation}
+and  with respect to \rhoi is
+\begin{equation}
+    \diff{\psi}{(\rhoi)} = \oneo{\rho}\pdiff{\psiEOS}{T} \pdiff{T}{i}\biggr)_{\!\!\!\!    \rho}
+    \label{Eqn:TotalwrtRhoi}
+\end{equation}
+where the constancy of properties has been emphasized with purpose.
+The derivative of the temperature with respect to density in \cref{Eqn:TotalwrtRho} seems unwieldy since the IAPWS takes those properites to be independent; however, the requirement that the derivative is taken along a line of constant internal energy admits a solution.
+By the Implicit function theorem, the derivative of temperature with respect to density holding some thermodynamic property \psi constant is
+\begin{equation}
+    \pdiff{T}{\rho}\biggr)_{\!\!\!\! \psi} = - \pdiff{\psi}{\rho}\biggr)_{\!\!\!\! T} \left[\pdiff{\psi}{T}\biggr)_{\!\!\!\! \rho} \right]^{-1}
+    \label{Eqn:dTdrho}
+\end{equation}
+provided that $\partial\psi/\partial{T}$ is non-zero and $\psi(\rho,\Temperature)$ has (at least) a continuous first derivative at the evaluation state \cite{greenberg_advanced_1998}.
+By the Inverse function theorem, the derivative of temperature with respect to some thermodynamic property \psi is
+\begin{equation}
+    \pdiff{T}{\psi}\biggr)_{\!\!\!\!    \rho} = \left[\pdiff{\psi}{T}\biggr)_{\!\!\!\!    \rho} \right]^{-1}.
+    \label{Eqn:dTdi}
+\end{equation}
+provided that $\partial\psi/\partial{T}$ is non-zero and $\psi(\rho,\Temperature)$ has (at least) a continuous first derivative at the evaluation state \cite{greenberg_advanced_1998}.
+\Cref{Eqn:dTdi} is useful since $\partial\psi/\partial{T}$ is directly calculable from the IAWPS-95 \EOS in the single phase region (two-phase conditions require a numeric approximation to the derivative).
+
+For the range of states considered in this work, the requirement that all the properties vary with temperature (i.e., non-zero derivative) is easily found to be valid.
+Concerning the smoothness condition, while the IAPWS-95 implementation is by-construction smooth in the single phase region, it is \emph{not} continuously differentiable at the two-phase boundary (only continuous) with either quality or void fraction weighting.  
+Therefore, with a homogeneous equilibrium flow model, the inverse and implicit function theorems are inapplicable without some exception used at the boundary.
+That exception has been made in the implementation: for a purely saturated state, the derivatives used are those of the single phase fluid.
+
+Lastly, it will be noted that while conservation of density through \rho is universal, conservation of energy through \rhoi is an approximation.
+The approximation of conservation through \rhoi ignores kinetic and potential energy of the fluid.
+While potential energy is usually included as a source term only, kinetic energy is commonly added to the internal energy to form the total energy of the system.
+If the energy equation was required to explicitly conserve thermal and kinetic energy, the conserved property would be defined as 
+\begin{equation}
+    \eBB = \rhoi + \oneo{2} \frac{\rhou^2}{\rho}
+\end{equation}
+and internal energy would have the form
+\begin{equation}
+    i = \frac{\eBB}{\rho} - \oneo{2}\left(\frac{\rhou}{\rho}\right)^2.
+\end{equation}
+Thus, in this formulation, the thermodynamic derivatives would have a momentum dependence in any Jacobian containing them.
+However, the current work does not explicitly conserve kinetic energy, and exploration of this form is left to future work.
+

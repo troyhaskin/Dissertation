@@ -1,0 +1,238 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem{achard_analysis_1985}
+J.~Achard, D.~Drew, R.~Lahey, Analysis of nonlinear density-wave oscillations
+  in boiling channels., Journal of Fluid Mechanics 155 (1985) 213–232.
+
+\bibitem{aritomi_geysering_1993}
+M.~Aritomi, J.~H. Chiang, M.~Mori, Geysering in parallel boiling channels,
+  Nuclear Engineering and Design 141~(1–2) (1993) 111--121.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/002954939390096R}
+
+\bibitem{aritomi_fundamental_1992}
+M.~Aritomi, J.~H. Chiang, T.~Nakahashi, M.~Wataru, M.~Mori, Fundamental study
+  on thermo-hydraulics during start-up in natural circulation boiling water
+  reactors, {(I)}, Journal of Nuclear Science and Technology 29~(7) (1992)
+  631--641.
+\newline\urlprefix\url{http://www.tandfonline.com/doi/abs/10.1080/18811248.1992.9731576}
+
+\bibitem{bechtel_national_inc._450_1993}
+\{Bechtel National, Inc.\}, 450 {MWt} reactor cavity cooling system design
+  description, {DOE-HTGR-90016}, Revision 0 (Nov. 1993).
+
+\bibitem{boure_oscillatory_1966}
+J.~Bouré, A.~Mihaila, The oscillatory behavior of heated channels, An analysis
+  of the density effect. Part I: the mechanism (nonlinear analysis). Centre
+  {d'Etudes} Nucleaires de Grenoble, Report {CEA} 3049.
+
+\bibitem{boure_review_1973}
+J.~Boure, A.~Bergles, L.~Tong, Review of two-phase flow instability, Nuclear
+  Engineering and Design 25~(2) (1973) 165--192.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/0029549373900435}
+
+\bibitem{dauria_characterization_1990}
+F.~{D'Auria}, G.~Galassi, Characterization of instabilities during two-phase
+  natural circulation in typical {PWR} conditions, Experimental Thermal and
+  Fluid Science 3~(6) (1990) 641--650.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/089417779090081H}
+
+\bibitem{dinh_understanding_2003}
+T.~Dinh, R.~Nourgaliev, T.~Theofanous, Understanding the ill-posed two-fluid
+  model, proceedings of the 10th International Topical Meeting on Nuclear
+  Reactor Thermal-Hydraulics {(NURETH’03)} (2003).
+
+\bibitem{durga_prasad_review_2007}
+G.~V. Durga~Prasad, M.~Pandey, M.~S. Kalra, Review of research on flow
+  instabilities in natural circulation boiling systems, Progress in Nuclear
+  Energy 49~(6) (2007) 429--451.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0149197007000480}
+
+\bibitem{galaktionov_stability_2004}
+V.~Galaktionov, J.~Vázquez, A stability technique for evolution partial
+  differential equations: a dynamical systems approach, Progress in nonlinear
+  differential equations and their applications, Birkhäuser, 2004.
+\newline\urlprefix\url{http://books.google.com/books?id=2u8_AQAAIAAJ}
+
+\bibitem{general_atomics_gas_1996}
+\{General Atomics\}, Gas turbine-modular helium reactor {(GT-MHR)} conceptual
+  design description report, 910720 Revision 1 (Jul. 1996).
+\newline\urlprefix\url{http://pbadupws.nrc.gov/docs/ML0224/ML022470306.html}
+
+\bibitem{ghiaasiaan_two-phase_2007}
+S.~M. Ghiaasiaan, Two-Phase Flow, Boiling, and Condensation: In Conventional
+  and Miniature Systems, 1st ed., Cambridge University Press, 2007.
+
+\bibitem{gottlieb_high_2009}
+S.~Gottlieb, D.~I. Ketcheson, C.-W. Shu, High order strong stability preserving
+  time discretizations, Journal of Scientific Computing 38~(3) (2009) 251--289.
+\newline\urlprefix\url{http://link.springer.com/article/10.1007/s10915-008-9239-z}
+
+\bibitem{gould_chemical_2010}
+H.~Gould, J.~Tobochnik, The chemical potential and phase equilibria, in:
+  Statistical and Thermal Physics: With Computer Applications, Princeton
+  University Press, 2010, pp. 357--388.
+\newline\urlprefix\url{http://stp.clarku.edu/notes/chap7.pdf}
+
+\bibitem{greenberg_advanced_1998}
+M.~Greenberg, Advanced Engineering Mathematics, 2nd ed., Pearson, 1998.
+
+\bibitem{guanghui_theoretical_2002}
+S.~Guanghui, J.~Dounan, K.~Fukuda, G.~Yujun, Theoretical and experimental study
+  on density wave oscillation of two-phase natural circulation of low
+  equilibrium quality, Nuclear Engineering and Design 215~(3) (2002) 187--198.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0029549301004563}
+
+\bibitem{guckenheimer_nonlinear_1983}
+J.~Guckenheimer, P.~Holmes, Nonlinear Oscillations, Dynamical Systems, and
+  Bifurcations of Vector Fields, No. v. 42 in Applied Mathematical Sciences,
+  Springer, 1983.
+\newline\urlprefix\url{http://books.google.com/books?id=cumGDmhaFnkC}
+
+\bibitem{iapws_release_2008}
+\{{IAPWS\}}, Release on the {IAPWS} formulation 2008 for the viscosity of
+  ordinary water substance (Sep. 2008).
+\newline\urlprefix\url{http://www.iapws.org/relguide/viscosity.htm}
+
+\bibitem{iapws_revised_2009}
+\{{IAPWS\}}, Revised release on the {IAPWS} formulation 1995 for the
+  thermodynamic properties of ordinary water substance for general and
+  scientific use (Sep. 2009).
+\newline\urlprefix\url{http://www.iapws.org/relguide/IAPWS-95.htm}
+
+\bibitem{iapws_release_2011}
+\{{IAPWS\}}, Release on the {IAPWS} formulation 2011 for the thermal
+  conductivity of ordinary water substance (Sep. 2011).
+\newline\urlprefix\url{http://www.iapws.org/relguide/ThCond.htm}
+
+\bibitem{ishii_thermo-fluid_2011}
+M.~Ishii, T.~Hibiki, Thermo-Fluid Dynamics of Two-Phase Flow, Springer, 2011.
+
+\bibitem{johnson_handbook_1998}
+R.~W. Johnson, The Handbook of Fluid Dynamics, 1st ed., Springer, 1998.
+
+\bibitem{kakac_review_2008}
+S.~Kakac, B.~Bon, A review of two-phase flow dynamic instabilities in tube
+  boiling systems, International Journal of Heat and Mass Transfer 51~(3–4)
+  (2008) 399--433.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0017931007005959}
+
+\bibitem{knaani_bifurcation_1993}
+A.~Knaani, Y.~Zvirin, Bifurcation phenomena in two-phase natural circulation,
+  International Journal of Multiphase Flow 19~(6) (1993) 1129--1151.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/0301932293900815}
+
+\bibitem{lee_nonlinear_2005}
+J.~D. Lee, C.~Pan, Nonlinear analysis for a double-channel two-phase natural
+  circulation loop under low-pressure conditions, Annals of Nuclear Energy
+  32~(3) (2005) 299--329.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S030645490400204X}
+
+\bibitem{sang_yong_lee_thermally_1990}
+S.~Y. Lee, M.~Ishii, Thermally induced flow oscillation in vertical two-phase
+  natural circulation loop, Nuclear Engineering and Design 122~(1–3) (1990)
+  119--132.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/0029549390902018}
+
+\bibitem{lee_linear_1991}
+S.~Y. Lee, D.~W. Lee, Linear analysis of flow instabilities in an open
+  two-phase natural circulation loop, Nuclear Engineering and Design 128~(3)
+  (1991) 317--330.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/002954939190169I}
+
+\bibitem{leveque_finite_2002}
+R.~J. {LeVeque}, Finite Volume Methods for Hyperbolic Problems, 1st ed.,
+  Cambridge University Press, 2002.
+
+\bibitem{marcel_experimental_2009}
+C.~P. Marcel, M.~Rohde, T.~Van Der~Hagen, Experimental and numerical
+  investigations on flashing-induced instabilities in a single channel,
+  Experimental Thermal and Fluid Science 33~(8) (2009) 1197--1208.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0894177709001204}
+
+\bibitem{marcel_experimental_2010}
+C.~P. Marcel, M.~Rohde, T.~Van Der~Hagen, Experimental investigations on
+  flashing-induced instabilities in one and two-parallel channels: A
+  comparative study, Experimental Thermal and Fluid Science 34~(7) (2010)
+  879--892.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0894177710000269}
+
+\bibitem{mills_heat_1994}
+A.~Mills, Heat and Mass Transfer, {Har/Dsk} ed., {CRC} Press, 1994.
+
+\bibitem{morinishi_fully_1998}
+Y.~Morinishi, T.~Lund, O.~Vasilyev, P.~Moin, Fully conservative higher order
+  finite difference schemes for incompressible flow, Journal of Computational
+  Physics 143~(1) (1998) 90--124.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0021999198959629}
+
+\bibitem{nayak_study_2007}
+A.~Nayak, P.~Dubey, D.~Chavan, P.~Vijayan, Study on the stability behaviour of
+  two-phase natural circulation systems using a four-equation drift flux model,
+  Nuclear Engineering and Design 237~(4) (2007) 386--398.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0029549306003876}
+
+\bibitem{nayak_flow_2008}
+A.~K. Nayak, P.~K. Vijayan, Flow instabilities in boiling two-phase natural
+  circulation systems: A review, Science and Technology of Nuclear
+  Installations 2008 (2008) 1--15.
+\newline\urlprefix\url{http://www.hindawi.com/journals/stni/2008/573192/abs/}
+
+\bibitem{neal_mechanisms_1967}
+L.~Neal, S.~Zivi, R.~Wright, The mechanisms of hydrodynamic instabilities in
+  boiling channel, {EURATOM} Report, Pro-ceedings of Symposium on Two-Phase
+  Flow Dynamics, Eindhoven (1967).
+
+\bibitem{nuclear_regulatory_comminission_u.s._2007}
+\{Nuclear Regulatory Comminission\}, {U.S.} nuclear regulatory commission
+  regulations: Title 10, code of federal regulations (Aug. 2007).
+\newline\urlprefix\url{http://www.nrc.gov/reading-rm/doc-collections/cfr/}
+
+\bibitem{sandia_national_laboratories_melcor_2011}
+\{Sandia National Laboratories\}, {MELCOR} computer code manuals: Reference
+  manual, version 2.1 (2011).
+
+\bibitem{satoh_instability_1998}
+A.~Satoh, K.~Okamoto, H.~Madarame, Instability of single-phase natural
+  circulation under double loop system, Chaos, Solitons \& Fractals 9~(9)
+  (1998) 1575--1585.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0960077997001173}
+
+\bibitem{shieh_relap5/mod3_1994}
+A.~Shieh, V.~Ransom, R.~Krishnamurthy, {RELAP5/MOD3} code manual: Validation of
+  numerical techniques in {RELAP5/MOD3}, volume 6 (Aug. 1994).
+\newline\urlprefix\url{http://pbadupws.nrc.gov/docs/ML1103/ML110330272.pdf}
+
+\bibitem{thome_chapter_2004}
+J.~Thome, Chapter 12: Two-phase flow patterns, in: Wolverine engineering data
+  book {III}, Wolverine Tube Inc, 2004, pp. 12--1--12--34.
+\newline\urlprefix\url{http://www.wlv.com/products/databook/db3/data/db3ch12.pdf}
+
+\bibitem{tong_boiling_1997}
+L.~S. Tong, Y.~S. Tang, Boiling Heat Transfer And Two-Phase Flow, 2nd ed.,
+  {CRC} Press, 1997.
+
+\bibitem{wallis_oscillations_1961}
+G.~B. Wallis, J.~H. Heasley, Oscillations in two-phase flow systems, Journal of
+  Heat Transfer 83~(3) (1961) 363.
+\newline\urlprefix\url{http://link.aip.org/link/JHTRAO/v83/i3/p363/s1&Agg=doi}
+
+\bibitem{welander_oscillatory_1967}
+P.~Welander, On the oscillatory instability of a differentially heated fluid
+  loop, J. Fluid Mech 29~(1) (1967) 17–30.
+
+\bibitem{yun_two-phase_2005}
+G.~Yun, G.~Su, J.~Wang, W.~Tian, S.~Qiu, D.~Jia, J.~Zhang, Two-phase
+  instability analysis in natural circulation loops of china advanced research
+  reactor, Annals of Nuclear Energy 32~(4) (2005) 379--397.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/S030645490400218X}
+
+\bibitem{zvirin_transient_1979}
+Y.~Zvirin, R.~Greif, Transient behavior of natural circulation loops: Two
+  vertical branches with point heat source and sink, International Journal of
+  Heat and Mass Transfer 22~(4) (1979) 499--504.
+\newline\urlprefix\url{http://www.sciencedirect.com/science/article/pii/001793107990053X}
+
+\end{thebibliography}

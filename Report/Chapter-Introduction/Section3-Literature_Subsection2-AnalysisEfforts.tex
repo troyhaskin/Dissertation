@@ -1,0 +1,56 @@
+\subsection{Previous Analysis Efforts}
+The two main types of analysis employed in stability analysis are linear and nonlinear (nonlinear being a superset of the other).
+Every analysis begins with a defined set of the conservation/balance equations.
+These equations possess all of the modeling information and assumptions in the analysis to be performed.
+Three commonly used models are \cite{johnson_handbook_1998}:
+\begin{itemize}
+    \item{a homogeneous equilibrium model (HEM) where the distinct phases of a boiling fluid are treated as a single fluid with averaged properties;}
+    \item{a separated flow model (SFM) where an additional momentum equation is added to the HEM allowing phase slip;}
+    \item{a two-fluid model where the distinct phases are treated as separate partitions of a total volume, have completely separate properties, and only communicate through their shared interface.}
+\end{itemize}
+\Cref{Chapter:Theory} discusses the HEM and two-fluid equations, but for now, it suffices to say that these equations are nonlinear, coupled partial differentials equations that do not, in general, admit analytical solutions.
+
+After the model has been decided, authors either linearize the equations or not and assess the system's stability through various techniques.
+The specifics of the solution techniques are left to \cref{Section:StabilityTheory} since the techniques are all similar.
+What makes the approaches more interesting is the models used, approximations made, and geometry considered.
+
+Wallis and Heasley present one of the earliest efforts to analytically tackle two-phase flow oscillations \cite{wallis_oscillations_1961}.
+They investigated a simple, closed natural circulation loop with pentane as the working fluid.
+The analysis method looked at three sources of oscillations from a Lagrangian frame.
+The first source was changes in riser buoyancy resulting from velocity perturbations and an equation for the marginal stability was derived in terms of the friction factor's derivative with respect to some steady-state velocity.
+The second source was the heat input into the system with a theorized flow excursion for their loop.
+Lastly, they investigated parallel channels but did not complete the analysis due to the then intractability of the solution.
+
+Welander, though not a study of two-phase instabilities, investigates a simple, closed loop with point sources and proportional constitutive relations.\cite{welander_oscillatory_1967}.
+While the treatment is similar to Wallis and Heasley's, Welander's more mathematical approach is more in-line with this work's goals.
+Additionally, Welander derived an asymptotic steady-state solution and also compared the analytical neutral boundary with numerical experiments to confirm the boundary's validity.
+Zvirin and Greif continued this work by examining how an arbitrary initial condition evolved toward Welander's steady state \cite{zvirin_transient_1979}.
+They found that while the solution approached the analytical steady-state, the solution was without oscillation and concluded that the oscillation characteristics were strongly dependent on the shape of the initial condition.
+
+Achard \etal investigated material wave oscillations in a horizontal boiling channel using both linear and nonlinear analysis \cite{achard_analysis_1985}.
+They derived a lumped parameter integrodifferential equation.
+Upon linearizing the equation and using the friction and sub-cooling numbers as degrees of freedom, they found two absolutely unstable regions, several conditionally unstable regions, and one absolutely stable region.
+The conditionally unstable regions were found to depend on how actual system's state evolved in time and moved through the stability space.
+They also performed a nonlinear analysis where the parameter values to maintain stability were obtained by nonlinearly solving the lumped parameter equation for a given perturbation amplitude.
+The nonlinear analysis showed that stable parameter curves existed for their system but the absolutely stable region shrank with increasing perturbation amplitude.
+
+Lee and Ishii performed a linear analysis similar to Welander, but the system was explicitly two-phase, had a quadratic frictional dependence in velocity with a constant friction factor, and had a distributed heat load \cite{sang_yong_lee_thermally_1990}.
+Additionally, as an extension of the Zvirin and Greif's methodology, Lee and Ishii divided the loop into size different regions with average properties and solved for the stability boundary using linear analysis.
+
+Lee and Lee performed nearly the same analysis as Lee and Ishii with the added difficulty of a variable, flow-regime dependent friction factor \cite{lee_linear_1991}.
+Guanghui \etal also performed a similar analysis over a simple, closed loop that compared very well experiments \cite{guanghui_theoretical_2002}.
+
+Knaani and Zvirin investigated the existence of multiple steady-states for a simple, closed loop undergoing boiling\cite{knaani_bifurcation_1993}.
+The analysis was done with HEM and incorporated a guess and check procedure for finding a solution to the nonlinear problem.
+They ultimately found multiple steady-states for the closed system due to the non-monotonic nature of the buoyancy term during phase change.
+Nayak \etal also performed analysis on a simple, closed loop but used a four equation model (two for mass and mixture equations for energy and momentum) and several different two-phase friction multipliers \cite{nayak_study_2007}.
+
+Lee and Pan undertook an \Acronym{HEM} for a two-phase natural circulation system with two parallel, heated channels \cite{lee_nonlinear_2005}.
+This treatment is the first work in this review to explicitly analyze a non-simple closed loop.
+Through a number of piece-wise integrations along the loop, the authors arrived at a set of ordinary differential equations that satisfied the zero pressure gradient requirement of the closed loop.
+Using the channel inlet sub-cooling as a parametric and a blackbox solver, the authors compared the steady-state channel flow rates with experimental data.
+The authors then found a stability curve for even heating of the channels that possessed two unstable regions and one stable region.
+The author concluded with a parametric study of how the stability region shifted with the addition of an orifice plate.
+
+
+

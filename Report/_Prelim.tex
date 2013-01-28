@@ -1,0 +1,69 @@
+% ===================================================================================== %
+%                                        Header                                         %
+% ===================================================================================== %
+\documentclass[Prelim,12pt]{WisconsinThesis}
+
+%\usepackage{bookmark}
+\usepackage{import}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{algorithm2e}
+\usepackage{environ}
+\usepackage{esint}
+\usepackage{multirow} 
+
+\input{HelperCommands}
+\newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
+\DefaultFileName{Main}
+\graphicspath{{./Graphics/}}
+
+
+\begin{document}
+
+% ===================================================================================== %
+%                         Define MetaData for the PDF                                   %
+% ===================================================================================== %
+    \Title{On the Stability of Natural Circulation Loops with Phase Change}
+    \Author{Troy C. Haskin}
+    \Department{Department of Engineering Physics}
+    \Advisor{Michael Corradini}
+    \University{University of Wisconsin--Madison}
+    \Degree{Doctor of Philosophy}
+    \Specialty{Nuclear Engineering}
+
+
+
+% ===================================================================================== %
+%                               Preliminary Pages                                       %
+% ===================================================================================== %
+    \MakeTitlePage
+    \clearpage
+    \tableofcontents
+    \listoffigures
+    \listoftables
+    \input{Nomenclature}
+
+
+
+% ===================================================================================== %
+%                                    Content                                            %
+% ===================================================================================== %
+    \InputChapter {Introduction}          {Chapter-Introduction}
+    \InputChapter {Theory}                {Chapter-Theory}
+    \InputChapter {CurrentAndProposedWork}{CurrentAndProposedWork}
+    \InputAppendix{Thermodynamics}        {ThermophysicalProperties}
+    \InputAppendix{TotalDerivatives}      {TotalDerivatives}
+
+
+
+% ===================================================================================== %
+%                               Bibliography                                            %
+% ===================================================================================== %
+    \cleardoublepage
+    \setstretch{1.3}
+    \bibliographystyle{References/elsart-num-sort}
+    \bibliography{References/Prelim}
+    \addcontentsline{toc}{chapter}{Bibliography}
+
+\end{document}
+
