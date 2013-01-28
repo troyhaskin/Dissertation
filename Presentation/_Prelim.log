@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.23)  17 DEC 2012 14:07
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.23)  28 JAN 2013 12:17
 entering extended mode
-**C:/Users/Troy*Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/_Prelim.tex
-("C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/_Prelim.tex"
+**C:/Projects/Dissertation/Presentation/_Prelim.tex
+(C:/Projects/Dissertation/Presentation/_Prelim.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, arabic, armenian, assamese, basque, bengali
 , bokmal, bulgarian, catalan, coptic, croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, galic
@@ -832,12 +832,11 @@ Package: beamercolorthemebeaver 2010/06/17  (rcs-revision d02a7cf4d8ae)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\beamer\base\themes\inner\beamerinnerthemecircles.sty"
 Package: beamerinnerthemecircles 2010/06/17  (rcs-revision d02a7cf4d8ae)
 )
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\HelperCommands.tex"
+(C:\Projects\Dissertation\Presentation\HelperCommands.tex
 LaTeX Info: Redefining \TH on input line 269.
 )
 \LengthOfArgument=\skip60
-
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.aux")
+ (C:\Projects\Dissertation\Presentation\_Prelim.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 155.
 LaTeX Font Info:    ... okay on input line 155.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 155.
@@ -925,8 +924,7 @@ LaTeX Info: Redefining \ref on input line 155.
 LaTeX Info: Redefining \pageref on input line 155.
 LaTeX Info: Redefining \nameref on input line 155.
 
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.out")
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.out")
+(C:\Projects\Dissertation\Presentation\_Prelim.out) (C:\Projects\Dissertation\Presentation\_Prelim.out)
 \@outlinefile=\write5
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 155.
@@ -987,16 +985,15 @@ Dictionary: translator-months-dictionary, Language: English
 Dictionary: translator-numbers-dictionary, Language: English 
 ) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\beamer\base\translator\dicts\translator-theorem-dictionary-English.dict"
 Dictionary: translator-theorem-dictionary, Language: English 
-) ("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.nav")
-<./Graphics/Picture1.png, id=94, 124.3044pt x 196.5744pt>
+) (C:\Projects\Dissertation\Presentation\_Prelim.nav) <./Graphics/Picture1.png, id=94, 124.3044pt x 196.5744pt>
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 163.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [1{C:/Users/Troy Haskin/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/Picture1.png>]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+ <C:/Projects/Dissertation/Presentation/Graphics/Picture1.png>] (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
 
 <use ./Graphics/Picture1.png>
@@ -1004,24 +1001,22 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 172.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [2
 
-]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\Introduction.tex"
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+] (C:\Projects\Dissertation\Presentation\Introduction.tex
+(C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 4.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [3
 
 ]
 LaTeX Font Info:    Try loading font information for TS1+lmss on input line 17.
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmss.fd"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\ts1lmss.fd"
 File: ts1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 17.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [4
@@ -1048,28 +1043,27 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 38.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [6
 
-]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+] (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 43.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
- [7
+
+[7
 
 ] <./Graphics/RCCSMockup.png, id=458, 357.335pt x 742.775pt>
 File: ./Graphics/RCCSMockup.png Graphic file (type png)
-
-<use ./Graphics/RCCSMockup.png>
+ <use ./Graphics/RCCSMockup.png>
 Package pdftex.def Info: ./Graphics/RCCSMockup.png used on input line 58.
 (pdftex.def)             Requested size: 86.91808pt x 180.67499pt.
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 58.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [8
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/RCCSMockup.png>]
+ <C:/Projects/Dissertation/Presentation/Graphics/RCCSMockup.png>]
 <./Graphics/RCCSTotalSystem.png, id=502, 280.2105pt x 320.9445pt>
 File: ./Graphics/RCCSTotalSystem.png Graphic file (type png)
  <use ./Graphics/RCCSTotalSystem.png>
@@ -1086,20 +1080,19 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 83.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [9
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/RCCSTotalSystem.png>] 
+ <C:/Projects/Dissertation/Presentation/Graphics/RCCSTotalSystem.png>]
 <./Graphics/RCCSExperimentOverview.png, id=545, 576.1525pt x 1047.915pt>
 File: ./Graphics/RCCSExperimentOverview.png Graphic file (type png)
-
-<use ./Graphics/RCCSExperimentOverview.png>
+ <use ./Graphics/RCCSExperimentOverview.png>
 Package pdftex.def Info: ./Graphics/RCCSExperimentOverview.png used on input line 98.
 (pdftex.def)             Requested size: 99.33366pt x 180.67499pt.
 LaTeX Font Info:    Try loading font information for OML+lmm on input line 98.
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 98.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OMX+lmex on input line 98.
@@ -1113,7 +1106,8 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 98.
 LaTeX Font Info:    Try loading font information for U+msa on input line 98.
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 98.
@@ -1140,26 +1134,24 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 98.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [10
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/RCCSExperimentOverview
-.png> <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/RCCSExperimentHea
-tBox.png>] <./Graphics/ExperimentMassFlow.png, id=589, 2675.9975pt x 2130.96124pt>
+ <C:/Projects/Dissertation/Presentation/Graphics/RCCSExperimentOverview.png> <C:/Projects/Dissertation/Presentation/Grap
+hics/RCCSExperimentHeatBox.png>]
+<./Graphics/ExperimentMassFlow.png, id=589, 2675.9975pt x 2130.96124pt>
 File: ./Graphics/ExperimentMassFlow.png Graphic file (type png)
-
-<use ./Graphics/ExperimentMassFlow.png>
+ <use ./Graphics/ExperimentMassFlow.png>
 Package pdftex.def Info: ./Graphics/ExperimentMassFlow.png used on input line 109.
 (pdftex.def)             Requested size: 226.8647pt x 180.67499pt.
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 109.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [11
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/ExperimentMassFlow.png
- (PNG copy)>]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+ <C:/Projects/Dissertation/Presentation/Graphics/ExperimentMassFlow.png (PNG copy)>]
+(C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 116.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [12
@@ -1169,13 +1161,12 @@ File: ./Graphics/Picture1.png Graphic file (type png)
  <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 125.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
- [13
 
-])
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+[13
+
+]) (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 186.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [14
@@ -1193,8 +1184,8 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 196.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [15
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/PowerProfiles_MassFlow
-RateAnnotationsThesis.png (PNG copy)>] <./Graphics/RCCSExperimentRiserPlotAid.png, id=821, 444.2196pt x 685.1196pt>
+ <C:/Projects/Dissertation/Presentation/Graphics/PowerProfiles_MassFlowRateAnnotationsThesis.png (PNG copy)>]
+<./Graphics/RCCSExperimentRiserPlotAid.png, id=821, 444.2196pt x 685.1196pt>
 File: ./Graphics/RCCSExperimentRiserPlotAid.png Graphic file (type png)
 
 <use ./Graphics/RCCSExperimentRiserPlotAid.png>
@@ -1213,20 +1204,18 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 212.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [16
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/RCCSExperimentRiserPlo
-tAid.png> <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/ExperimentMas
-sFlowRateVsTime.png (PNG copy)>]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+ <C:/Projects/Dissertation/Presentation/Graphics/RCCSExperimentRiserPlotAid.png> <C:/Projects/Dissertation/Presentation/
+Graphics/ExperimentMassFlowRateVsTime.png (PNG copy)>] (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 218.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [17
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 244.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [18
@@ -1240,27 +1229,26 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 275.
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 306.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [20
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 317.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [21
 
-]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+] (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 321.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
- [22
+
+[22
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
@@ -1278,15 +1266,15 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 350.
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 350.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [25
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 397.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [26
@@ -1320,9 +1308,10 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 442.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [28
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/SimpleNatCirc.png>]
+ <C:/Projects/Dissertation/Presentation/Graphics/SimpleNatCirc.png>]
 File: ./Graphics/SimpleNatCirc.png Graphic file (type png)
- <use ./Graphics/SimpleNatCirc.png>
+
+<use ./Graphics/SimpleNatCirc.png>
 Package pdftex.def Info: ./Graphics/SimpleNatCirc.png used on input line 477.
 (pdftex.def)             Requested size: 72.68411pt x 173.44756pt.
 File: ./Graphics/Picture1.png Graphic file (type png)
@@ -1331,11 +1320,9 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 477.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [29
 
-]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+] (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 481.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [30
@@ -1399,14 +1386,13 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 570.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [37
 
-]
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+] (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 573.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
- [38
+
+[38
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
@@ -1417,32 +1403,31 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 593.
 
 ]
 LaTeX Font Info:    Try loading font information for T1+lmr on input line 608.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\t1lmr.fd"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 608.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [40
 
 ]
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 627.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [41
 
 ]
 File: ./Graphics/PowerProfiles_MassFlowRateAnnotationsThesis.png Graphic file (type png)
- <use ./Graphics/PowerProfiles_MassFlowRateAnnotationsThesis.png>
+
+<use ./Graphics/PowerProfiles_MassFlowRateAnnotationsThesis.png>
 Package pdftex.def Info: ./Graphics/PowerProfiles_MassFlowRateAnnotationsThesis.png used on input line 640.
 (pdftex.def)             Requested size: 161.64229pt x 115.63243pt.
 File: ./Graphics/ExperimentMassFlowRateVsTime.png Graphic file (type png)
-
-<use ./Graphics/ExperimentMassFlowRateVsTime.png>
+ <use ./Graphics/ExperimentMassFlowRateVsTime.png>
 Package pdftex.def Info: ./Graphics/ExperimentMassFlowRateVsTime.png used on input line 640.
 (pdftex.def)             Requested size: 146.81807pt x 115.63243pt.
 
@@ -1475,8 +1460,7 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 658.
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\translate ' on input line 665.
 
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\Appendix.tex"
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.toc")
+(C:\Projects\Dissertation\Presentation\Appendix.tex (C:\Projects\Dissertation\Presentation\_Prelim.toc)
 File: ./Graphics/Picture1.png Graphic file (type png)
 
 <use ./Graphics/Picture1.png>
@@ -1502,27 +1486,27 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 26.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [46
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/StaggeredMesh.png> <C:
-/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/CollocatedMesh.png>]
+ <C:/Projects/Dissertation/Presentation/Graphics/StaggeredMesh.png> <C:/Projects/Dissertation/Presentation/Graphics/Coll
+ocatedMesh.png>]
 File: ./Graphics/StaggeredMesh.png Graphic file (type png)
- <use ./Graphics/StaggeredMesh.png>
+
+<use ./Graphics/StaggeredMesh.png>
 Package pdftex.def Info: ./Graphics/StaggeredMesh.png used on input line 52.
 (pdftex.def)             Requested size: 55.66435pt x 158.99377pt.
-
-<./Graphics/NonrigorousMesh.png, id=2167, 371.82915pt x 353.4003pt>
+ <./Graphics/NonrigorousMesh.png, id=2167, 371.82915pt x 353.4003pt>
 File: ./Graphics/NonrigorousMesh.png Graphic file (type png)
- <use ./Graphics/NonrigorousMesh.png>
+
+<use ./Graphics/NonrigorousMesh.png>
 Package pdftex.def Info: ./Graphics/NonrigorousMesh.png used on input line 52.
 (pdftex.def)             Requested size: 120.84303pt x 114.85373pt.
 File: ./Graphics/Picture1.png Graphic file (type png)
-
-<use ./Graphics/Picture1.png>
+ <use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 52.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [47
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/NonrigorousMesh.png>] 
-<./Graphics/AcousticSpeedVsMaterialSpeed.png, id=2186, 2759.30875pt x 2204.235pt>
+ <C:/Projects/Dissertation/Presentation/Graphics/NonrigorousMesh.png>] <./Graphics/AcousticSpeedVsMaterialSpeed.png, id=
+2186, 2759.30875pt x 2204.235pt>
 File: ./Graphics/AcousticSpeedVsMaterialSpeed.png Graphic file (type png)
 
 <use ./Graphics/AcousticSpeedVsMaterialSpeed.png>
@@ -1534,8 +1518,7 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 64.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [48
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/AcousticSpeedVsMateria
-lSpeed.png (PNG copy)>]
+ <C:/Projects/Dissertation/Presentation/Graphics/AcousticSpeedVsMaterialSpeed.png (PNG copy)>]
 <./Graphics/ComputationalGeometry.png, id=2204, 444.2196pt x 685.1196pt>
 File: ./Graphics/ComputationalGeometry.png Graphic file (type png)
  <use ./Graphics/ComputationalGeometry.png>
@@ -1548,11 +1531,10 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 76.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [49
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/ComputationalGeometry.
-png>] <./Graphics/InteEnergyVsDensity.png, id=2224, 2682.02pt x 2179.14125pt>
+ <C:/Projects/Dissertation/Presentation/Graphics/ComputationalGeometry.png>]
+<./Graphics/InteEnergyVsDensity.png, id=2224, 2682.02pt x 2179.14125pt>
 File: ./Graphics/InteEnergyVsDensity.png Graphic file (type png)
-
-<use ./Graphics/InteEnergyVsDensity.png>
+ <use ./Graphics/InteEnergyVsDensity.png>
 Package pdftex.def Info: ./Graphics/InteEnergyVsDensity.png used on input line 88.
 (pdftex.def)             Requested size: 195.65897pt x 158.99377pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1560,13 +1542,13 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
 (Font)              Font shape `T1/lmss/m/sl' tried instead on input line 88.
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 88.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [50
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/InteEnergyVsDensity.pn
-g (PNG copy)>]
+ <C:/Projects/Dissertation/Presentation/Graphics/InteEnergyVsDensity.png (PNG copy)>]
 <./Graphics/LinearlyStableNonlinearlyUnstable.png, id=2244, 722.7pt x 360.34625pt>
 File: ./Graphics/LinearlyStableNonlinearlyUnstable.png Graphic file (type png)
 
@@ -1590,11 +1572,12 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 116.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [51
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/LinearlyStableNonlinea
-rlyUnstable.png> <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/Linear
-lyUnstableNonlinearlyStable.png>] <./Graphics/MassRateFor4days.png, id=2263, 2680.0125pt x 2176.13pt>
+ <C:/Projects/Dissertation/Presentation/Graphics/LinearlyStableNonlinearlyUnstable.png> <C:/Projects/Dissertation/Presen
+tation/Graphics/LinearlyUnstableNonlinearlyStable.png>] <./Graphics/MassRateFor4days.png, id=2263, 2680.0125pt x 2176.13
+pt>
 File: ./Graphics/MassRateFor4days.png Graphic file (type png)
- <use ./Graphics/MassRateFor4days.png>
+
+<use ./Graphics/MassRateFor4days.png>
 Package pdftex.def Info: ./Graphics/MassRateFor4days.png used on input line 129.
 (pdftex.def)             Requested size: 213.58751pt x 173.44756pt.
 
@@ -1607,10 +1590,10 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 129.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [52
 
- <C:/Users/Troy Haskin/Desktop/Work/Thesis/DocumentsAndPresentations/Prelim/Presentation/Graphics/MassRateFor4days.png (
-PNG copy)>]
+ <C:/Projects/Dissertation/Presentation/Graphics/MassRateFor4days.png (PNG copy)>]
 File: ./Graphics/Picture1.png Graphic file (type png)
- <use ./Graphics/Picture1.png>
+
+<use ./Graphics/Picture1.png>
 Package pdftex.def Info: ./Graphics/Picture1.png used on input line 161.
 (pdftex.def)             Requested size: 24.86043pt x 39.31418pt.
  [53
@@ -1621,8 +1604,7 @@ Package pdftex.def Info: ./Graphics/Picture1.png used on input line 161.
 \tf@snm=\write8
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 668.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 668.
-
-("C:\Users\Troy Haskin\Desktop\Work\Thesis\DocumentsAndPresentations\Prelim\Presentation\_Prelim.aux")
+ (C:\Projects\Dissertation\Presentation\_Prelim.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 668.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 668.
 Package rerunfilecheck Info: File `_Prelim.out' has not changed.
@@ -1630,12 +1612,12 @@ Package rerunfilecheck Info: File `_Prelim.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  17339 strings out of 494045
- 323927 string characters out of 3145951
+ 322016 string characters out of 3145951
  431461 words of memory out of 3000000
  19960 multiletter control sequences out of 15000+200000
  81228 words of font info for 72 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 55i,22n,59p,484b,771s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,22n,59p,435b,771s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips
 /lm/lm-ec.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Files (x86)/MiKTeX 2.9/fon
 ts/enc/dvips/lm/lm-mathex.enc}{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}<C:/Program Files (x86)/M
@@ -1651,7 +1633,7 @@ am Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsso12.pfb><C:/Program Files (x
 so8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsso9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/typ
 e1/public/lm/lmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files (x86)/MiKTe
 X 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on _Prelim.pdf (53 pages, 2070627 bytes).
+Output written on _Prelim.pdf (53 pages, 2070286 bytes).
 PDF statistics:
  2410 PDF objects out of 2487 (max. 8388607)
  184 named destinations out of 1000 (max. 500000)
