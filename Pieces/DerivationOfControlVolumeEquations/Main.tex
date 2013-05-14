@@ -1,0 +1,96 @@
+% ===================================================================================== %
+%                                        Header                                         %
+% ===================================================================================== %
+\documentclass[Prelim,12pt]{WisconsinThesis}
+
+%\usepackage{bookmark}
+\usepackage{import}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{algorithm2e}
+\usepackage{environ}
+\usepackage{esint}
+\usepackage{multirow}
+
+\input{HelperCommands}
+\newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
+\DefaultFileName{Main}
+\graphicspath{{./Graphics/}}
+
+\let\bar\overline
+\newcommand{\pdt}{\partial_t}
+\newcommand{\pdz}{\partial_z}
+\newcommand{\pdi}{\partial_i}
+\newcommand{\pdj}{\partial_j}
+\newcommand{\V}  {\ensuremath{\Omega}}
+\newcommand{\dV} {\,\partial\V}
+\newcommand{\IntV} {\int_{\V}}
+\renewcommand{\S}  {\ensuremath{\Gamma}}
+\newcommand{\dS} {\,\partial\S}
+\newcommand{\IntS} {\int_{\S}}
+
+
+\begin{document}
+
+\section{Control Volume Form}
+
+Differential conservation laws, equipped with adequate constitutive, boundary, and initial data, define all the requirements for functions that describe how the conserved quantities evolve at every point in space-time, as long as the derivatives are defined.
+However, solving for these underlying functions for an arbitrary set of differential equations and data is a seemingly intractable, if not impossible, task.
+As such, numerical methods are often used to approximately satisfy, in some sense, the set of conservation laws on a finite set of domains in space-time as opposed to the infinite set satisfied by the underlying continuous functions.
+
+
+
+\subsection{Generic Bulk Flow}
+The set of conservation equations for a fluid in three dimensional form using index notation is 
+\begin{subequations}\label{Eqn:3DCLaw}
+    \begin{equation}
+        \pdt \rho + \pdj(\rho{u}_j) = S_{\rho} 
+    \end{equation}
+    \begin{equation}
+        \pdt \rho{u}_i + \pdj (\rho{u}_i u_j - \sigma_{ij}) + \pdi P  = \rho\,g_i + S_{\rho{u}}
+    \end{equation}
+    \begin{equation}
+        \pdt \rho{e} + \pdj \left[u_j (\rho{e} + P)\right] - \pdj (u_i\sigma_{ij}) = S_{\rho{e}},
+    \end{equation}
+\end{subequations}
+where $\rho$ is density, $u$ is velocity, $g$ is the gravity vector, $e$ is the total energy of flow, $P$ is the thermodynamic pressure, $\sigma_{ij}$ is the viscous stress tensor, and $S_{\ast}$ are arbitrary sinks or sources.
+Integration of \cref{Eqn:3DCLaw} over some arbitrary, time-independent volume \V{} with boundary $\Gamma$ yields
+\begin{subequations}
+    \begin{equation}
+        \pdt \IntV \rho \dV+ \IntV \pdj(\rho{u}_j) \dV = \IntV S_{\rho} \dV 
+    \end{equation}
+    \begin{equation}
+        \pdt \IntV\rho{u}_i\dV + \IntV\pdj (\rho{u}_i u_j - \sigma_{ij}) + \pdi P \dV = \IntV\rho\,g_i + S_{\rho{u}}\dV
+    \end{equation}
+    \begin{equation}
+        \pdt \IntV\rho{e}\dV + \IntV\pdj \left[u_j (\rho{e} + P)\right] - \pdj (u_i\sigma_{ij}) \dV= \IntV S_{\rho{e}}\dV.
+    \end{equation}
+    \label{Eqn:3DCLawIntV}
+\end{subequations}
+The unweighted volume average of a quantity $\alpha$ is denoted by $\bar{\alpha}$ and defined as
+\begin{equation}
+    \bar{\alpha} = \frac{1}{\V}\IntV \alpha \dV.
+\end{equation}
+Using this defintion, division of \cref{Eqn:3DCLawIntV} by \V{} and transformation of the volume integrals of spatial derivatives into surface integrals via the Divergence Theorem gives
+\begin{subequations}
+    \begin{equation}
+        \pdt \bar{\rho}+ \oneo{\V} \IntS \rho{u}_j n_j \dS = \bar{S}_{\rho} 
+    \end{equation}
+    \begin{equation}
+        \pdt \bar{\rho{u}}_i + \oneo{\V}\IntS (\rho{u}_i u_j - \sigma_{ij}) n_j \dS + 
+        \oneo{\V}\IntS P n_i \dS = \bar{\rho}g_i + \bar{S}_{\rho{u}}
+    \end{equation}
+    \begin{equation}
+        \pdt \bar{\rho{e}} + \oneo{\V}\IntS \left[u_j (\rho{e} + P) - u_i\sigma_{ij}\right]n_j \dS= \bar{S}_{\rho{e}},
+    \end{equation}
+    \label{Eqn:3DCLawIntegralForm}
+\end{subequations}
+where $n$ denotes the outward unit normal of the surface \S{}.
+\Cref{Eqn:3DCLawIntegralForm} is the general, three-dimensional control volume form of the considered conservation equations.
+
+\subsection{One Dimension}
+Since the mass and energy equations are inherently scalar, this section will discuss the 
+
+
+\end{document}
+
