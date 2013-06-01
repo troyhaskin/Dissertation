@@ -28,11 +28,18 @@
 \renewcommand{\S}  {\ensuremath{\Gamma}}
 \newcommand{\dS} {\,\partial\S}
 \newcommand{\IntS} {\int_{\S}}
-
+\newcommand{\q}{\ensuremath{q}}
 
 \begin{document}
 
 \section{Control Volume Form}
+
+A conserved quantity \q{} refers to any physical property whose time evolution within an arbitrary, closed volume exactly balances with its surface fluxes and volume sources.
+For the purpose of mathematical discussion and analysis, the conserved quantity \q{} will simultaneously represent a function of space and time that conforms to the requirements of the physical property.
+These definitions define the following integral conservation law:
+\begin{equation}
+    \pdt \IntV \q(x,t) \dV = \IntS -F_i(q,x,t) n_i\dS + \IntV S(q,x,t) \dV
+\end{equation}
 
 Differential conservation laws, equipped with adequate constitutive, boundary, and initial data, define the requirements for all sufficiently smooth functions that describe how the conserved quantities evolve at every point in space-time.
 
