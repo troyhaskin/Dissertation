@@ -55,7 +55,7 @@ The negative sign in the surface integral ensures that outward fluxes act as sin
 \Cref{Eqn:GeneralIntegralCLaw} is the most general scalar conservation law that will be presented and is always physically valid regardless of the functions' behavior.
 
 A general conservation laws can also be presented as a differential equation.
-To achieve this, the Divergence Theorem allows the surface integral in \cref{Eqn:GeneralIntegralCLaw} to be equated to a volume integral:
+First the Divergence Theorem is used to equate the surface integral in \cref{Eqn:GeneralIntegralCLaw} to a volume integral:
 \begin{equation}
     \IntS -F_i(q;x,t) n_i\dS = \IntV - \pdi F_i(q;x,t) \dV.
     \label{Eqn:SurfToVol}
@@ -65,18 +65,17 @@ Substituting \cref{Eqn:SurfToVol} into \cref{Eqn:GeneralIntegralCLaw} and moving
     \IntV \pdt\q(x,t) + \pdi F_i(q;x,t) - S(q,x,t) \dV = 0,
     \label{Eqn:PreDifferentialForm}
 \end{equation}
-where the time derivative operator could be moved into the integral since the volume is assume time-independent.
-Now, since the integration volume in \cref{Eqn:PreDifferentialForm} is arbitrary, we take limit of the equality as the volume shrinks to zero.
-In this limit, the enforcement of the equality in \cref{Eqn:PreDifferentialForm} changes from one over a finite volume into one that is enforced at every point in a particular domain.
-To ensure this point-wise enforcement, the integrand itself is required to be equally zero at every point in the domain and, at last, yields a differential equation conservation law:
-\begin{equation}%
-    \pdt\q(x,t) + \pdi F_i(q;x,t) - S(q,x,t) = 0
+where the time derivative operator could be moved into the integral since the volume is taken to be time-independent.
+Since the integration volume in \cref{Eqn:PreDifferentialForm} is arbitrary, we take limit of the equality as the volume shrinks to a zero.
+In this limit, the enforcement of the equality in \cref{Eqn:PreDifferentialForm} changes from one over a finite volume into one that is enforced at a particular point.
+To ensure this point-wise enforcement over a given domain, the integrand itself is required to be equally zero at every point in the domain and, at last, yields the differential equation conservation law
+\begin{equation}
+    \pdt\q(x,t) + \pdi F_i(q;x,t) - S(q,x,t) = 0.
     \label{Eqn:GeneralDifferentialCLaw}
 \end{equation}
 
 
-
-Differential conservation laws, equipped with adequate constitutive, boundary, and initial data, define the requirements for all sufficiently smooth functions that describe how the conserved quantities evolve at every point in space-time.
+When equipped with adequate constitutive, boundary, and initial data, define the requirements for all sufficiently smooth functions that describe how the conserved quantities evolve at every point in space-time.
 
 However, solving for these functions for an arbitrary set of laws and data is a formidable, if not impossible, task.
 Therefore, solutions are often left to numerical methods.
