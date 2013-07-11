@@ -18,23 +18,33 @@
 \graphicspath{{./Graphics/}}
 
 \let\bar\overline
-\newcommand{\pdt}{\partial_t}
-\newcommand{\pdz}{\partial_z}
-\newcommand{\pdi}{\partial_i}
-\newcommand{\pdj}{\partial_j}
-\newcommand{\V}  {\ensuremath{\Omega}}
-\newcommand{\dV} {\,\partial\V}
-\newcommand{\IntV} {\int_{\V}}
-\renewcommand{\S}  {\ensuremath{\Gamma}}
-\newcommand{\dS} {\,\partial\S}
-\newcommand{\IntS} {\int_{\S}}
-\newcommand{\q}{\ensuremath{q}}
+\newcommand{\pdt}   {\partial_t\:\!}
+\newcommand{\pdz}   {\partial_z}
+\newcommand{\pdi}   {\partial_i}
+\newcommand{\pdj}   {\partial_j}
+\newcommand{\V}     {\ensuremath{\Omega}}
+\newcommand{\dV}    {\,\partial\V}
+\newcommand{\IntV}  {\int_{\V}}
+\renewcommand{\S}   {\ensuremath{\Gamma}}
+\newcommand{\dS}    {\,\partial\S}
+\newcommand{\IntS}  {\int_{\S}}
+\newcommand{\q}     {\ensuremath{q}}
+\newcommand{\qi}    {\ensuremath{q_i}}
+
+\DeclareMathOperator*{\Lim}{Lim}
+\DeclareMathOperator{\Cos}{Cos}
+\DeclareMathOperator{\Sin}{Sin}
+
+\doublespacing
 
 \begin{document}
 
+\makeatletter
+\makeatother
+
 \chapter{Theory}
 
-The theory encompassed by this work can be divided into four basic parts: conservation laws, numerical methods, thermohydraulics, and stability.
+The theory encompassed by this work can be divided into four basic parts: conservation laws, thermohydraulics, numerical methods, and stability.
 Conservation laws, such as those for momentum and energy, form a fundamental basis of analysis in all branches of science.
 Therefore, a precise definition for a generic conserved quantity and an associated conservation law will be given.
 Following this generic treatment, the specific conservation laws for thermohydraulics will be presented.
@@ -42,48 +52,74 @@ Numerical methods for solving the thermohydraulic conservation laws will then be
 Finally, the stability theory for the thermohydraulic system will be discussed.
 
 \section{Conservation Laws}
-A conserved quantity \q{} refers to any physical property whose time evolution within an arbitrary, closed volume exactly balances with its surface fluxes and volume sources. %\footnote{In other sources, this definition refers to a balance quantity while a conserved quantity is one without any volume sources and is solely affected by surface fluxes.}
+\subsection{Scalar Form}
+A conserved quantity \q{} refers to any physical property whose time evolution within an arbitrary, closed volume exactly balances with its surface fluxes and volume sources.
 For the purpose of mathematical discussion and analysis, the conserved quantity \q{} will simultaneously represent a function of space and time that conforms to the requirements of the physical property.
 These definitions define the following scalar conservation law over a volume \V{} with a closed surface \S{}:%
 \begin{equation}%
-    \pdt \IntV \q(x,t) \dV = \IntS -F_i(q;x,t) n_i\dS + \IntV S(q,x,t) \dV,
+    \pdt\!\IntV \q(x_i,t) \dV = \IntS -F_i(\q,x_i,t) n_i\dS + \IntV S(\q,x_i,t) \dV,
     \label{Eqn:GeneralIntegralCLaw}
 \end{equation}
-where $F_i$ is the surface flux of \q{}, $n_i$ is the outward unit normal of the surface \S{}, and $S$ is the scalar volume source of \q{}.
+where $F_i$ is the surface flux of \q{}, $n_i$ is the outward unit normal of the surface \S{}, and $S$ is the volume source of \q{}.
 Such that the units in the equation agree, both \q{} and $S$ are taken on a per volume basis and $F_i$ on a per area basis.
 The negative sign in the surface integral ensures that outward fluxes act as sinks and inward fluxes as sources to the time evolution of \q{}'s volume integral.
 \Cref{Eqn:GeneralIntegralCLaw} is the most general scalar conservation law that will be presented and is always physically valid regardless of the functions' behavior.
 
-A general conservation laws can also be presented as a differential equation.
+A general conservation law can also be presented in differential form (i.e., as a differential equation).
 First the Divergence Theorem is used to equate the surface integral in \cref{Eqn:GeneralIntegralCLaw} to a volume integral:
 \begin{equation}
-    \IntS -F_i(q;x,t) n_i\dS = \IntV - \pdi F_i(q;x,t) \dV.
+    \IntS -F_i(\q,x_i,t) n_i\dS = \IntV - \pdi F_i(\q,x_i,t) \dV.
     \label{Eqn:SurfToVol}
 \end{equation}
 Substituting \cref{Eqn:SurfToVol} into \cref{Eqn:GeneralIntegralCLaw} and moving all terms to the left-hand side gives:
 \begin{equation}%
-    \IntV \pdt\q(x,t) + \pdi F_i(q;x,t) - S(q,x,t) \dV = 0,
+    \IntV \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) \dV = 0,
     \label{Eqn:PreDifferentialForm}
 \end{equation}
 where the time derivative operator could be moved into the integral since the volume is taken to be time-independent.
 Since the integration volume in \cref{Eqn:PreDifferentialForm} is arbitrary, we take limit of the equality as the volume shrinks to a zero.
-In this limit, the enforcement of the equality in \cref{Eqn:PreDifferentialForm} changes from one over a finite volume into one that is enforced at a particular point.
-To ensure this point-wise enforcement over a given domain, the integrand itself is required to be equally zero at every point in the domain and, at last, yields the differential equation conservation law
+\begin{equation}%
+    \Lim_{\V \rightarrow 0}\Biggl[\IntV \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) \dV \Biggr]= 0.
+    \label{Eqn:LimitOfPreDifferentialForm}
+\end{equation}
+In this limit, the enforcement of the equality changes from one over a finite volume into one that is enforced at a particular point.
+To ensure point-wise enforcement over a given domain, the integrand itself is required to be equally zero at every point in the domain and, at last, yields the differential equation conservation law
 \begin{equation}
-    \pdt\q(x,t) + \pdi F_i(q;x,t) - S(q,x,t) = 0.
+    \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) = 0.
     \label{Eqn:GeneralDifferentialCLaw}
 \end{equation}
+When equipped with adequate boundary and initial data, this differential equation defines the requirement for all sufficiently smooth functions that describe how the conserved quantity evolves at every point in space-time.
+
+The differential form may seem cleaner than the integral form, but \emph{it is not valid for all functional forms of \q{}}.
+In transitioning from \cref{Eqn:LimitOfPreDifferentialForm} to \cref{Eqn:GeneralDifferentialCLaw}, it is assumed that all functions in the integrand remain bounded.
+If any of the terms within the limit become infinite, the balance cannot be satisfied.
+In particular, if \q{} has an area where it undergoes a discontinuous jump, called a shock, the gradient of the flux is infinite and the differential form is rendered invalid.
+While methods that handle shocks in a robust fashion (shock-capturing schemes) are not the focus of this work, it is presented for completeness and consideration.
+
+\subsection{Vector Form}
+Proper simulation of real world problems involves the solution of a system of conservations laws.
+The systems are often nonlinear and tightly coupled.
+The actual solution of these problems will be discussed in future sections, but the notation used will be introduced now.
+
+The integral conservation law for a vector of conserved quantities \qi{} is
+\begin{equation}%
+    \pdt\!\IntV \qi(x_i,t) \dV = \IntS -F_{ij}(\qi,x_i,t) n_j\dS + \IntV S_i(\qi,x_i,t) \dV,
+    \label{Eqn:GeneralIntegralCLawForSystems}
+\end{equation}
+where $F_{ij}$ is a matrix of surface fluxes of \qi{} in the $j$-th direction, $n_j$ is the outward unit normal of the surface \S{}, and $S_i$ is the volume source of \qi{}.
+The integrals of the vector quantities represent element-wise integration.
+A process similar to the scalar case also yields the differential form of the system conservation law:
+\begin{equation}%
+    \IntV \pdt\qi(x_i,t) \dV + \pdj F_{ij}(\qi,x_i,t) - S_i(\qi,x_i,t)  = 0,
+    \label{Eqn:PreLimitGeneralIntegralCLawForSystems}
+\end{equation}
+where $\pdj F_{ij}$ represents an element-wise divergence operation on each of the flux functions.
 
 
-When equipped with adequate constitutive, boundary, and initial data, define the requirements for all sufficiently smooth functions that describe how the conserved quantities evolve at every point in space-time.
-
-However, solving for these functions for an arbitrary set of laws and data is a formidable, if not impossible, task.
-Therefore, solutions are often left to numerical methods.
-
-to approximately satisfy, in some sense, the set of conservation laws on a finite set of domains in space-time as opposed to the infinite set satisfied by the underlying continuous functions.
 
 
-
+\section{Thermohydraulics}
+\subsection{Base Equations}
 \subsection{Generic Bulk Flow}
 The set of conservation equations for a fluid in three dimensional form using index notation is 
 \begin{subequations}\label{Eqn:3DCLaw}
@@ -132,9 +168,10 @@ Using this defintion, division of \cref{Eqn:3DCLawIntV} by \V{} and transformati
 where $n$ denotes the outward unit normal of the surface \S{}.
 \Cref{Eqn:3DCLawIntegralForm} is the general, three-dimensional control volume form of the considered conservation equations.
 
-\subsection{One Dimension}
-Since the mass and energy equations are inherently scalar, this section will discuss the 
+\subsection{Channel Flow}
 
+\section{Numerical Methods}
+\section{Stability Theory}
 
 \end{document}
 
