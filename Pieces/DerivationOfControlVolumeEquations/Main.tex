@@ -32,15 +32,12 @@
 \newcommand{\qi}    {\ensuremath{q_i}}
 
 \DeclareMathOperator*{\Lim}{Lim}
-\DeclareMathOperator{\Cos}{Cos}
-\DeclareMathOperator{\Sin}{Sin}
+\DeclareMathOperator {\Cos}{Cos}
+\DeclareMathOperator {\Sin}{Sin}
 
 \doublespacing
 
 \begin{document}
-
-\makeatletter
-\makeatother
 
 \chapter{Theory}
 
@@ -83,7 +80,7 @@ Since the integration volume in \cref{Eqn:PreDifferentialForm} is arbitrary, we 
     \label{Eqn:LimitOfPreDifferentialForm}
 \end{equation}
 In this limit, the enforcement of the equality changes from one over a finite volume into one that is enforced at a particular point.
-To ensure point-wise enforcement over a given domain, the integrand itself is required to be equally zero at every point in the domain and, at last, yields the differential equation conservation law
+To ensure point-wise enforcement over a given domain, the integrand itself is required to be equally zero at every point in the domain; this yields the differential conservation law
 \begin{equation}
     \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) = 0.
     \label{Eqn:GeneralDifferentialCLaw}
@@ -97,8 +94,8 @@ In particular, if \q{} has an area where it undergoes a discontinuous jump, call
 While methods that handle shocks in a robust fashion (shock-capturing schemes) are not the focus of this work, it is presented for completeness and consideration.
 
 \subsection{Vector Form}
-Proper simulation of real world problems involves the solution of a system of conservations laws.
-The systems are often nonlinear and tightly coupled.
+The simulation of real world problems often involves the solution of a system of conservations laws.
+In general, the systems are nonlinear and tightly coupled.
 The actual solution of these problems will be discussed in future sections, but the notation used will be introduced now.
 
 The integral conservation law for a vector of conserved quantities \qi{} is
@@ -110,10 +107,10 @@ where $F_{ij}$ is a matrix of surface fluxes of \qi{} in the $j$-th direction, $
 The integrals of the vector quantities represent element-wise integration.
 A process similar to the scalar case also yields the differential form of the system conservation law:
 \begin{equation}%
-    \IntV \pdt\qi(x_i,t) \dV + \pdj F_{ij}(\qi,x_i,t) - S_i(\qi,x_i,t)  = 0,
+    \pdt\qi(x_i,t) \dV + \pdj F_{ij}(\qi,x_i,t) - S_i(\qi,x_i,t)  = 0,
     \label{Eqn:PreLimitGeneralIntegralCLawForSystems}
 \end{equation}
-where $\pdj F_{ij}$ represents an element-wise divergence operation on each of the flux functions.
+where $\pdj F_{ij}$ represents a row-wise divergence operation.
 
 
 
@@ -123,15 +120,11 @@ where $\pdj F_{ij}$ represents an element-wise divergence operation on each of t
 \subsection{Generic Bulk Flow}
 The set of conservation equations for a fluid in three dimensional form using index notation is 
 \begin{subequations}\label{Eqn:3DCLaw}
-    \begin{equation}
-        \pdt \rho + \pdj(\rho{u}_j) = S_{\rho} 
-    \end{equation}
-    \begin{equation}
-        \pdt \rho{u}_i + \pdj (\rho{u}_i u_j - \sigma_{ij}) + \pdi P  = \rho\,g_i + S_{\rho{u}}
-    \end{equation}
-    \begin{equation}
-        \pdt \rho{e} + \pdj \left[u_j (\rho{e} + P)\right] - \pdj (u_i\sigma_{ij}) = S_{\rho{e}},
-    \end{equation}
+    \begin{align}
+        \pdt \rho + \pdj(\rho{u}_j) &= S_{\rho} \\
+        \pdt \rho{u}_i + \pdj (\rho{u}_i u_j - \sigma_{ij}) + \pdi P  &= \rho\,g_i + S_{\rho{u}} \\
+        \pdt \rho{e} + \pdj \left[u_j (\rho{e} + P)\right] - \pdj (u_i\sigma_{ij}) &= S_{\rho{e}},
+    \end{align}
 \end{subequations}
 where $\rho$ is density, $u$ is velocity, $g$ is the gravity vector, $e$ is the total energy of flow, $P$ is the thermodynamic pressure, $\sigma_{ij}$ is the viscous stress tensor, and $S_{\ast}$ are arbitrary sinks or sources.
 Integration of \cref{Eqn:3DCLaw} over some arbitrary, time-independent volume \V{} with boundary $\Gamma$ yields
