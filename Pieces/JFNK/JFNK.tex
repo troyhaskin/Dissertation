@@ -32,8 +32,10 @@
 \newcommand{\qi}    {\ensuremath{q_i}}
 
 \DeclareMathOperator*{\Lim}{Lim}
+\DeclareMathOperator*{\ArgMin}{ArgMin}
 \DeclareMathOperator {\Cos}{Cos}
 \DeclareMathOperator {\Sin}{Sin}
+\DeclareMathOperator {\Span}{Span}
 
 \doublespacing
 
@@ -42,9 +44,51 @@
 \chapter[JFNK Solver]{Jacobian-Free Newton-Krylov Solver}
 
 A Jacobian-Free Newton-Krylov (JFNK) solver is a generic name for a method that solves a system of equations, which are typically nonlinear.
-As implied by the name, these solvers are defined by two main characteristics: lack of a need to form the exact Jacobian (Jacobian-free) and Newton-like updates solved via a Krylov method (Newton-Krylov).
-The ability to avoid creating the exact Jacobian, in fact, comes from the usage of a Krylov method for the linear solves.
+As implied by the name, these solvers are defined by two main characteristics: lack of a need to form the exact Jacobian nd Newton-like updates solved via a Krylov method.
+Since the ability to avoid creating the exact Jacobian comes from the usage of a Krylov method for the linear solves, a brief overview of those methods will be given and followed by an in-depth discussion of the particular method leveraged in this work's JFNK solver: Generalized Minimal Residual (GMRES).
 Krylov methods come in many different varieties and only differ in 
+
+
+\section{Krylov Methods}
+Krylov methods are a class of techniques used to solve linear systems of the form
+\begin{equation}
+    A x = b
+    \label{Eqn:BasicLinearProblem}
+\end{equation}
+where $x$ and $b$ are $N \times 1$ vectors and $A$ is an $N \times N$ nonsingular matrix.
+Different methods place other limitations on $A$, but the most general condition (and the only condition required my GMRES) is that the coefficient matrix be invertible.
+The exact solution to \cref{Eqn:BasicLinearProblem} is, trivially,
+\begin{equation}
+    x = A^{-1} b.
+    \label{Eqn:BasicLinearSolution}
+\end{equation}
+However, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
+The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement in the solution.
+
+Krylov methods take an iterative approach to solving the linear problem.
+Given an initial guess of the solution to \cref{Eqn:BasicLinearProblem} $x_0$, an initial residual vector $r_0$ can be defined as $b - A x_0$, and a shift from $x_0$ in the $\delta{x}$ direction will result in a different residual vector $\tilde{r}$:
+\begin{align}
+    \tilde{r} = r_0  - A \delta{x}.
+\end{align}
+Thus, the main goal of a Krylov method is to find a shift $\delta{x}$, called the update, such that the norm of $\tilde{r}$ is eventually minimized to some small, prescribed value.
+This goal is realized by expressing the exact solution $x$ in terms of the initial guess and the exact solution to the update:
+\begin{equation}
+    x = x_0 + A^{-1}r_0.
+\end{equation}
+This formulation is similar to \cref{Eqn:BasicLinearSolution} but relies on the residual and not $b$.
+We now define the eponymous Krylov subspace of dimension $k$ to be
+\begin{equation}
+    \mathcal{K}_m(A,r_0) = \Span\{r_0 , A r_0 ,A^2 r_0, ... ,A^{m-1} r_0\}.
+\end{equation}
+The importance of the Krylov subspace is, by the Cayley–Hamilton theorem, that the inverse of a matrix is spanned by and can be expressed as a linear combination of the its Krylov subspace.
+
+
+
+\section{GMRES}
+\subsection{Alogorthim}
+
+
+\section{Jacobian-Free Augmentation}
 
 
 \end{document}
