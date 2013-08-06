@@ -1,0 +1,51 @@
+% ===================================================================================== %
+%                                        Header                                         %
+% ===================================================================================== %
+\documentclass[Prelim,12pt]{WisconsinThesis}
+
+%\usepackage{bookmark}
+\usepackage{import}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{algorithm2e}
+\usepackage{environ}
+\usepackage{esint}
+\usepackage{multirow}
+
+\input{HelperCommands}
+\newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
+\DefaultFileName{Main}
+\graphicspath{{./Graphics/}}
+
+\let\bar\overline
+\newcommand{\pdt}   {\partial_t\:\!}
+\newcommand{\pdz}   {\partial_z}
+\newcommand{\pdi}   {\partial_i}
+\newcommand{\pdj}   {\partial_j}
+\newcommand{\V}     {\ensuremath{\Omega}}
+\newcommand{\dV}    {\,\partial\V}
+\newcommand{\IntV}  {\int_{\V}}
+\renewcommand{\S}   {\ensuremath{\Gamma}}
+\newcommand{\dS}    {\,\partial\S}
+\newcommand{\IntS}  {\int_{\S}}
+\newcommand{\q}     {\ensuremath{q}}
+\newcommand{\qi}    {\ensuremath{q_i}}
+
+\DeclareMathOperator*{\Lim}{Lim}
+\DeclareMathOperator {\Cos}{Cos}
+\DeclareMathOperator {\Sin}{Sin}
+
+\doublespacing
+
+\begin{document}
+
+\chapter[JFNK Solver]{Jacobian-Free Newton-Krylov Solver}
+
+A Jacobian-Free Newton-Krylov (JFNK) solver is a generic name for a method that solves a system of equations, which are typically nonlinear.
+As implied by the name, these solvers are defined by two main characteristics: lack of a need to form the exact Jacobian (Jacobian-free) and Newton-like updates solved via a Krylov method (Newton-Krylov).
+The ability to avoid creating the exact Jacobian, in fact, comes from the usage of a Krylov method for the linear solves.
+Krylov methods come in many different varieties and only differ in 
+
+
+\end{document}
+
