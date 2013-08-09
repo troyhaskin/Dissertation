@@ -97,7 +97,7 @@
 \RequirePackage{graphicx}  % 
 \RequirePackage{subfig}    % Provides the ability to make figures wrappable
 \RequirePackage[usenames,dvipsnames,svgnames,table,hyperref]{xcolor}    % Provides enhanced color support
-\RequirePackage{setspace}  % Provides easy control of LaTeX line spacing
+\RequirePackage[nodisplayskipstretch]{setspace}  % Provides easy control of LaTeX line spacing
 \RequirePackage{ifthen}    % Provides if-then-else commands and comparisons 
 \RequirePackage{geometry}  % Provides easy control of LaTeX page layout
 \RequirePackage{xspace}    % Small module defining xspace (used for properly inserting a space at the end of a text 'storage' command
