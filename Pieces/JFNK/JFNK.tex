@@ -31,22 +31,27 @@
 \newcommand{\q}     {\ensuremath{q}}
 \newcommand{\qi}    {\ensuremath{q_i}}
 
+\newcommand{\by}    {\!\times\!}
+
+\newcommand{\dx}    {\ensuremath{\Delta{x}}}
+
+
 \DeclareMathOperator*{\Lim}{Lim}
 \DeclareMathOperator*{\ArgMin}{ArgMin}
 \DeclareMathOperator {\Cos}{Cos}
 \DeclareMathOperator {\Sin}{Sin}
 \DeclareMathOperator {\Span}{Span}
 
-\doublespacing
+\setstretch{1.90}
 
 \begin{document}
 
 \chapter[JFNK Solver]{Jacobian-Free Newton-Krylov Solver}
 
-A Jacobian-Free Newton-Krylov (JFNK) solver is a generic name for a method that solves a system of equations, which are typically nonlinear.
-As implied by the name, these solvers are defined by two main characteristics: lack of a need to form the exact Jacobian nd Newton-like updates solved via a Krylov method.
-Since the ability to avoid creating the exact Jacobian comes from the usage of a Krylov method for the linear solves, a brief overview of those methods will be given and followed by an in-depth discussion of the particular method leveraged in this work's JFNK solver: Generalized Minimal Residual (GMRES).
-Krylov methods come in many different varieties and only differ in 
+A Jacobian-Free Newton-Krylov (JFNK) solver is a generic name for an algorithm that solves a system of nonlinear equations.
+As implied by the name, these solvers are defined by two main characteristics: lack of a need to form the exact Jacobian and Newton-like updates obtained from a Krylov method.
+Since the ability to avoid creating the exact Jacobian comes directly from using a Krylov method, a brief overview of those methods will be given before discussing the particular method leveraged in this work's JFNK solver: Generalized Minimal Residual (GMRES).
+
 
 
 \section{Krylov Methods}
@@ -55,8 +60,8 @@ Krylov methods are a class of techniques used to solve linear systems of the for
     A x = b
     \label{Eqn:BasicLinearProblem}
 \end{equation}
-where $x$ and $b$ are $N \times 1$ vectors and $A$ is an $N \times N$ nonsingular matrix.
-Different methods place other limitations on $A$, but the most general condition (and the only condition required my GMRES) is that the coefficient matrix be invertible.
+where $x$ and $b$ are $N \by 1$ vectors and $A$ is an $N \by N$ nonsingular matrix.
+Different methods place other limitations on $A$, but the most general condition (and the only condition required by GMRES) is that the coefficient matrix be invertible.
 The exact solution to \cref{Eqn:BasicLinearProblem} is, trivially,
 \begin{equation}
     x = A^{-1} b.
@@ -65,27 +70,35 @@ The exact solution to \cref{Eqn:BasicLinearProblem} is, trivially,
 However, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
 The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement in the solution.
 
-Krylov methods take an iterative approach to solving the linear problem.
-Given an initial guess of the solution to \cref{Eqn:BasicLinearProblem} $x_0$, an initial residual vector $r_0$ can be defined as $b - A x_0$, and a shift from $x_0$ in the $\delta{x}$ direction will result in a different residual vector $\tilde{r}$:
-\begin{align}
-    \tilde{r} = r_0  - A \delta{x}.
-\end{align}
-Thus, the main goal of a Krylov method is to find a shift $\delta{x}$, called the update, such that the norm of $\tilde{r}$ is eventually minimized to some small, prescribed value.
-This goal is realized by expressing the exact solution $x$ in terms of the initial guess and the exact solution to the update:
+The solution in \cref{Eqn:BasicLinearSolution} will now be rewritten in a form that expresses the solution as a correction from some arbitrary initial guess and is inverse-free.
+Given an initial guess vector $x_0$ with an associated residual vector $r_0 = b - A x_0$, a new vector $\tilde{x}$ can be created by shifting in a direction \dx{} off of the guess vector: $\tilde{x} = x_0 + \dx$.
+If the new vector is not the solution to the problem, the shift induces a new residual $\tilde{r}$ of the form
 \begin{equation}
-    x = x_0 + A^{-1}r_0.
+    \tilde{r} = r_0  - A \dx.
+    \label{Eqn:ResidualUpdateForm}
 \end{equation}
-This formulation is similar to \cref{Eqn:BasicLinearSolution} but relies on the residual and not $b$.
-We now define the eponymous Krylov subspace of dimension $k$ to be
+If $\tilde{x}$ is the true solution $x$, the induced residual $\tilde{r}$ is precisely $0$, and the shift is therefore $\dx = A^{-1}r_0$.
+The solution can then be written in a guess-correction form (where the correction is such that the induced residual is $0$):
 \begin{equation}
-    \mathcal{K}_m(A,r_0) = \Span\{r_0 , A r_0 ,A^2 r_0, ... ,A^{m-1} r_0\}.
+     x = x_0 + A^{-1}r_0.
+    \label{Eqn:SolutionResidualForm}
 \end{equation}
-The importance of the Krylov subspace is, by the Cayley–Hamilton theorem, that the inverse of a matrix is spanned by and can be expressed as a linear combination of the its Krylov subspace.
-
+This form of the solution still presents the problem of forming $A$'s inverse.
+To avoid this problem, we use a result of the Cayley-Hamilton theorem: the inverse of a square, $N \by N$ matrix can be expressed as a linear combination of the matrix's powers from $0$ to $N-1$.
+To wit, the inverse of matrix $A$ satisfies the equality
+\begin{equation}
+    A^{-1} = \sum_{i = 0}^{N-1} c_i A^i
+\end{equation}
+assuming the weights $c_i$ are chosen properly.
+Substituting this expansion into \cref{Eqn:SolutionResidualForm} yields
+\begin{equation}
+    \tilde{x} = x_0 + \sum_{i = 0}^{N-1} c_i A^i r_0.
+\end{equation}
+The set vectors $\{r_0 , A r_0 ,A^2 r_0, \cdots ,A^{N-1} r_0\}$ is called the Krylov Subspace and will be denoted by $\mathcal{K}_N(A,r_0)$
 
 
 \section{GMRES}
-\subsection{Alogorthim}
+\subsection{Algorithm}
 
 
 \section{Jacobian-Free Augmentation}
