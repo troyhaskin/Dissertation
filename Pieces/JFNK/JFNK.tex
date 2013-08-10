@@ -43,7 +43,7 @@
 \DeclareMathOperator {\Span}{Span}
 
 \setstretch{1.60}
-\setlength{\parskip}{20pt}
+\setlength{\parskip}{15pt}
 
 \showthe\parskip
 
@@ -65,42 +65,63 @@ Krylov methods are a class of techniques used to solve linear systems of the for
 \end{equation}
 where $x$ and $b$ are $N \by 1$ vectors and $A$ is an $N \by N$ nonsingular matrix.
 Different methods place other limitations on $A$, but the most general condition (and the only condition required by GMRES) is that the coefficient matrix be invertible.
-The exact solution to \cref{Eqn:BasicLinearProblem} is, trivially,
+The exact solution to \cref{Eqn:BasicLinearProblem} is trivially
 \begin{equation}
     x = A^{-1} b.
     \label{Eqn:BasicLinearSolution}
 \end{equation}
 However, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
-The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement in the solution.
+The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement.
+
+
 
 The solution in \cref{Eqn:BasicLinearSolution} will now be rewritten in a form that expresses the solution as a correction from some arbitrary initial guess and is inverse-free.
+The new form is introduced to reflect how Krylov methods are often presented in the literature, which often lack such a discussion.
+Additionally, the form does lend itself well toward expressing the solution and error which accompany any Krylov method.
+
+
+
 Given an initial guess vector $x_0$ with an associated residual vector $r_0 = b - A x_0$, a new vector $\tilde{x}$ can be created by shifting in a direction \dx{} off of the guess vector: $\tilde{x} = x_0 + \dx$.
 If the new vector is not the solution to the problem, the shift induces a new residual $\tilde{r}$ of the form
 \begin{equation}
     \tilde{r} = r_0  - A \dx.
     \label{Eqn:ResidualUpdateForm}
 \end{equation}
-If $\tilde{x}$ is the true solution $x$, the induced residual $\tilde{r}$ is precisely $0$, and the shift is therefore $\dx = A^{-1}r_0$.
-The solution can then be written in a guess-correction form (where the correction is such that the induced residual is $0$):
+Assuming $\tilde{x}$ is the true solution $x$, the induced residual $\tilde{r}$ is precisely $0$, and the shift is therefore $\dx = A^{-1}r_0$.
+The solution can then be written in a guess-correction form:
 \begin{equation}
-     x = x_0 + A^{-1}r_0.
+    \tilde{x} = x_0 + A^{-1}r_0.
     \label{Eqn:SolutionResidualForm}
 \end{equation}
-This form of the solution still presents the problem of forming $A$'s inverse.
-To avoid this problem, we use a result of the Cayley-Hamilton theorem: the inverse of a square, $N \by N$ matrix can be expressed as a linear combination of the matrix's powers from $0$ to $N-1$.
-To wit, the inverse of matrix $A$ satisfies the equality
-\begin{equation}
-    A^{-1} = \sum_{i = 0}^{N-1} c_i A^i
-\end{equation}
-assuming the weights $c_i$ are chosen properly.
+The burden of calculating $A$'s inverse is still present.
+To avoid this problem, we use a result of the Cayley-Hamilton theorem: the inverse of a square $N \by N$ matrix can be expressed as a linear combination of the matrix's powers from $0$ to $N-1$.
+To wit, given the proper weights $c_i$, the inverse of matrix $A$ can be expressed as $A^{-1} = \sum c_i A^i$.
 Substituting this expansion into \cref{Eqn:SolutionResidualForm} yields
 \begin{equation}
     \tilde{x} = x_0 + \sum_{i = 0}^{N-1} c_i A^i r_0.
+    \label{Eqn:ExactKrylovSolution}
+\end{equation}
+The true solution to the problem is now in a form that incorporates some initial guess and is free of matrix inversions.
+The weights $c_i$, which are required for the equality to hold, are based on $A$'s characteristic polynomial and are, therefore, difficult to efficiently compute for large $N$.
+In truth, any method that aims to find an exact solution will be hampered by computational complexity for large systems.
+
+
+Krylov methods aim to mitigate computational deficiencies by finding an approximate solution.
+The search for an approximate solution, however, does not render all of the above work worthless.
+In fact, Krylov methods are based entirely on the set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution}.
+This set of vectors is called the Krylov subspace of $A$ and is, as the name may indicate, the basis for all Krylov methods.
+A Krylov subspace of dimension $m$ is denoted as 
+\begin{equation}
+    \mathcal{K}_m(A,r_0) = \{r_0 , A r_0 , A^2 r_0,\cdots,A^{m-1} r_0\}.
 \end{equation}
 
 
+Starting with an arbitrary initial guess $x_0$, we define the $k$-th approximate solution $x_k$ as
+\begin{equation}
+    x_k = x_0 + Z_k \omega_k,
+\end{equation}
+where $Z_k$ i an $N \by k$ matrix whose columns form a basis for $\mathcal{K}_k(A,r_0)$ and $\omega_k$ is an $N \by 1$ weight vector.
 
-The set vectors $\{r_0 , A r_0 ,A^2 r_0, \cdots ,A^{N-1} r_0\}$ is called the Krylov Subspace and will be denoted by $\mathcal{K}_N(A,r_0)$
 
 
 \section{GMRES}
