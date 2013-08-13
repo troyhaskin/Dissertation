@@ -106,25 +106,35 @@ The weights $c_i$, which are required for the equality to hold, are based on $A$
 In truth, any method that aims to find an exact solution will be hampered by computational complexity for large systems.
 
 
+
 Krylov methods aim to mitigate computational deficiencies by finding an approximate solution.
-The search for an approximate solution, however, does not render all of the above work worthless.
-In fact, Krylov methods are based entirely on the set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution}.
-This set of vectors is called the Krylov subspace of $A$ and is, as the name may indicate, the basis for all Krylov methods.
-A Krylov subspace of dimension $m$ is denoted as 
-\begin{equation}
-    \mathcal{K}_m(A,r_0) = \{r_0 , A r_0 , A^2 r_0,\cdots,A^{m-1} r_0\}.
-\end{equation}
+The search for an approximate solution does not render all of the above work worthless but forms its heart.
+In fact, the set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$ and is, as the name may indicate, the basis for all Krylov methods.
+The Krylov subspace in \cref{Eqn:ExactKrylovSolution} is an $N$-dimensional space that spans the space of $A^{-1}$ and will be denoted as $\mathcal{K}_{N}(A,r_0)$.
+Krylov subspaces of some dimension $m$ will likewise be denoted as $\mathcal{K}_{m}(A,r_0)$ where $m \le N$ is always implied.
 
 
-Starting with an arbitrary initial guess $x_0$, we define the $k$-th approximate solution $x_k$ as
+The approximate solution formed by Krylov methods is based on one simplification to \cref{Eqn:ExactKrylovSolution}: only form as much of the full subspace as needed.
+That is, the approximation is built from an iteratively grown set of basis vectors that span the lower dimensions of the full Krylov subspace.
+The maximum number of basis vectors needed varies by problem, but it is guaranteed that as the number increases, the approximation comes closed to the exact solution.
+This, the $m$-th approximate solution is
 \begin{equation}
-    x_k = x_0 + Z_k \omega_k,
+    x_m = x_0 + \sum_{i = 0}^{m} \omega_i z_i,
+    \label{Eqn:ApproximateKrylovSolution}
 \end{equation}
-where $Z_k$ i an $N \by k$ matrix whose columns form a basis for $\mathcal{K}_k(A,r_0)$ and $\omega_k$ is an $N \by 1$ weight vector.
+where the set of vectors $\{z_i\}$ form a basis for $\mathcal{K}_m(A,r_0)$ and $\omega_i$ are scalar weights.
+A side effect of forming only a subset of the full Krylov subspace is that the weights are no longer based on the matrix's characteristic polynomial.
+To remedy this problem, Krylov methods define the weights through some optimality condition placed upon the system at the current iteration.
+Thus, Krylov methods are defined by their choice of basis vectors and optimality condition.
+The discussion of GMRES concretely covers both of these choices.
 
 
 
 \section{GMRES}
+GMRES was first proposed by Saad and Schultz in 1986.
+The original formulation used the starting basis vector $ $
+
+
 \subsection{Algorithm}
 
 
