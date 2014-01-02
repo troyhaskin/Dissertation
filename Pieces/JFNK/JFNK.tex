@@ -42,12 +42,16 @@
 \DeclareMathOperator {\Sin}{Sin}
 \DeclareMathOperator {\Span}{Span}
 
-\setstretch{1.60}
+\setstretch{1.85}
 \setlength{\parskip}{15pt}
 
 \showthe\parskip
 
 \begin{document}
+
+\show\part
+\show\chapter
+\show\section
 
 \chapter[JFNK Solver]{Jacobian-Free Newton-Krylov Solver}
 
@@ -76,7 +80,7 @@ The computational cost of inverting $A$ is only exacerbated when solving nonline
 
 
 The solution in \cref{Eqn:BasicLinearSolution} will now be rewritten in a form that expresses the solution as a correction from some arbitrary initial guess and is inverse-free.
-The new form is introduced to reflect how Krylov methods are often presented in the literature, which often lack such a discussion.
+The new form is introduced to reflect how these methods are often presented in the literature, which often lack such a discussion.
 Additionally, the form does lend itself well toward expressing the solution and error which accompany any Krylov method.
 
 
@@ -95,7 +99,7 @@ The solution can then be written in a guess-correction form:
 \end{equation}
 The burden of calculating $A$'s inverse is still present.
 To avoid this problem, we use a result of the Cayley-Hamilton theorem: the inverse of a square $N \by N$ matrix can be expressed as a linear combination of the matrix's powers from $0$ to $N-1$.
-To wit, given the proper weights $c_i$, the inverse of matrix $A$ can be expressed as $A^{-1} = \sum c_i A^i$.
+To wit, given the proper weights $c_i$, the following equality is satisfied: $A^{-1} = \sum c_i A^i$.
 Substituting this expansion into \cref{Eqn:SolutionResidualForm} yields
 \begin{equation}
     \tilde{x} = x_0 + \sum_{i = 0}^{N-1} c_i A^i r_0.
@@ -109,23 +113,22 @@ In truth, any method that aims to find an exact solution will be hampered by com
 
 Krylov methods aim to mitigate computational deficiencies by finding an approximate solution.
 The search for an approximate solution does not render all of the above work worthless but forms its heart.
-In fact, the set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$ and is, as the name may indicate, the basis for all Krylov methods.
-The Krylov subspace in \cref{Eqn:ExactKrylovSolution} is an $N$-dimensional space that spans the space of $A^{-1}$ and will be denoted as $\mathcal{K}_{N}(A,r_0)$.
-Krylov subspaces of some dimension $m$ will likewise be denoted as $\mathcal{K}_{m}(A,r_0)$ where $m \le N$ is always implied.
-
-
+In fact, the set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$, denoted as $\mathcal{K}_N(A,r_0)$, and is the basis for all Krylov methods.
+That set of vectors is of dimension $N$ and will hereafter be referred to as the full subspace.
+Typically, the methods to be discussed use a variable number $m$ of lower dimensional spaces that will likewise be denoted as $\mathcal{K}_m(A,r_0)$.
 The approximate solution formed by Krylov methods is based on one simplification to \cref{Eqn:ExactKrylovSolution}: only form as much of the full subspace as needed.
-That is, the approximation is built from an iteratively grown set of basis vectors that span the lower dimensions of the full Krylov subspace.
-The maximum number of basis vectors needed varies by problem, but it is guaranteed that as the number increases, the approximation comes closed to the exact solution.
-This, the $m$-th approximate solution is
+That is, the approximation is built from an iteratively grown set of chosen basis vectors that span the lower dimensions of the full subspace.
+The maximum number of basis vectors needed varies by problem, but it is guaranteed that the approximation becomes better as the maximum increases.
+
+
+Thus, letting $Z_m$ be an $N \by m$ matrix whose columns form a basis for $\mathcal{K}_m(A,r_0)$ and $w_m$ be an $m \by 1$ weight vector (analogous to the aforementioned $c_i$), the $m$-th approximate solution is
 \begin{equation}
-    x_m = x_0 + \sum_{i = 0}^{m} \omega_i z_i,
+    x_m = x_0 + Z_m w_m.
     \label{Eqn:ApproximateKrylovSolution}
 \end{equation}
-where the set of vectors $\{z_i\}$ form a basis for $\mathcal{K}_m(A,r_0)$ and $\omega_i$ are scalar weights.
 A side effect of forming only a subset of the full Krylov subspace is that the weights are no longer based on the matrix's characteristic polynomial.
 To remedy this problem, Krylov methods define the weights through some optimality condition placed upon the system at the current iteration.
-Thus, Krylov methods are defined by their choice of basis vectors and optimality condition.
+Therefore, Krylov methods are defined by their choice of basis vectors and optimality condition.
 The discussion of GMRES concretely covers both of these choices.
 
 
