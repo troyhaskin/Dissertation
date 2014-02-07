@@ -57,7 +57,11 @@
 
 A Jacobian-Free Newton-Krylov (JFNK) solver is a general name for an algorithm that solves a system of nonlinear equations.
 As implied by the name, these solvers are characterized by two main features: lack of a need to form the exact Jacobian and Newton-like updates obtained from a Krylov method.
-Since the ability to avoid creating the exact Jacobian comes directly from using a Krylov method, a brief overview of those methods will be given before discussing the particular one leveraged in this work's JFNK solver: Generalized Minimal Residual (GMRES).
+The need for a Jacobian and an explanation of Newton updates will be discussed first.
+An overview of Krylov methods and the more specific Generalized Minimal Residual (GMRES) method will follow.
+The section will conclude with how the pieces fit together to form the JFNK solver used in this work.
+
+
 
 
 
@@ -67,31 +71,35 @@ Newton's method is an iterative technique that seeks to find a vector $x$ such t
     F(x) = 0
     \label{Eqn:NonlinearRootFind}
 \end{equation}
-where $x$ is an unknown $N \by 1$ vector and the function $F(x)$ is a known nonlinear $N \by 1$ vector-valued function of $x$.
+where $x$ is an unknown $N \by 1$ vector and the function $F(x)$ is a given, nonlinear $N \by 1$ vector-valued function of $x$.
+This problem is sometimes referred to as a multi-dimensional root-finding problem.
 Because the function $F(x)$ is taken to be nonlinear, a closed-form solution to the equation may be impractical, if not impossible, to find even for a modest value of $N$.
 
-In an effort to make the solution of \cref{Eqn:NonlinearRootFind} tractable, Newton's method aims to form an analytical solution from a recursive series of linear approximations and solves.
+In an effort to make the solution of \cref{Eqn:NonlinearRootFind} tractable, Newton's method aims to form solution from a recursive series of linear approximations and solves.
 The method begins with some initial value of $x$ denoted as $x_0$.
-If $F(x_0)$ is not sufficiently close to zero (see below), Newton's method seeks a better solution by computing a shift $\Delta{x}$ from $x_0$ via a linearized (first-order Taylor expanded) version of $F(x_0 + \Delta{x})$.
+If $F(x_0)$ is not sufficiently close to zero (see below), Newton's method seeks a better solution by computing a search direction $\Delta{x}$ from $x_0$ via a linearized (first-order Taylor expanded) version of $F(x_0 + \Delta{x})$.
 The Taylor expansion of $F(x_0 + \Delta{x})$ about $x_0$ is
 \begin{equation}
     F(x_0 + \Delta{x}) =  F(x_0) + \mathbb{J}_{F}(x_0)\Delta{x} + C(x_0,\Delta{x})
 \end{equation}
-where $\mathbb{J}_{F}(x_0)$ is the $N \by N$ Jacobian matrix and $C(x_0,\Delta{x})$ is a higher-order correction that enforces the equality.
-In order to solve for the shift, Newton's method makes two assumptions: $x_0 + \Delta{x}$ is the exact solution to the problem and all higher-order corrections are negligible.
-These assumptions allow both $F(x_0 + \Delta{x})$ and $C(x_0,\Delta{x})$ to be set to zero, and the resulting linear system can be solved for the unknown shift
+where $\mathbb{J}_{F}(x_0)$ is an $N \by N$ Jacobian matrix and $C(x_0,\Delta{x})$ is an $N \by 1$ vector of higher-order corrections that enforce the equality.
+To solve for $\Delta{x}$ using Newton's method, the higher-order corrections are taken to be identically zero; therefore, each row of the approximate Taylor expansion is an equation for the tangent plane of the associated element of $F(x)$ at the guess value $x_0$.
+The search direction is then calculated from the intersections of all the tangent planes when they each equal zero; this can also be thought of as assuming the direction and magnitude of $\Delta{x}$ leads to the exact solution of the problem.
+Using either interpretation, the resulting linear system used to solve for the unknown is
 \begin{equation}
     \Delta{x} = - J_{F}^{-1}(x_0) F(x_0).
 \end{equation}
+Any search direction calculated using the above formula, regardless of the point of evaluation, is called a Newton update.
+
 Of course, since the higher-order corrections were ignored in attaining the linear system, this $\Delta{x}$ will unlikely lead to the exact solution.
-However, since $\Delta{x}$ is in the opposite direction of the Jacobian-function product, it is in a direction toward lower values (called a descent direction) and could lead to a better solution.
-From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and the process repeated ad infinitum until, hopefully, the solution is reached.
+However, assuming $\Delta{x}$ leads to a new point that reduces any suitable norm of $F(x_0)$, it is arguably a better point and can hopefully return an even better approximation.
+From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and the linearize-solve process above repeated ad infinitum.
 Repeatedly updating the Taylor expansion point by solving a repeatedly updated linear system is the essence of Newton's method.
 Starting from $x_0$, a sequence of linearly updated vectors $x_k$ is formed:
 \begin{equation}
-    x_k = x_{k-1} - J_{F}^{-1}(x_{k-1}) F(x_{k-1})
+    x_k = x_{k-1} - \mathbb{J}_{F}^{-1}(x_{k-1}) F(x_{k-1})
 \end{equation}
-Complications set aside for the moment, update equation is the core of Newton's method.
+Ignoring certain complications and definitions, this update equation is the core of Newton's method.
 
 
 \section{Krylov Methods}
