@@ -66,16 +66,31 @@ The section will conclude with how the pieces fit together to form the JFNK solv
 
 
 \section{Newton's Method}
-Newton's method is an iterative technique that seeks to find a vector $x$ such that
+Systems of coupled, nonlinear equations are pervasive across all disciplines of science and engineering.
+They are also one of the most important and difficult class of problems to analyze and solve mathematically.
+While there are numerous techniques for solving such problems, Newton's method is the singular option that will be explored in this section.
+
+\subsection{Problem Statement}
+The nonlinear problem under consideration is defined as follows: given an $N \by 1$ vector of algebraic, nonlinear equations $F(x)$, determine an $N \by 1$ vector $x^*$ such that
 \begin{equation}
-    F(x) = 0
+    F(x^*) = 0
     \label{Eqn:NonlinearRootFind}
 \end{equation}
-where $x$ is an unknown $N \by 1$ vector and the function $F(x)$ is a given, nonlinear $N \by 1$ vector-valued function of $x$.
 This problem is sometimes referred to as a multi-dimensional root-finding problem.
-Because the function $F(x)$ is taken to be nonlinear, a closed-form solution to the equation may be impractical, if not impossible, to find even for a modest value of $N$.
+A different but mostly equivalent definition for the above problem is: given an $N \by 1$ vector of algebraic, nonlinear equations $F(x)$, determine an $N \by 1$ vector $x^*$ such that
+\begin{equation}
+    x^* = \ArgMin_{x} \|F(x)\|
+    \label{Eqn:NonlinearMinimize}
+\end{equation}
+where $\|\cdot\|$ is any suitable norm for $F(x)$ and $\ArgMin_x$ is a function that returns the minimum possible value of its argument within the domain of $x$.
+\Cref{Eqn:NonlinearRootFind} is preferred for the linearizations to be discussed while \cref{Eqn:NonlinearMinimize} is preferred for the stopping criteria of Newton's method also to be discussed.
+Because the function $F(x)$ is taken to be nonlinear, a closed-form solution to either equation may be impractical, if not impossible, to find even for a modest value of $N$.
+Therefore, numerical techniques, like Newton's method, are frequently used for solving the problem approximately.
 
-In an effort to make the solution of \cref{Eqn:NonlinearRootFind} tractable, Newton's method aims to form solution from a recursive series of linear approximations and solves.
+
+
+\subsection{Newton Update}
+In an effort to make the solution of \cref{Eqn:NonlinearRootFind} tractable, Newton's method aims to form a solution from a recursive series of linear approximations and solves.
 The method begins with some initial value of $x$ denoted as $x_0$.
 If $F(x_0)$ is not sufficiently close to zero (see below), Newton's method seeks a better solution by computing a search direction $\Delta{x}$ from $x_0$ via a linearized (first-order Taylor expanded) version of $F(x_0 + \Delta{x})$.
 The Taylor expansion of $F(x_0 + \Delta{x})$ about $x_0$ is
@@ -85,21 +100,27 @@ The Taylor expansion of $F(x_0 + \Delta{x})$ about $x_0$ is
 where $\mathbb{J}_{F}(x_0)$ is an $N \by N$ Jacobian matrix and $C(x_0,\Delta{x})$ is an $N \by 1$ vector of higher-order corrections that enforce the equality.
 To solve for $\Delta{x}$ using Newton's method, the higher-order corrections are taken to be identically zero; therefore, each row of the approximate Taylor expansion is an equation for the tangent plane of the associated element of $F(x)$ at the guess value $x_0$.
 The search direction is then calculated from the intersections of all the tangent planes when they each equal zero; this can also be thought of as assuming the direction and magnitude of $\Delta{x}$ leads to the exact solution of the problem.
-Using either interpretation, the resulting linear system used to solve for the unknown is
+Using either interpretation, the resulting linear system used to solve for the direction is
 \begin{equation}
     \Delta{x} = - J_{F}^{-1}(x_0) F(x_0).
 \end{equation}
-Any search direction calculated using the above formula, regardless of the point of evaluation, is called a Newton update.
+Any search direction calculated using the above formula, regardless of the point of evaluation, is called a Newton update or a Newton direction.
 
 Of course, since the higher-order corrections were ignored in attaining the linear system, this $\Delta{x}$ will unlikely lead to the exact solution.
 However, assuming $\Delta{x}$ leads to a new point that reduces any suitable norm of $F(x_0)$, it is arguably a better point and can hopefully return an even better approximation.
-From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and the linearize-solve process above repeated ad infinitum.
+From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and the above linearize-then-solve process repeated.
+
 Repeatedly updating the Taylor expansion point by solving a repeatedly updated linear system is the essence of Newton's method.
 Starting from $x_0$, a sequence of linearly updated vectors $x_k$ is formed:
 \begin{equation}
     x_k = x_{k-1} - \mathbb{J}_{F}^{-1}(x_{k-1}) F(x_{k-1})
 \end{equation}
-Ignoring certain complications and definitions, this update equation is the core of Newton's method.
+Setting aside algorithmic flow, stopping criteria for the recursion, and other items to be delineated, this update equation is Newton's method.
+
+If the initial starting point $x_0$ is ``close'' to the true solution of the problem
+
+
+
 
 
 \section{Krylov Methods}
