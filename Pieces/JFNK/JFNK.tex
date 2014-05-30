@@ -36,11 +36,12 @@
 \newcommand{\dx}    {\ensuremath{\Delta{x}}}
 
 
-\DeclareMathOperator*{\Lim}{Lim}
+\DeclareMathOperator*{\Lim}   {Lim}
 \DeclareMathOperator*{\ArgMin}{ArgMin}
-\DeclareMathOperator {\Cos}{Cos}
-\DeclareMathOperator {\Sin}{Sin}
-\DeclareMathOperator {\Span}{Span}
+\DeclareMathOperator*{\Min}   {Min}
+\DeclareMathOperator {\Cos}   {Cos}
+\DeclareMathOperator {\Sin}   {Sin}
+\DeclareMathOperator {\Span}  {Span}
 
 \setstretch{1.85}
 \setlength{\parskip}{15pt}
@@ -82,7 +83,7 @@ A different but mostly equivalent definition for the above problem is: given an 
     x^* = \ArgMin_{x} \|r(x)\|
     \label{Eqn:NonlinearMinimize}
 \end{equation}
-where $\|\cdot\|$ is any suitable norm for $r(x)$ and $\ArgMin_x$ is a function that returns the minimum possible value of its argument within the domain of $x$.
+where $\|\cdot\|$ is any suitable norm for $r(x)$ and $\ArgMin_x$ is a function that returns the argument which minimizes $\|r(x)\|$ over domain of $x$.
 \Cref{Eqn:NonlinearRootFind} is preferred for the linearizations to be discussed while \cref{Eqn:NonlinearMinimize} is preferred for the stopping criteria of Newton's method also to be discussed.
 Because the function $r(x)$ is taken to be nonlinear, a closed-form solution to either equation may be impractical, if not impossible, to find even for a modest value of $N$.
 Therefore, numerical techniques, like Newton's method, are frequently used for solving the problem approximately.
@@ -115,7 +116,7 @@ Starting from $x_0$, a sequence of linearly updated vectors $x_k$ is formed:
 \begin{equation}
     x_k = x_{k-1} - J_r^{-1}(x_{k-1}) r(x_{k-1})
 \end{equation}
-Setting aside algorithmic flow, stopping criteria for the recursion, and other items to be delineated, this update equation is Newton's method.
+Setting aside algorithmic flow, stopping criteria for the recursion, and other details, this update equation is Newton's method.
 
 If the initial starting point $x_0$ is ``close'' to the true solution of the problem
 
@@ -136,7 +137,7 @@ The exact solution to \cref{Eqn:BasicLinearProblem} is simply
     x = A^{-1} b.
     \label{Eqn:BasicLinearSolution}
 \end{equation}
-While trivially written symbolically, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
+While trivially written, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
 The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement.
 
 Krylov methods aim to provide an approximate solution to \cref{Eqn:BasicLinearProblem} without ever forming the inverse of $A$ explicitly.
@@ -182,26 +183,34 @@ The set is of dimension $N$ and will hereafter be referred to as the full subspa
 Typically, the methods to be discussed use a variable number $m$ of lower dimensional spaces that will likewise be denoted as $\mathcal{K}_m(A,r_0)$.
 The approximate solution formed by Krylov methods is based on one simplification to \cref{Eqn:ExactKrylovSolution}: only form as much of the full subspace as needed.
 That is, the approximation is built from an iteratively grown set of chosen basis vectors that span the lower dimensions of the full subspace.
+The set is grown until the norm of the residual is sufficiently low (typically, a user-defined criterion).
 The maximum number of basis vectors needed varies by problem, but it is guaranteed that the approximation will reach the true solution once the full subspace is formed (assuming exact arithmetic).
 
 
-Letting $Z_m$ be an $N \by m$ matrix whose columns form a basis for $\mathcal{K}_m(A,r_0)$ and $w_m$ be an $m \by 1$ weight vector (analogous to the aforementioned $c_i$), the $m$-th approximate solution is
+Let $Z_m$ be an $N \by m$ matrix whose columns form a basis for $\mathcal{K}_m(A,r_0)$ and $w_m$ be an $m \by 1$ weight vector (analogous to the aforementioned $c_i$).
+At the $m$-th iteration of the Krylov method, a new search direction $\Delta{x}_m$ is calculated from the linear combination $Z_m w_m$.
+Therefore, the $m$-th approximate solution is
 \begin{equation}
-    x_m = x_0 + Z_m w_m.
+    x_m = x_0 + \Delta{x}_m = x_0 + Z_m w_m.
     \label{Eqn:ApproximateKrylovSolution}
 \end{equation}
-A side effect of forming only a subset of the full Krylov subspace is that the weights are no longer based on the $A$'s characteristic polynomial.
-To remedy this problem, Krylov methods define the weights through some optimality condition placed upon the system at the current iteration.
-Therefore, Krylov methods are defined by their choice of basis vectors and optimality condition.
-The optimality condition that allows for a least-squares solution of the $w_m$ vectors that decreases the total residual.
-Once the residual is reduced below a selected tolerance, the current iterant is taken as the solution to the system.
+A side effect of forming only a subset of the full subspace is that the weights $w_m$ are no longer based on the $A$'s characteristic polynomial.
+To remedy this problem, Krylov methods define an optimality condition that results in weights that attempt reduce the residual every iteration.
 
 Since Krylov methods are a family, a specific method arises from consideration of $A$'s structure, choice of Krylov basis vectors, and a choice of optimality condition.
 GMRES will give concreteness to these three choices.
 
 
 \subsection{GMRES}
-GMRES was first proposed by Saad and Schultz in 1986.
+First presented by Saad and Schultz in 1986, GMRES is a Krylov method designed to solve any invertible matrix $A$.
+For every iteration $m$ of the method, a new approximate solution is calculated from the minimization problem
+\begin{equation}
+    x_m = \ArgMin\|b - A x_m\|
+\end{equation}
+Using the definitions above, the minimization problem can be rewritten in terms of the unknown weights:
+\begin{equation}
+    w_m = \ArgMin\|r_0 - A Z_m w_m\| 
+\end{equation}
 The original formulation used the starting basis vector $ $
 
 
