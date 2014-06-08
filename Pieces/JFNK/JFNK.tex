@@ -11,6 +11,7 @@
 \usepackage{environ}
 \usepackage{esint}
 \usepackage{multirow}
+\usepackage{microtype}
 
 \input{HelperCommands}
 \newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
@@ -50,10 +51,6 @@
 
 \begin{document}
 
-\show\part
-\show\chapter
-\show\section
-
 \chapter[JFNK Solver]{Jacobian-Free Newton-Krylov Solver}
 
 A Jacobian-Free Newton-Krylov (JFNK) solver is a general name for an algorithm that solves a system of nonlinear equations.
@@ -83,7 +80,7 @@ A different but mostly equivalent definition for the above problem is: given an 
     x^* = \ArgMin_{x} \|r(x)\|
     \label{Eqn:NonlinearMinimize}
 \end{equation}
-where $\|\cdot\|$ is any suitable norm for $r(x)$ and $\ArgMin_x$ is a function that returns the argument which minimizes $\|r(x)\|$ over domain of $x$.
+where $\|\cdot\|$ is any suitable norm for $r(x)$ and $\ArgMin_x$ is a function that returns the argument which minimizes $\|r(x)\|$ over the domain of $x$.
 \Cref{Eqn:NonlinearRootFind} is preferred for the linearizations to be discussed while \cref{Eqn:NonlinearMinimize} is preferred for the stopping criteria of Newton's method also to be discussed.
 Because the function $r(x)$ is taken to be nonlinear, a closed-form solution to either equation may be impractical, if not impossible, to find even for a modest value of $N$.
 Therefore, numerical techniques, like Newton's method, are frequently used for solving the problem approximately.
@@ -99,17 +96,17 @@ The Taylor expansion of $r(x_0 + \Delta{x})$ about $x_0$ is
     r(x_0 + \Delta{x}) =  r(x_0) + J_r(x_0)\Delta{x} + c(x_0,\Delta{x})
 \end{equation}
 where $J_r(x_0)$ is an $N \by N$ Jacobian matrix and $c(x_0,\Delta{x})$ is an $N \by 1$ vector of higher-order corrections that ensure the equality.
-To solve for $\Delta{x}$ using Newton's method, the higher-order corrections are taken to be identically zero; therefore, each row of the approximate Taylor expansion is an equation for the tangent plane of the associated element of $r(x)$ at the guess value $x_0$.
-The search direction is then calculated from the intersections of all the tangent planes when they each equal zero; this can also be thought of as assuming the direction and magnitude of $\Delta{x}$ leads to the exact solution of the problem.
-Using either interpretation, the resulting linear system used to solve for the direction is
+To solve for $\Delta{x}$ using Newton's method, the stepped residual $r(x_0 + \Delta{x})$ and higher-order correction are taken to be identically zero; therefore, each row of the approximate Taylor expansion is an equation for the tangent plane of the associated element of $r(x)$ at the guess value $x_0$.
+This procedure can be thought of as assuming the direction and magnitude of $\Delta{x}$ leads to the exact solution of the problem.
+The resulting linear system used to solve for the direction is
 \begin{equation}
-    \Delta{x} = - J_{r}^{-1}(x_0) r(x_0).
+    J_{r}^{-1}(x_0) \Delta{x} = -r(x_0).
 \end{equation}
-Any search direction calculated using the above formula, regardless of the point of evaluation, is called a Newton update or a Newton direction.
+Any search direction calculated from the above formula, regardless of the point of evaluation, is called a Newton update or a Newton direction.
 
 Of course, since the higher-order corrections were ignored in attaining the linear system, this $\Delta{x}$ will unlikely lead to the exact solution.
-However, assuming $\Delta{x}$ leads to a new point that reduces any suitable norm of $r(x_0)$, it is arguably a better point and can hopefully return an even better approximation.
-From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and the above linearize-then-solve process repeated.
+However, assuming $\Delta{x}$ leads to a new point that reduces a norm of $r(x_0)$, it is arguably a better point and can likely be used to return an even better approximation.
+From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and a new search direction calculated
 
 Repeatedly updating the Taylor expansion point by solving a repeatedly updated linear system is the essence of Newton's method.
 Starting from $x_0$, a sequence of linearly updated vectors $x_k$ is formed:
@@ -117,8 +114,31 @@ Starting from $x_0$, a sequence of linearly updated vectors $x_k$ is formed:
     x_k = x_{k-1} - J_r^{-1}(x_{k-1}) r(x_{k-1})
 \end{equation}
 Setting aside algorithmic flow, stopping criteria for the recursion, and other details, this update equation is Newton's method.
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%  MORE DISCUSSION NEEDED HERE.
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
 
-If the initial starting point $x_0$ is ``close'' to the true solution of the problem
+
 
 
 
@@ -131,18 +151,18 @@ Krylov methods are a class of techniques used to solve linear systems of the for
     \label{Eqn:BasicLinearProblem}
 \end{equation}
 where $x$ and $b$ are $N \by 1$ vectors and $A$ is an $N \by N$ nonsingular matrix.
-Different methods place other limitations on $A$, but the most general condition (and the only condition required by GMRES) is that the coefficient matrix $A$ be invertible.
+Different methods place other limitations on $A$, but a required condition for all methods is that the coefficient matrix $A$ be invertible.
 The exact solution to \cref{Eqn:BasicLinearProblem} is simply
 \begin{equation}
     x = A^{-1} b.
     \label{Eqn:BasicLinearSolution}
 \end{equation}
-While trivially written, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
+Although trivially written, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
 The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement.
 
 Krylov methods aim to provide an approximate solution to \cref{Eqn:BasicLinearProblem} without ever forming the inverse of $A$ explicitly.
-To achieve this goal, first, the solution will be written in an inverse-free form.
-Then, a general explanation of Krylov methods and Krylov subspaces will be given.
+To explain the procedure used, first, the solution will be written in an inverse-free form.
+Then, a general explanation of Krylov subspaces and methods will be given.
 The section will conclude with the particular Krylov method used for this work: GMRES.
 
 
@@ -153,6 +173,7 @@ Assuming the problem is solvable, there exists some $\Delta{x}$ such that $x_N =
 Therefore, the residual vector for the initial guess from the solution would be
 \begin{equation}
     r_0 = b - A x_0
+    \label{Eqn:InitialResidual}
 \end{equation}
 Isolating $b$ on the left-hand side and multiplying through by $A^{-1}$ then gives
 \begin{equation}
@@ -172,46 +193,99 @@ Substituting this expansion into \cref{Eqn:SolutionResidualForm} yields
     \label{Eqn:ExactKrylovSolution}
 \end{equation}
 The true solution to the problem is now in a form that incorporates some initial guess and is free of matrix inversions.
-However, the weights $c_i$, which are required for an equality to hold, are based on $A$'s characteristic polynomial.
+However, the weights $c_i$, which are required for the equality to hold, are based on $A$'s characteristic polynomial.
 Calculating these weights exactly are, as in the explicit calculation of the inverse, difficult to efficiently compute for large $N$ and an approximation must be made for tractability.
 
 
 \subsection{General Method}
 
-The set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$, denoted as $\mathcal{K}_N(A,r_0)$, and is the basis for all Krylov methods.
+The set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$, denoted $\mathcal{K}_N(A,r_0)$, and is the basis for all Krylov methods.
 The set is of dimension $N$ and will hereafter be referred to as the full subspace.
-Typically, the methods to be discussed use a variable number $m$ of lower dimensional spaces that will likewise be denoted as $\mathcal{K}_m(A,r_0)$.
+Typically, the methods to be discussed use a variable number $m$ of lower dimensional spaces that will likewise be denoted $\mathcal{K}_m(A,r_0)$.
+
 The approximate solution formed by Krylov methods is based on one simplification to \cref{Eqn:ExactKrylovSolution}: only form as much of the full subspace as needed.
-That is, the approximation is built from an iteratively grown set of chosen basis vectors that span the lower dimensions of the full subspace.
-The set is grown until the norm of the residual is sufficiently low (typically, a user-defined criterion).
+At every iteration $m$ of a Krylov method, a vector is chosen from the Krylov subspace and added to the current vector set $\mathcal{K}_m(A,r_0)$.
+Since the subspace is grown through, essentially, a power iteration scheme, the newly generated vector is typically orthogonalized against all previously added vectors through any appropriate process (e.g., Gram-Schmidt) to ensure good conditioning.
+This vector set is then used as the basis for the approximate solution to the linear problem.
+The set is grown and approximate solution updated until the norm of the residual is sufficiently low (typically, a user-defined criterion).
 The maximum number of basis vectors needed varies by problem, but it is guaranteed that the approximation will reach the true solution once the full subspace is formed (assuming exact arithmetic).
 
 
 Let $Z_m$ be an $N \by m$ matrix whose columns form a basis for $\mathcal{K}_m(A,r_0)$ and $w_m$ be an $m \by 1$ weight vector (analogous to the aforementioned $c_i$).
-At the $m$-th iteration of the Krylov method, a new search direction $\Delta{x}_m$ is calculated from the linear combination $Z_m w_m$.
+At the $m$-th iteration of the Krylov method, a new approximate solution $\Delta{x}_m$ is calculated from the linear combination $Z_m w_m$.
 Therefore, the $m$-th approximate solution is
 \begin{equation}
     x_m = x_0 + \Delta{x}_m = x_0 + Z_m w_m.
     \label{Eqn:ApproximateKrylovSolution}
 \end{equation}
-A side effect of forming only a subset of the full subspace is that the weights $w_m$ are no longer based on the $A$'s characteristic polynomial.
-To remedy this problem, Krylov methods define an optimality condition that results in weights that attempt reduce the residual every iteration.
+A side effect of forming only a subset of the full subspace is that the weights $w_m$ are no longer based on $A$'s characteristic polynomial.
+To remedy this problem, Krylov methods define an optimality condition that results in weights that attempt to reduce the residual every iteration.
 
-Since Krylov methods are a family, a specific method arises from consideration of $A$'s structure, choice of Krylov basis vectors, and a choice of optimality condition.
+
+Since Krylov methods are a family, a specific method arises from consideration of $A$'s structure, choice of the basis vectors for $Z_m$, and a choice of optimality condition.
 GMRES will give concreteness to these three choices.
 
 
 \subsection{GMRES}
-First presented by Saad and Schultz in 1986, GMRES is a Krylov method designed to solve any invertible matrix $A$.
+First presented by Saad and Schultz in 1986 (\NeedReference{}), GMRES is a Krylov method designed to solve any invertible matrix $A$.
 For every iteration $m$ of the method, a new approximate solution is calculated from the minimization problem
 \begin{equation}
-    x_m = \ArgMin\|b - A x_m\|
+    x_m = \ArgMin\|b - A x_m\|_2^2
 \end{equation}
-Using the definitions above, the minimization problem can be rewritten in terms of the unknown weights:
+Using \cref{Eqn:InitialResidual,Eqn:ApproximateKrylovSolution}, the minimization problem can be rewritten in terms of the unknown weights:
 \begin{equation}
-    w_m = \ArgMin\|r_0 - A Z_m w_m\| 
+    w_m = \ArgMin\|r_0 - A Z_m w_m\|_2^2.
+    \label{Eqn:WeightMinimization}
 \end{equation}
-The original formulation used the starting basis vector $ $
+However, subject to this condition, the methodology of Krylov methods presents a new problem since only a subset of the full subspace is formed: solving for the unknown weights is an over-constrained problem.
+The original method from 1986 proposed an iteratively grown Hessenberg decomposition, but this work implements the procedure of \NeedReference{} that maintains a persistent QR factorization of the problem.
+
+The coefficient matrix for \cref{Eqn:WeightMinimization} is the $N \by m$ matrix $A Z_m$  with $m < N$.
+The QR factorization of that matrix has the form
+\begin{equation}
+    A Z_m
+    =
+    \widetilde{Q}_m \widetilde{R}_m 
+    =
+    \begin{bmatrix}
+        Q_m & \times
+    \end{bmatrix}
+    \begin{bmatrix}
+        R_m   \\
+        0
+    \end{bmatrix} = 
+        Q_m R_m
+\end{equation}
+where $\widetilde{Q}_m$ is an $N \by N$ orthogonal matrix, $\widetilde{R}_m$ is a full rank  rectangular matrix, $Q_m$ is an $N \by m$ rectangle, and $R_m$ is an $m \by m$ upper-triangular matrix.
+The matrices $\widetilde{Q}_m$ and $\widetilde{R}_m$ comprise what is called the full factorization, and $Q_m$ and $R_m$ comprise the reduced factorization.
+
+The QR factorization makes solving the minimization problem straightforward.
+There are three key properties of the orthogonal matrix $\widetilde{Q}_m$ that aid in this solution: the transpose $\widetilde{Q}^T_m$ is also the inverse, the transpose is also orthogonal, and orthogonal matrices do not change the $2$-norm of a vector ($\|Qx\|_2 = \|x\|_2 $).
+
+Using the QR factorization of the coefficient matrix and the properties of $\widetilde{Q}_m$, \cref{Eqn:WeightMinimization} has the equivalent form
+\begin{align*}
+    w_m &= \ArgMin\|                   r_0 - \widetilde{Q}_m \widetilde{R}_m w_m \|_2^2 \\
+        &= \ArgMin\|\widetilde{Q}^T_m (r_0 - \widetilde{Q}_m \widetilde{R}_m w_m)\|_2^2 \\
+        &= \ArgMin\|\widetilde{Q}^T_m  r_0 -                 \widetilde{R}_m w_m \|_2^2
+\end{align*}
+The problem can be further simplified using the reduced factorization to yield
+\begin{equation}
+    w_m = 
+        \ArgMin
+            \|
+                Q^T_m  r_0
+                -
+                R_m w_m
+            \|_2^2
+\end{equation}
+Since the bottom $N-m$ rows of $\widetilde{R}_m$ are $0$, the reduced factorization omits them and presents a square, invertible system.
+The weights can now be calculated from the linear system
+\begin{equation}
+    R_m w_m = Q^T_m  r_0
+\end{equation}
+
+
+
 
 
 \subsection{Algorithm}

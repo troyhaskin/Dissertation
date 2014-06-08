@@ -116,7 +116,7 @@
     \RequirePackage{bookmark}  % Provides an improvement to hyperref
 \fi
 
-\RequirePackage[noabbrev]{cleveref}
+\RequirePackage[noabbrev,nameinlink]{cleveref}
 
 
 
