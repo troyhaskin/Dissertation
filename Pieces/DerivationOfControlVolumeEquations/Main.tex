@@ -11,6 +11,7 @@
 \usepackage{environ}
 \usepackage{esint}
 \usepackage{multirow}
+\usepackage{microtype}
 
 \input{HelperCommands}
 \newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
@@ -107,10 +108,64 @@ where $F_{ij}$ is a matrix of surface fluxes of \qi{} in the $j$-th direction, $
 The integrals of the vector quantities represent element-wise integration.
 A process similar to the scalar case also yields the differential form of the system conservation law:
 \begin{equation}%
-    \pdt\qi(x_i,t) \dV + \pdj F_{ij}(\qi,x_i,t) - S_i(\qi,x_i,t)  = 0,
+    \pdt\qi(x_i,t) + \pdj F_{ij}(\qi,x_i,t) - S_i(\qi,x_i,t)  = 0,
     \label{Eqn:PreLimitGeneralIntegralCLawForSystems}
 \end{equation}
 where $\pdj F_{ij}$ represents a row-wise divergence operation.
+
+
+
+
+
+
+\section{Conservation Derivations}
+
+The derivations of the main equations used in thermohydraulics will be presented using the definitions above.
+Mass, momentum, and energy are the primary quantities of interest and will be presented on a per unit volume basis.
+It is noted that dependence will be omitted for clarity; however, all quantities and functions as assumed to be functions of any variable in the system.
+
+\subsection{Conservation of Mass}
+Mass or, on a per volume basis, density is conserved as a simple scalar.
+The density of material in a given control volume is controlled by the background flow field moving it from one point to another.
+Therefore, the integral conservation law for density is
+\begin{equation}
+    \pdt\!\IntV \rho \dV = \IntS -(u_i \rho)n_i\dS + \IntV S^\rho\dV,
+\end{equation}
+with the more familiar differential form being
+\begin{equation}
+    \pdt \rho(x_i,t) + \pdi (u_i \rho) = S^\rho.
+\end{equation}
+
+\subsection{Conservation of Momentum}
+A control volume's momentum $\rho u_i$ is more complicated than mass because it is inherently a vector quantity.
+The integral conservation law is 
+
+Since all of the components of the vector can affect one another, the flux function is necessarily a tensor quantity.
+One part of the flux function is a so-called normal component
+\begin{equation}
+    F^{\text{N}}_{ij} = \delta_{ij}P + u_j \rho{u_i},
+\end{equation}
+where $\delta_{ij}$ is the Kronecker delta and $P$ is the thermodynamic pressure.
+The pressure is an ever-present quantity due to the mass of the fluid and not its motion.
+This function is distinguished as normal since both of the terms involve quantities that move through the boundary of the control volume.
+The other, orthogonal portion of the function is the tangential component
+\begin{equation}
+    F^{\text{T}}_{ij} = -\tau_{ij}.
+\end{equation}
+The term $\tau_{ij}$ is the viscous stress tensor that acts as a momentum sink due to fluid-to-fluid traction along the surface of the control volume.
+
+Bringing the two terms together plus an additional body force due to mass, the conservation law for momentum is 
+\begin{equation}
+    \pdt \IntV \rho u_i \dV = -\IntS (\delta_{ij}P + u_j \rho{u_i} - \tau_{ij}) n_j \dS + \IntV \rho g_i \dV  + \IntV S^{\rho{u}} \dV
+\end{equation}
+
+
+
+
+
+\subsection{Conservation of Energy}
+
+
 
 
 
