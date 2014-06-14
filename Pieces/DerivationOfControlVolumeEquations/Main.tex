@@ -46,10 +46,12 @@ The theory encompassed by this work can be divided into four basic parts: conser
 Conservation laws, such as those for momentum and energy, form a fundamental basis of analysis in all branches of science.
 Therefore, a precise definition for a generic conserved quantity and an associated conservation law will be given.
 Following this generic treatment, the specific conservation laws for thermohydraulics will be presented.
-Numerical methods for solving the thermohydraulic conservation laws will then be derived.
+Numerical methods for solving the thermohydraulic conservation laws will then be given.
 Finally, the stability theory for the thermohydraulic system will be discussed.
 
 \section{Conservation Laws}
+\label{CLawDefinition}
+
 \subsection{Scalar Form}
 A conserved quantity \q{} refers to any physical property whose time evolution within an arbitrary, closed volume exactly balances with its surface fluxes and volume sources.
 For the purpose of mathematical discussion and analysis, the conserved quantity \q{} will simultaneously represent a function of space and time that conforms to the requirements of the physical property.
@@ -61,7 +63,7 @@ These definitions define the following scalar conservation law over a volume \V{
 where $F_i$ is the surface flux of \q{}, $n_i$ is the outward unit normal of the surface \S{}, and $S$ is the volume source of \q{}.
 Such that the units in the equation agree, both \q{} and $S$ are taken on a per volume basis and $F_i$ on a per area basis.
 The negative sign in the surface integral ensures that outward fluxes act as sinks and inward fluxes as sources to the time evolution of \q{}'s volume integral.
-\Cref{Eqn:GeneralIntegralCLaw} is the most general scalar conservation law that will be presented and is always physically valid regardless of the functions' behavior.
+\Cref{Eqn:GeneralIntegralCLaw} is the most general scalar conservation law that will be presented and is always physically valid regardless of the functions' behaviors.
 
 A general conservation law can also be presented in differential form (i.e., as a differential equation).
 First the Divergence Theorem is used to equate the surface integral in \cref{Eqn:GeneralIntegralCLaw} to a volume integral:
@@ -92,10 +94,10 @@ The differential form may seem cleaner than the integral form, but \emph{it is n
 In transitioning from \cref{Eqn:LimitOfPreDifferentialForm} to \cref{Eqn:GeneralDifferentialCLaw}, it is assumed that all functions in the integrand remain bounded.
 If any of the terms within the limit become infinite, the balance cannot be satisfied.
 In particular, if \q{} has an area where it undergoes a discontinuous jump, called a shock, the gradient of the flux is infinite and the differential form is rendered invalid.
-While methods that handle shocks in a robust fashion (shock-capturing schemes) are not the focus of this work, it is presented for completeness and consideration.
+While methods that handle shocks in a robust fashion (shock-capturing schemes) are not the focus of this work, it is mentioned for completeness and consideration.
 
 \subsection{Vector Form}
-The simulation of real world problems often involves the solution of a system of conservations laws.
+The simulation of real world problems often involves the solution of a system of conservation laws.
 In general, the systems are nonlinear and tightly coupled.
 The actual solution of these problems will be discussed in future sections, but the notation used will be introduced now.
 
@@ -107,7 +109,7 @@ The integral conservation law for a vector of conserved quantities \qi{} is
 where $F_{ij}$ is a matrix of surface fluxes of \qi{} in the $j$-th direction, $n_j$ is the outward unit normal of the surface \S{}, and $S_i$ is the volume source of \qi{}.
 The integrals of the vector quantities represent element-wise integration.
 A process similar to the scalar case also yields the differential form of the system conservation law:
-\begin{equation}%
+\begin{equation}
     \pdt\qi(x_i,t) + \pdj F_{ij}(\qi,x_i,t) - S_i(\qi,x_i,t)  = 0,
     \label{Eqn:PreLimitGeneralIntegralCLawForSystems}
 \end{equation}
@@ -118,47 +120,43 @@ where $\pdj F_{ij}$ represents a row-wise divergence operation.
 
 
 
-\section{Conservation Derivations}
+\section{Law Derivations}
 
 The derivations of the main equations used in thermohydraulics will be presented using the definitions above.
-Mass, momentum, and energy are the primary quantities of interest and will be presented on a per unit volume basis.
-It is noted that dependence will be omitted for clarity; however, all quantities and functions as assumed to be functions of any variable in the system.
+Mass, momentum, and energy are the primary quantities of interest and will be derived for an assumed flowing system.
+For all of the definitions, the following items are noted:
+\begin{itemize}
+    \item{
+        As prescribed in \cref{CLawDefinition}, all of the conserved quantities are taken to be continuous functions of space and time.
+        Although fluids are actually composed of discrete, interacting molecules, taking the quantities to be everywhere-defined is a valid approximation as long as the length scales to be modeled are much greater than the mean free path of the local medium.
+        \NeedReference{}
+    }
+    \item{
+        Also as prescribed in \cref{CLawDefinition}, all of the conserved quantities will be considered on a per unit volume basis.
+    }
+    \item{
+        For clarity, the dependence of all quantities and functions will be omitted; however, they are all assumed to be dependent of any variable in the system.
+    }
+\end{itemize}
 
 \subsection{Conservation of Mass}
-Mass or, on a per volume basis, density is conserved as a simple scalar.
-The density of material in a given control volume is controlled by the background flow field moving it from one point to another.
+The net mass in a control volume or, rather, the volumed-integrated density is conserved as a simple scalar.
+It is controlled by the background flow field advecting the mass through the boundary.
 Therefore, the integral conservation law for density is
 \begin{equation}
-    \pdt\!\IntV \rho \dV = \IntS -(u_i \rho)n_i\dS + \IntV S^\rho\dV,
+    \pdt\!\IntV \rho \dV = \IntS -(u_j \rho)n_j\dS + \IntV S^\rho\dV,
 \end{equation}
 with the more familiar differential form being
 \begin{equation}
-    \pdt \rho(x_i,t) + \pdi (u_i \rho) = S^\rho.
+    \pdt \rho + \pdj (u_j \rho) = S^\rho.
 \end{equation}
 
 \subsection{Conservation of Momentum}
-A control volume's momentum $\rho u_i$ is more complicated than mass because it is inherently a vector quantity.
+A control volume's momentum is more complicated than mass because it is inherently a vector quantity.
 The integral conservation law is 
-
-Since all of the components of the vector can affect one another, the flux function is necessarily a tensor quantity.
-One part of the flux function is a so-called normal component
 \begin{equation}
-    F^{\text{N}}_{ij} = \delta_{ij}P + u_j \rho{u_i},
+    \pdt \IntV \rho u_i \dV = -\IntS (\delta_{ij} P +  u_j \rho u_i - \tau_{ij}) n_j \dS + \IntV \rho g_i \dV
 \end{equation}
-where $\delta_{ij}$ is the Kronecker delta and $P$ is the thermodynamic pressure.
-The pressure is an ever-present quantity due to the mass of the fluid and not its motion.
-This function is distinguished as normal since both of the terms involve quantities that move through the boundary of the control volume.
-The other, orthogonal portion of the function is the tangential component
-\begin{equation}
-    F^{\text{T}}_{ij} = -\tau_{ij}.
-\end{equation}
-The term $\tau_{ij}$ is the viscous stress tensor that acts as a momentum sink due to fluid-to-fluid traction along the surface of the control volume.
-
-Bringing the two terms together plus an additional body force due to mass, the conservation law for momentum is 
-\begin{equation}
-    \pdt \IntV \rho u_i \dV = -\IntS (\delta_{ij}P + u_j \rho{u_i} - \tau_{ij}) n_j \dS + \IntV \rho g_i \dV  + \IntV S^{\rho{u}} \dV
-\end{equation}
-
 
 
 
