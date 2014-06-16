@@ -146,24 +146,44 @@ Therefore, the integral conservation law for density is
 \begin{equation}
     \pdt\!\IntV \rho \dV = \IntS -(u_j \rho)n_j\dS + \IntV S^\rho\dV,
 \end{equation}
-with the more familiar differential form being
+with the differential form being
 \begin{equation}
     \pdt \rho + \pdj (u_j \rho) = S^\rho.
 \end{equation}
 
 \subsection{Conservation of Momentum}
-A control volume's momentum is more complicated than mass because it is inherently a vector quantity.
-The integral conservation law is 
+A control volume's momentum balance is more complicated than the simple in-out mass balance.
+It is inherently a vector quantity, so the combination of mass and the background flow field feed the momentum in a non-linear fashion.
+Also, even though a continuum approximation has been made, there still physical molecular stresses on the boundary must be modeled in some way.
+Lastly, a body force must be added to account for buoyancy effects on the volume relative to the outside universe.
+With all of the above nuances considered, the integral conservation for momentum is taken to be
 \begin{equation}
-    \pdt \IntV \rho u_i \dV = -\IntS (\delta_{ij} P +  u_j \rho u_i - \tau_{ij}) n_j \dS + \IntV \rho g_i \dV
+    \pdt \IntV \rho u_i \dV = \IntS (-u_j \rho u_i) n_j \dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j \dS + \IntV \rho g_i + S^{\rho{u}}_i \dV,
+    \label{Eqn:IntegralCoP}
+\end{equation}
+where $\rho{u_i}$ is the momentum in direction $i$, $u_j$ is the velocity in direction $j$, $\delta_{ij}$ is the Kronecker delta, $P$ is the thermodynamic pressure, $\tau_{ij}$ is the viscous stress tensor, and $g_i$ is the gravitational acceleration in direction $i$.
+
+Each of the terms on the right-hand side of \cref{Eqn:IntegralCoP} stems from the considerations made.
+The first integral represents how the background flow field transports the momentum across the volume's surface.
+The second integral accounts for all of the molecular stresses present in the volume.
+The pressure is an ever-present, thermodynamic property of the medium, and the tensor $\tau_{ij}$ accounts for all molecular friction and other deviations from thermodynamic equilibrium.
+There are several models for the stress tensor, but none will be specified here.
+The last integral has a source of momentum due to the mass of the volume in addition to the general source $S^{\rho{u}}$.
+The accompanying differential equation is 
+\begin{equation}
+    \pdt (\rho u_i) + \pdj(u_j \rho u_i) = -\pdi P + \pdj\tau_{ij} + \rho g_i + S^{\rho{u}}_i.
 \end{equation}
 
 
 
-
 \subsection{Conservation of Energy}
-
-
+The energy equation is similar to the momentum equation since there are non-linear and molecular components to the balance.
+The energy to be balanced is the \textit{total energy} $\rho{e}$of the medium, where total means the sum of thermal, kinetic, and potential energies.
+The integral conservation for total energy is taken to be
+\begin{equation}
+    \pdt \IntV \rho e_i \dV = \IntS u_i (-\rho e - \delta_{ij}P + \tau_{ij}) n_j \dS - \IntS q_j n_j\dS + \IntV \rho g_i + S^{\rho{e}} \dV,
+    \label{Eqn:IntegralCoE}
+\end{equation}
 
 
 
