@@ -3,7 +3,7 @@
 % ===================================================================================== %
 \documentclass[Prelim,12pt]{WisconsinThesis}
 
-%\usepackage{bookmark}
+\usepackage{bookmark}
 \usepackage{import}
 \usepackage{mathtools}
 \usepackage{booktabs}
@@ -19,7 +19,7 @@
 \graphicspath{{./Graphics/}}
 
 \let\bar\overline
-\newcommand{\pdt}   {\partial_t\:\!}
+\newcommand{\pdt}   {\partial_t}
 \newcommand{\pdz}   {\partial_z}
 \newcommand{\pdi}   {\partial_i}
 \newcommand{\pdj}   {\partial_j}
@@ -120,10 +120,10 @@ where $\pdj F_{ij}$ represents a row-wise divergence operation.
 
 
 
-\section{Law Derivations}
+\section{Thermohydraulic Laws}
 
-The derivations of the main equations used in thermohydraulics will be presented using the definitions above.
-Mass, momentum, and energy are the primary quantities of interest and will be derived for an assumed flowing system.
+The main equations of interest in thermohydraulics will be presented using the definitions above.
+Mass, momentum, and energy are the primary quantities of interest and will be derived for an assumed-flowing system.
 For all of the definitions, the following items are noted:
 \begin{itemize}
     \item{
@@ -146,10 +146,6 @@ Therefore, the integral conservation law for density is
 \begin{equation}
     \pdt\!\IntV \rho \dV = \IntS -(u_j \rho)n_j\dS + \IntV S^\rho\dV,
 \end{equation}
-with the differential form being
-\begin{equation}
-    \pdt \rho + \pdj (u_j \rho) = S^\rho.
-\end{equation}
 
 \subsection{Conservation of Momentum}
 A control volume's momentum balance is more complicated than the simple in-out mass balance.
@@ -158,83 +154,82 @@ Also, even though a continuum approximation has been made, there still physical 
 Lastly, a body force must be added to account for buoyancy effects on the volume relative to the outside universe.
 With all of the above nuances considered, the integral conservation for momentum is taken to be
 \begin{equation}
-    \pdt \IntV \rho u_i \dV = \IntS (-u_j \rho u_i) n_j \dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j \dS + \IntV \rho g_i + S^{\rho{u}}_i \dV,
+    \pdt \IntV \rho u_i \dV = \IntS (-u_j \rho u_i) n_j \dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j \dS + \IntV \rho g_i + S^u_i \dV
     \label{Eqn:IntegralCoP}
 \end{equation}
 where $\rho{u_i}$ is the momentum in direction $i$, $u_j$ is the velocity in direction $j$, $\delta_{ij}$ is the Kronecker delta, $P$ is the thermodynamic pressure, $\tau_{ij}$ is the viscous stress tensor, and $g_i$ is the gravitational acceleration in direction $i$.
 
 Each of the terms on the right-hand side of \cref{Eqn:IntegralCoP} stems from the considerations made.
 The first integral represents how the background flow field transports the momentum across the volume's surface.
-The second integral accounts for all of the molecular stresses present in the volume.
+The second integral accounts for all of the molecular stresses present in the volume, both normal and tangential.
 The pressure is an ever-present, thermodynamic property of the medium, and the tensor $\tau_{ij}$ accounts for all molecular friction and other deviations from thermodynamic equilibrium.
-There are several models for the stress tensor, but none will be specified here.
-The last integral has a source of momentum due to the mass of the volume in addition to the general source $S^{\rho{u}}$.
-The accompanying differential equation is 
-\begin{equation}
-    \pdt (\rho u_i) + \pdj(u_j \rho u_i) = -\pdi P + \pdj\tau_{ij} + \rho g_i + S^{\rho{u}}_i.
-\end{equation}
+The last integral has a source of momentum due to the mass of the volume in addition to the general source $S^u$.
 
 
 
 \subsection{Conservation of Energy}
 The energy equation is similar to the momentum equation since there are non-linear and molecular components to the balance.
-The energy to be balanced is the \textit{total energy} $\rho{e}$of the medium, where total means the sum of thermal, kinetic, and potential energies.
+The energy to be balanced is the \textit{total energy} of the medium, where total means the sum of thermal, kinetic, and potential energies.
 The integral conservation for total energy is taken to be
 \begin{equation}
-    \pdt \IntV \rho e_i \dV = \IntS u_i (-\rho e - \delta_{ij}P + \tau_{ij}) n_j \dS - \IntS q_j n_j\dS + \IntV \rho g_i + S^{\rho{e}} \dV,
+    \pdt \IntV \rho e \dV = \IntS \left[- (\rho{e} + P) u_j + u_i \tau_{ij} - q_j\right] n_j\dS + \IntV \rho g_j u_j + S^e \dV
     \label{Eqn:IntegralCoE}
 \end{equation}
+where $\rho{e}$ is the total energy of the system and $q_j$ is a conductive heat flux.
+All of the other terms have the same meaning as in the momentum equation.
+
+As in the momentum equation, all right-hand side terms have a purpose.
+The first term, $\rho{e} + P$, represents the advected energy in addition to the associated work due to pressure.
+The second term accounts for energy loss due to molecular friction.
+The third term arises due to molecular diffusion of heat across the boundary.
+The final term acts as a source or sink of energy due to the buoyancy force from momentum.
 
 
-
-
-\section{Thermohydraulics}
-\subsection{Base Equations}
-\subsection{Generic Bulk Flow}
-The set of conservation equations for a fluid in three dimensional form using index notation is 
-\begin{subequations}\label{Eqn:3DCLaw}
-    \begin{align}
-        \pdt \rho + \pdj(\rho{u}_j) &= S_{\rho} \\
-        \pdt \rho{u}_i + \pdj (\rho{u}_i u_j - \sigma_{ij}) + \pdi P  &= \rho\,g_i + S_{\rho{u}} \\
-        \pdt \rho{e} + \pdj \left[u_j (\rho{e} + P)\right] - \pdj (u_i\sigma_{ij}) &= S_{\rho{e}},
-    \end{align}
-\end{subequations}
-where $\rho$ is density, $u$ is velocity, $g$ is the gravity vector, $e$ is the total energy of flow, $P$ is the thermodynamic pressure, $\sigma_{ij}$ is the viscous stress tensor, and $S_{\ast}$ are arbitrary sinks or sources.
-Integration of \cref{Eqn:3DCLaw} over some arbitrary, time-independent volume \V{} with boundary $\Gamma$ yields
-\begin{subequations}
-    \begin{equation}
-        \pdt \IntV \rho \dV+ \IntV \pdj(\rho{u}_j) \dV = \IntV S_{\rho} \dV 
-    \end{equation}
-    \begin{equation}
-        \pdt \IntV\rho{u}_i\dV + \IntV\pdj (\rho{u}_i u_j - \sigma_{ij}) + \pdi P \dV = \IntV\rho\,g_i + S_{\rho{u}}\dV
-    \end{equation}
-    \begin{equation}
-        \pdt \IntV\rho{e}\dV + \IntV\pdj \left[u_j (\rho{e} + P)\right] - \pdj (u_i\sigma_{ij}) \dV= \IntV S_{\rho{e}}\dV.
-    \end{equation}
-    \label{Eqn:3DCLawIntV}
-\end{subequations}
-The unweighted volume average of a quantity $\alpha$ is denoted by $\bar{\alpha}$ and defined as
-\begin{equation}
-    \bar{\alpha} = \frac{1}{\V}\IntV \alpha \dV.
-\end{equation}
-Using this defintion, division of \cref{Eqn:3DCLawIntV} by \V{} and transformation of the volume integrals of spatial derivatives into surface integrals via the Divergence Theorem gives
-\begin{subequations}
-    \begin{equation}
-        \pdt \bar{\rho}+ \oneo{\V} \IntS \rho{u}_j n_j \dS = \bar{S}_{\rho} 
-    \end{equation}
-    \begin{equation}
-        \pdt \bar{\rho{u}}_i + \oneo{\V}\IntS (\rho{u}_i u_j - \sigma_{ij}) n_j \dS + 
-        \oneo{\V}\IntS P n_i \dS = \bar{\rho}g_i + \bar{S}_{\rho{u}}
-    \end{equation}
-    \begin{equation}
-        \pdt \bar{\rho{e}} + \oneo{\V}\IntS \left[u_j (\rho{e} + P) - u_i\sigma_{ij}\right]n_j \dS= \bar{S}_{\rho{e}},
-    \end{equation}
-    \label{Eqn:3DCLawIntegralForm}
-\end{subequations}
-where $n$ denotes the outward unit normal of the surface \S{}.
-\Cref{Eqn:3DCLawIntegralForm} is the general, three-dimensional control volume form of the considered conservation equations.
+\subsection{Differential Forms}
+All of the integral conservation laws shown above also have differential forms:
+\begin{align}
+    \pdt \rho + \pdj(u_j \rho)           &= S^\rho \\
+    \pdt (\rho u_i) + \pdj(u_j \rho u_i) &= -\pdi{P} + \pdj \tau_{ij} + \rho g_i + S^u_i \\
+    \pdt (\rho e) + \pdj(u_j \rho{e})    &= -\pdj(u_j P) + \pdj(u_i \tau_{ij}) + \rho g_i u_i + S^e
+\end{align}
+Given the same initial and boundary conditions, these differential equations and their integral counterparts are equivalent for sufficiently smooth solutions.
+As shown here, ``sufficiently smooth'' means that at least all first derivatives must be continuous over the entire solution domain; however, certain constitutive relations  (e.g., for the stress tensor) may place more stringent requirements on continuity.
 
 \subsection{Channel Flow}
+All of the above equations are three-dimensional, but in thermohydraulic modeling, it is common practice to collapse the momentum equation to a single, dominant flow direction.
+The result of this dimensional collapse will be called \textit{channel flow} momentum equation.
+The channel flow equation can be created by simply dotting the integral momentum equation with a constant unit vector $z_i$.
+The unit vector represents the physically dominant flow direction for the given volume.
+Performing the dot operation and letting $a_z = a_i z_i$ for any vector $a_i$, the channel flow equation is of the form
+\begin{equation}
+    \pdt \IntV \rho u_z \dV = \IntS (-u_j \rho u_z) n_j \dS + \IntS - P n_z + \tau_{ij} z_i n_j \dS + \IntV \rho g_z + S^u_z \dV
+\end{equation}
+
+
+
+
+
+
+
+
+\section{Constitutive Relations}
+In deriving these conservation laws, a number of unknowns were introduced to account for different thermodynamic, molecular, and non-equilibrium phenomena.
+These unknowns have to be related to the system variables in some manner to make the system solvable.
+Equations that perform this task as called \textit{constitutive relations} or, less formally, models.
+The terms of interest are the thermodynamic pressure, viscous stress tensor, and conductive flux.
+
+\subsection{Pressure}
+Pressure is a macroscopic, thermodynamic property that arises from particle distributions exerting forces over some unit area.
+A constitutive relation that relates pressure to other system variables that define the system's state is called an \textit{equation-of-state} (EOS).
+Equations-of-state 
+
+\subsection{Stress Tensor}
+
+\subsection{Conductive Flux}
+
+
+
+
 
 \section{Numerical Methods}
 \section{Stability Theory}
