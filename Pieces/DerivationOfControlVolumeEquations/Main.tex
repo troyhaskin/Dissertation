@@ -140,7 +140,7 @@ For all of the definitions, the following items are noted:
 \end{itemize}
 
 \subsection{Conservation of Mass}
-The net mass in a control volume or, rather, the volumed-integrated density is conserved as a simple scalar.
+The net mass in a control volume or, rather, the volume-integrated density is conserved as a simple scalar.
 It is controlled by the background flow field advecting the mass through the boundary.
 Therefore, the integral conservation law for density is
 \begin{equation}
@@ -158,6 +158,7 @@ With all of the above nuances considered, the integral conservation for momentum
     \label{Eqn:IntegralCoP}
 \end{equation}
 where $\rho{u_i}$ is the momentum in direction $i$, $u_j$ is the velocity in direction $j$, $\delta_{ij}$ is the Kronecker delta, $P$ is the thermodynamic pressure, $\tau_{ij}$ is the viscous stress tensor, and $g_i$ is the gravitational acceleration in direction $i$.
+A more detailed discussion of the pressure and viscous stress tensor is presented in \cref{Section:ConstitutiveRelations}.
 
 Each of the terms on the right-hand side of \cref{Eqn:IntegralCoP} stems from the considerations made.
 The first integral represents how the background flow field transports the momentum across the volume's surface.
@@ -175,8 +176,8 @@ The integral conservation for total energy is taken to be
     \pdt \IntV \rho e \dV = \IntS \left[- (\rho{e} + P) u_j + u_i \tau_{ij} - q_j\right] n_j\dS + \IntV \rho g_j u_j + S^e \dV
     \label{Eqn:IntegralCoE}
 \end{equation}
-where $\rho{e}$ is the total energy of the system and $q_j$ is a conductive heat flux.
-All of the other terms have the same meaning as in the momentum equation.
+where $\rho{e}$ is the total energy of the system and $q_j$ is a conductive heat flux; all of the other terms have the same meaning as in the momentum equation.
+A more detailed discussion of the conductive heat flux is presented in \cref{Section:ConstitutiveRelations}.
 
 As in the momentum equation, all right-hand side terms have a purpose.
 The first term, $\rho{e} + P$, represents the advected energy in addition to the associated work due to pressure.
@@ -212,18 +213,42 @@ Performing the dot operation and letting $a_z = a_i z_i$ for any vector $a_i$, t
 
 
 
-\section{Constitutive Relations}
+\section{Constitutive Relations}\label{Section:ConstitutiveRelations}
 In deriving these conservation laws, a number of unknowns were introduced to account for different thermodynamic, molecular, and non-equilibrium phenomena.
 These unknowns have to be related to the system variables in some manner to make the system solvable.
 Equations that perform this task as called \textit{constitutive relations} or, less formally, models.
 The terms of interest are the thermodynamic pressure, viscous stress tensor, and conductive flux.
 
 \subsection{Pressure}
-Pressure is a macroscopic, thermodynamic property that arises from particle distributions exerting forces over some unit area.
+Pressure is a macroscopic, thermodynamic property that arises from ensembles of particles exerting forces over some unit area.
 A constitutive relation that relates pressure to other system variables that define the system's state is called an \textit{equation-of-state} (EOS).
-Equations-of-state 
+An EOS can be constructed from first principle (microscopic) approaches or thermodynamic potential (macroscopic) approaches and may be composed of one or more equations.
+Regardless of the EOS's construction, it should be able to calculate all relevant thermodynamic properites given two independent properites for a pure fluid \NeedReference{}.
+
+Since there are multiple avenues for creating an EOS, for any given fluid, several may exist; each one varying in complexity of formulation, range of validity, and fidelity to data.
+The choice of EOS is dependent on the importance of each of those three attributes.
+The EOS used for this work is the International Association for the Properties of Water and Steam (IAPWS) Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use (IAPWS-95).
+The IAPWS-95 formulation is extremely complex, but the range of validity and fidelity to data is second-to-none for water.
+The details of the formulation is left to the appendix and its original publication.
+
+
 
 \subsection{Stress Tensor}
+The stress tensor requires a model that relates molecular friction, continuum deformation, and system variables.
+There are, like an EOS for a fluid, several different stress tensor models for any given system.
+These models vary in terms of the type of valid fluid, dimensionality of usage, and fidelity to data.
+
+Newtonian fluid models are among the most popular stress tensor model choices and form the basis for the Navier-Stokes equations.
+From experiment, Newton observed that a proportional relationship exists between the shear stress exerted on a fluid and the fluid's uni-directional velocity gradient for a wide array of fluids.
+Stokes then extended this proportional relationship to higher dimensions by making three assumptions: the tensor is a linear function of strain, the fluid is isotropic, and the tensor's divergence must be zero for a fluid at rest (such that pressure is the only extant surface force).
+With all of these observations and assumptions considered, the Newton stress tensor model (sometimes described as a compressible model) is defined by the equation:
+\begin{equation}
+    \tau_{ij} = \mu \left(\pdiff{u_i}{x_j} + \pdiff{u_j}{x_i}\right) + \lambda \delta_{ij} \pdiff{u_k}{x_k}
+\end{equation}
+where $\mu$ is the dynamic viscosity and $\lambda$ is the bulk viscosity.
+
+
+
 
 \subsection{Conductive Flux}
 
