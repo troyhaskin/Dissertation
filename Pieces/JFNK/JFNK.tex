@@ -471,10 +471,10 @@ The final choice to be made for the implementation of GMRES is that of the vecto
 The so-called classic GMRES of Saad and Schultz proposed an iteratively grown orthonormal basis for $\mathcal{K}_m(A,r_0)$ and used those vectors to form $Z_m$ \cite{saad_gmres_1986}.
 The choice of basis is natural since the solution lies in the Krylov subspace.
 However, this choice of basis leads to a least-squares problem involving a Hessenberg matrix which itself requires a QR decomposition for efficient solution of the least-sqaures problerm.
-As such, a version called Simpler GMRES was later developed by Walker and Zhou to build an orthonormal basis for $A\mathcal{K}_m(A,r_0)$ and use those basis vectors to form $Z_m$.
-The choice of vectors in Simpler GMRES leads directly to a QR factorization and is therefore simpler to implement; however, the choice also leads to a method that is inherently less stable than the classic method.
+As such, a version called Simpler GMRES was later developed by Walker and Zhou to build an orthonormal basis for $A\mathcal{K}_m(A,r_0)$ and use those basis vectors to form $Z_m$ \cite{walker_simpler_1994}.
+The choice of vectors in Simpler GMRES leads directly to a QR factorization and is therefore simpler to implement; however, the choice also leads to a method that can result in an ill-conditioned $R$-factor and therefore be far less acurate than the classic method \cite{jiranek_how_2008}.
 As such, this work implements Adaptive Simpler GMRES (ASGMRES) due to Jir\'{a}nek and Rozlo\v{z}n\'{i}k which switches between the basis of Simpler GMRES and a basis formed from the sequence of residuals from the iterative solution.
-To wit, at the $m$-th iteration of the solution, given a Simpler GMRES basis vector $q_{m-1}$ and residuals from two previous iterations ${r_{m-1}\,,\,r_{m-2}}$, the vector $z_m$ is assigned thusly:
+To wit, at the $m$-th iteration of the solution, given a Simpler GMRES basis vector $q_{m-1}$ and residuals from two previous iterations ${r_{m-1}\,,\,r_{m-2}}$, the vector $z_m$ is assigned thusly \cite{jiranek_adaptive_2009}:
 \begin{equation}
     z_m =
     \begin{cases}
@@ -663,7 +663,7 @@ Also, since $\dx_k$ is meant to be small, the guess value is taken to be the zer
 
 
 \bibliography{../Sources}
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 
 \end{document}
 
