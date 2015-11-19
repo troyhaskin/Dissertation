@@ -46,10 +46,6 @@
 \newcommand{\Time}{\ensuremath{t}\xspace}
 \newcommand{\Speeds}{\ensuremath{\mathbf{\lambda}}\xspace}
 
-\DeclareMathOperator{\Ln}{Ln}
-\DeclareMathOperator{\Abs}{Abs}
-\DeclareMathOperator{\Inf}{Inf}
-\DeclareMathOperator{\Exp}{Exp}
 \DeclareMathOperator{\Rez}{R}
 
 \let\originalleft\left
@@ -59,7 +55,8 @@
 \def\right#1{\aftergroup\egroup\:\!\originalright#1}
 
 
-\DefineNewLength{\RowSkip}{1.0em}
+\newlength{\RowSkip}
+\setlength{\RowSkip}{1.0em}
 \newcommand{\skp}[1][0.45em]{
     \ifthenelse{\equal{#1}{}}{
         \\[\RowSkip]
@@ -214,9 +211,10 @@
 
 
 
-\DefineNewLength{\BarredLetterHeight}{0pt}
-\DefineNewLength{\BarredLetterWidth}{0pt}
-
+\newlength{\BarredLetterHeight}
+\setlength{\BarredLetterHeight}{0pt}
+\newlength{\BarredLetterWidth}
+\setlength{\BarredLetterWidth}{0pt}
 \newcommand{\eBB}{
     \ensuremath{
         \settoheight{\BarredLetterHeight}{e} % Height in current context
@@ -250,3 +248,126 @@
 \newcommand{\CVsurf}[1][k]{\ensuremath{\Gamma_\text{#1}}\xspace}
 \newcommand{\MCsurf}[1][m]{\ensuremath{\Gamma_\text{#1}}\xspace}
 
+
+
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+\ExplSyntaxOn
+    \cs_gset_eq:NN \algorithmDefault \algorithm
+    \DeclareDocumentCommand \algorithm {o} {
+        \IfNoValueTF{#1} {
+            \algorithmDefault
+        } {
+            \algorithmDefault[#1]
+        }
+        \cs_undefine:c {@endalgoln}
+        \tl_new:c   {@endalgoln}
+        \tl_gset:cn {@endalgoln} {
+            \tl_use:c{@endalgocfline}
+            \hfill
+            \strut
+            \par
+            \vskip\l_tmpa_dim
+        }
+        \cs_set:Nn \UWMad_Algorithm_SemiColon:n {
+            \if_mode_math:
+                \tl_use:c{@semicolon}
+            \else:
+                \dim_set:Nn \l_tmpa_dim {##1}
+                \tl_use:c {@endalgoln}
+            \fi:
+        }
+        \DeclareDocumentCommand \; {o} {
+            \IfNoValueTF{##1} {
+                \UWMad_Algorithm_SemiColon:n{0pt}
+            } {
+                \UWMad_Algorithm_SemiColon:n{##1}
+            }
+        }
+        \SetAlgoNoLine
+        \DontPrintSemicolon
+        \SetKwProg{Function}{function}{}{end}
+        \SetKwIF{If}{ElseIf}{Else}{if}{}{else if}{else}{end}
+    }
+\ExplSyntaxOff
+\crefname{algocf}{algorithm}{algorithms}
+\Crefname{algocf}{Algorithm}{Algorithms}
+\crefname{algoLine}{line}{lines}
+\Crefname{algoLine}{Line}{Lines}
+\crefalias{AlgoLine}{algoLine}
+
+\DeclareDocumentCommand \AlgoStyle { m } {
+    \texttt{\textcolor{UWMadGreen}{#1}}
+}
+\SetCommentSty{AlgoStyle}
+\SetKwComment{tcm}{\hskip1em plus 0pt minus 1em\%}{}
+
+\makeatletter
+\let\cref@old@stepcounter\stepcounter
+\def\stepcounter#1{%
+  \cref@old@stepcounter{#1}%
+  \cref@constructprefix{#1}{\cref@result}%
+  \@ifundefined{cref@#1@alias}%
+    {\def\@tempa{#1}}%
+    {\def\@tempa{\csname cref@#1@alias\endcsname}}%
+  \protected@edef\cref@currentlabel{%
+    [\@tempa][\arabic{#1}][\cref@result]%
+    \csname p@#1\endcsname\csname the#1\endcsname}}
+\makeatother
+
+\ExplSyntaxOn
+
+\cs_generate_variant:Nn \clist_set:Nn {No}
+\cs_new:Nn \UWMad_Math_inlineRowVector:n {
+    \clist_set:Nn \l_tmpa_clist {#1}
+    [
+    \mkern2mu
+    \clist_use:Nn \l_tmpa_clist {\mkern3mu,}
+    \mkern2mu
+    ]
+}
+\DeclareDocumentCommand \transpose { m } {
+    #1^{\raisebox{0.20em}{\mbox{\tiny\textsf{T}}}}
+}
+\DeclareDocumentCommand \irowvec { m } {
+    \UWMad_Math_inlineRowVector:n{#1}
+}
+\DeclareDocumentCommand \icolvec { m } {
+    \transpose{\UWMad_Math_inlineRowVector:n{#1}}
+}
+
+\DeclareDocumentCommand \dx { } {
+    \delta \mkern-3.00mu x
+}
+\ExplSyntaxOff
+
+
+
+\newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
+\graphicspath{{./Graphics/}}
+
+\let\bar\overline
+\newcommand{\pdt}   {\partial_t\:\!}
+\newcommand{\pdz}   {\partial_z}
+\newcommand{\pdi}   {\partial_i}
+\newcommand{\pdj}   {\partial_j}
+\newcommand{\V}     {\ensuremath{\Omega}}
+\newcommand{\dV}    {\,\partial\V}
+\newcommand{\IntV}  {\int_{\V}}
+\renewcommand{\S}   {\ensuremath{\Gamma}}
+\newcommand{\dS}    {\,\partial\S}
+\newcommand{\IntS}  {\int_{\S}}
+\newcommand{\q}     {\ensuremath{q}}
+\newcommand{\qi}    {\ensuremath{q_i}}
+
+\newcommand{\by}    {\!\times\!}
+
+
+\DeclareMathOperator {\Span}  {Span}
+
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}     {0.25\baselineskip}%
+  \setlength{\belowdisplayskip}     {0.25\baselineskip}%
+  \setlength{\abovedisplayshortskip}{0.25\baselineskip}%
+  \setlength{\belowdisplayshortskip}{0.25\baselineskip}%
+}

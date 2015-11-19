@@ -1,53 +1,22 @@
 % ===================================================================================== %
 %                                        Header                                         %
 % ===================================================================================== %
-\documentclass[Prelim,12pt]{WisconsinThesis}
+\documentclass[12pt]{UWMadThesis}
 
-%\usepackage{bookmark}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{bookmark}
 \usepackage{import}
-\usepackage{mathtools}
 \usepackage{booktabs}
-\usepackage{algorithm2e}
 \usepackage{environ}
-\usepackage{esint}
-\usepackage{multirow}
 \usepackage{microtype}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
+\usetikzlibrary{quotes,angles}
 
 \input{HelperCommands}
-\newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
-\DefaultFileName{Main}
-\graphicspath{{./Graphics/}}
 
-\let\bar\overline
-\newcommand{\pdt}   {\partial_t\:\!}
-\newcommand{\pdz}   {\partial_z}
-\newcommand{\pdi}   {\partial_i}
-\newcommand{\pdj}   {\partial_j}
-\newcommand{\V}     {\ensuremath{\Omega}}
-\newcommand{\dV}    {\,\partial\V}
-\newcommand{\IntV}  {\int_{\V}}
-\renewcommand{\S}   {\ensuremath{\Gamma}}
-\newcommand{\dS}    {\,\partial\S}
-\newcommand{\IntS}  {\int_{\S}}
-\newcommand{\q}     {\ensuremath{q}}
-\newcommand{\qi}    {\ensuremath{q_i}}
-
-\newcommand{\by}    {\!\times\!}
-
-\newcommand{\dx}    {\ensuremath{\Delta{x}}}
-
-
-\DeclareMathOperator*{\Lim}   {Lim}
-\DeclareMathOperator*{\ArgMin}{ArgMin}
-\DeclareMathOperator*{\Min}   {Min}
-\DeclareMathOperator {\Cos}   {Cos}
-\DeclareMathOperator {\Sin}   {Sin}
-\DeclareMathOperator {\Span}  {Span}
-
-\setstretch{1.85}
-\setlength{\parskip}{15pt}
-
-\showthe\parskip
 
 \begin{document}
 
@@ -65,82 +34,246 @@ The section will conclude with how the pieces fit together to form the JFNK solv
 
 \section{Newton's Method}
 Systems of coupled, nonlinear equations are pervasive across all disciplines of science and engineering.
-They are also one of the most important and difficult class of problems to analyze and solve mathematically.
-While there are numerous techniques for solving such problems, Newton's method is the singular option that will be explored in this section.
+They are also one of the most important and difficult class of problems to analyze and solve.
+While there are numerous analytical and numerical techniques for solving such problems, Newton's method is the singular option that will be explored in this section.
 
 \subsection{Problem Statement}
-The nonlinear problem under consideration is defined as follows: given an $N \by 1$ vector of algebraic, nonlinear equations $r(x)$, determine an $N \by 1$ vector $x^*$ such that
+The problem under consideration is defined as follows: given an $n \by 1$ vector of nonlinear equations $r(x)$, determine an $n \by 1$ vector $x_n$ such that
 \begin{equation}
-    r(x^*) = 0
+    r(x_n) = 0.
     \label{Eqn:NonlinearRootFind}
 \end{equation}
-This problem is sometimes referred to as a multi-dimensional root-finding problem.
-A different but mostly equivalent definition for the above problem is: given an $N \by 1$ vector of algebraic, nonlinear equations $r(x)$, determine an $N \by 1$ vector $x^*$ such that
+Because each row of equations is sought to be identically zero in this definition, the problem is sometimes referred to as a multi-dimensional root-finding problem.
+A different but similar statement can be formed by viewing the solution as a result of a minimization procedure: given an $n \by 1$ vector of nonlinear equations $r(x)$, determine an $n \by 1$ vector $x_n$ such that
 \begin{equation}
-    x^* = \ArgMin_{x} \|r(x)\|
+    x_n = \ArgMin_{x} \|r(x)\|
     \label{Eqn:NonlinearMinimize}
 \end{equation}
-where $\|\cdot\|$ is any suitable norm for $r(x)$ and $\ArgMin_x$ is a function that returns the argument which minimizes $\|r(x)\|$ over the domain of $x$.
-\Cref{Eqn:NonlinearRootFind} is preferred for the linearizations to be discussed while \cref{Eqn:NonlinearMinimize} is preferred for the stopping criteria of Newton's method also to be discussed.
-Because the function $r(x)$ is taken to be nonlinear, a closed-form solution to either equation may be impractical, if not impossible, to find even for a modest value of $N$.
-Therefore, numerical techniques, like Newton's method, are frequently used for solving the problem approximately.
+in any valid norm of $r(x)$, where $\ArgMin_x$ is a function that returns the argument which minimizes $\|r(x)\|$ over the domain of $x$.
+The minimization problem is equivalent to the root-finding problem as long as $r(x)$ admits a root in the domain of $x$.
+If it does not, as in $r(x) = x^2+1$ where $x \in \mathbb{R}$, the minimization problem still has a well-defined solution.
+However, because many engineering problems posed in the manner of \cref{Eqn:NonlinearRootFind} arise from a physical balance of left- and right-hand sides involving $x$, a root most often exists within its domain.
+
+Either problem is still difficult to solve in practice.
+Even for a modest value of $n$, because the function $r(x)$ is taken to be nonlinear, a closed-form solution to either variation may be impractical, if not impossible, to find.
+Therefore, numerical techniques, like Newton's method, are frequently used to solve the problem approximately.
+
+
 
 
 
 \subsection{Newton Update}
-In an effort to make the solution of \cref{Eqn:NonlinearRootFind} tractable, Newton's method aims to form a solution from a recursive series of linear approximations and solves.
-The method begins with some initial value of $x$ denoted as $x_0$.
-If $r(x_0)$ is not sufficiently close to zero (see below), Newton's method seeks a better solution by computing a search direction $\Delta{x}$ from $x_0$ via a linearized (first-order Taylor expanded) version of $r(x_0 + \Delta{x})$.
-The Taylor expansion of $r(x_0 + \Delta{x})$ about $x_0$ is
+In an effort to obtain a solution to \cref{Eqn:NonlinearRootFind}, Newton's method aims to form a solution from a recursive series of linear approximations.
+The method begins with some initial value of $x_0$.
+Assuming \cref{Eqn:NonlinearRootFind} can be satisfied, if $\|r(x_0)\|$ is not sufficiently close to zero, there may be a direction $\dx_0$ in which the norm decreases, called a \textit{descent direction}.
+Such a direction can be found by considering the function's Taylor series about $x_0$ evaluated at $x_0 + \dx_0$:
 \begin{equation}
-    r(x_0 + \Delta{x}) =  r(x_0) + J_r(x_0)\Delta{x} + c(x_0,\Delta{x})
+    r(x_0 + \dx_0) =  r(x_0) + J_r(x_0)\dx_0 + c(x_0,\dx_0)
 \end{equation}
-where $J_r(x_0)$ is an $N \by N$ Jacobian matrix and $c(x_0,\Delta{x})$ is an $N \by 1$ vector of higher-order corrections that ensure the equality.
-To solve for $\Delta{x}$ using Newton's method, the stepped residual $r(x_0 + \Delta{x})$ and higher-order correction are taken to be identically zero; therefore, each row of the approximate Taylor expansion is an equation for the tangent plane of the associated element of $r(x)$ at the guess value $x_0$.
-This procedure can be thought of as assuming the direction and magnitude of $\Delta{x}$ leads to the exact solution of the problem.
-The resulting linear system used to solve for the direction is
+where $J_r(x_0)$ is an $n \by n$ Jacobian matrix and $c(x_0,\dx_0)$ is an $n \by 1$ vector of higher-order corrections that ensure the equality.
+Near the expansion point, the higher-order corrections are small relative to the linear term and may be neglected.
+Further, to both drive $r(x)$ toward zero and yield a solvable system, the function value $r(x_0 + \dx_0)$ is taken to be zero.
+This procedure can be thought of as assuming the direction and magnitude of $\dx_0$ leads to the exact solution of the problem.
+The resulting linear system used to solve for the descent direction is
 \begin{equation}
-    J_{r}^{-1}(x_0) \Delta{x} = -r(x_0).
+    J_{r}(x_0) \dx_0 = -r(x_0).
+    \label{Eqn:NewtonsDirection}
 \end{equation}
-Any search direction calculated from the above formula, regardless of the point of evaluation, is called a Newton update or a Newton direction.
+The above procedure yields a locally linear system whose solution is the descent direction $\dx_0$ as long as the Jacobian is non-singular.
+Any search direction calculated from the above formula is called a \textit{Newton direction}.
+Of course, since the higher-order corrections were ignored in attaining the linear system, this $\dx_0$ will unlikely lead to an acceptable solution.
+However, if $\dx_0$ leads to a new point with a norm smaller than that of the initial guess, it is arguably a better point at which to form the Taylor expansion.
 
-Of course, since the higher-order corrections were ignored in attaining the linear system, this $\Delta{x}$ will unlikely lead to the exact solution.
-However, assuming $\Delta{x}$ leads to a new point that reduces a norm of $r(x_0)$, it is arguably a better point and can likely be used to return an even better approximation.
-From the new point $x_1 = x_0 + \Delta{x}$, another linear system can be formed and a new search direction calculated
-
-Repeatedly updating the Taylor expansion point by solving a repeatedly updated linear system is the essence of Newton's method.
-Starting from $x_0$, a sequence of linearly updated vectors $x_k$ is formed:
+From the new point $x_1 = x_0 + \dx_0$, another linear system can be formed, a new descent direction calculated, and the process repeated.
+As such, the $k$-th new point from the current expansion location $x_{k-1}$ moving in the Newton direction $\dx_{k-1}$ is
 \begin{equation}
-    x_k = x_{k-1} - J_r^{-1}(x_{k-1}) r(x_{k-1})
+    x_k = x_{k-1} - J_r^{-1}(x_{k-1}) r(x_{k-1}) = x_{k-1} + \dx_{k-1}
+    \label{Eqn:NewtonsMethod}
 \end{equation}
-Setting aside algorithmic flow, stopping criteria for the recursion, and other details, this update equation is Newton's method.
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%  MORE DISCUSSION NEEDED HERE.
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
+As long as each successive point from the locally linear system yields a norm smaller than its predecessor, the repetition is forming a sequence of points that is approaching a solution to the nonlinear problem.
+Moreover, if each successive point decreases the residual's norm, the norms of the descent directions and the higher-order correction terms are decreasing as well.
+So if the sequence of points is convergent to a solution, the linear approximation becomes increasingly valid as the Newton step decreases.
+Setting aside algorithmic flow, stopping criteria, and other details, this update procedure is Newton's method.
+
+\begin{figure}[t]%
+    \centering%
+    \caption{The first few Newton updates of \cref{LineSearch:Eqn:Residual} with a starting guess of $x_0 = 1$.
+    Solid lines, aside from the residual's, indicate tangents, and dashed lines indicate update locations from the roots of the tangents.}%
+    \label{Fig:Example:NewtonUpdates}
+    \resizebox{!}{3.5in}{
+        \input{JFNK_Example_GaussianNewtonSolution.tikz}
+    }
+\end{figure}
+
+As an example of the above procedure, the residual function is taken to be
+\begin{equation}
+    r(x) = \Exp\left[-\left(x+ \frac{1}{4}\right)^2\right] - \frac{3}{4}
+    \label{Eqn:Example:Residual}
+\end{equation}
+While the function admits a simple analytical solution, Newton's method may be applied to find one of the solutions.
+Graphical results of applying the method to the residual with a starting guess of $1$ are shown in \cref{Fig:Example:NewtonUpdates}.
+As can be seen, each successive iteration of the method results in a decrease of the norm and a decrease of the length of the Newton update.
+It is noted that because this residual is nonlinear, it does have another solution which is not found in this example because the initial guess is further from it than the one found.
+In accordance with the discussion above, Newton's method finds \textit{a solution} of the problem but not all of the solutions.
+
+
+\subsection{Line Search}
+While the solution of \cref{Eqn:NewtonsDirection} is a descent direction and \cref{Fig:Example:NewtonUpdates} shows smooth convergence with full Newton steps, reduction of the norm is only guaranteed close to the point of expansion where preclusion of the higher-order terms in the Taylor expansion is valid.
+As such, the magnitude of $\dx_{k-1}$ may result in an $x_k$ with a higher norm due to stepping outside the neighborhood of descent.
+To remedy this problem, implementations of Newton's method often introduce a scaling parameter $\alpha$ such that \cref{Eqn:NewtonsMethod} becomes
+\begin{equation}
+    x_k(\alpha) = x_{k-1} + \alpha \dx_{k-1}.
+\end{equation}
+Using this formulation, after solving for the descent direction $\dx_{k-1}$ as normal, the scaling parameter is calculated from
+\begin{equation}
+    \alpha = \ArgMin_{\alpha^*}\|r(x_{k}(\alpha^*))\|
+    \label{Eqn:ExactLineSearch}
+\end{equation}
+Because the scalar value $\alpha$ is found by minimizing the norm of the residual along a given direction, this problem is often referred to as a \textit{line search}.
+Because the linear assumption is valid near the expansion point, the minimization often results in an $\alpha$ bounded between $0$ and $1$, resulting in an underrelaxation of the Newton direction.
+However, if the function exhibits positive convexity along the entire descent direction, an overrelaxtion of the Newton update may be possible and can lead to faster convergence.
+
+While finding the exact minimum of a residual along the search direction is an admirable goal in theory, it can be computationally disadvantageous.
+Therefore, instead of strictly adhering to \cref{Eqn:ExactLineSearch}, which is called an \textit{exact line search}, less stringent criteria that guarantee acceptable advancement of the solution are often employed in practice.
+These criteria form the basis for an \textit{inexact line search}.
+The most obvious criterion to impose would be a reduction in the residual's norm after the step:
+\begin{equation}
+    \|r(x_{k-1} + \alpha\,\dx_{k-1})\|_2 < \|r(x_{k-1})\|_2
+    \label{Eqn:LineSearch:ResidualReduction}
+\end{equation}
+Another option is one often employed in routines for finding extrema: the \textit{Armijo Rule}.
+This criterion requires the step to generate a residual value that falls below a relaxed tangent line of the norm of the residual:
+\begin{equation}
+    \|r(x_{k-1} + \alpha\,\dx_{k-1})\|_2 
+    <
+    \|r(x_{k-1})\|_2 + \alpha\,\beta\;\pderiv{\|r(x_{k-1})\|_2}{\alpha}\biggr\rvert_{\alpha=0}.
+    \label{Eqn:LineSearch:Armijo}
+\end{equation}
+The relaxation parameter $\beta$ is often taken to be small such that $\alpha$ is not restricted to small values for steep residuals and that the criterion is similar to the former, pure reduction one for modestly decreasing residuals.
+The derivative along the step fraction $\alpha$ is 
+\begin{equation}
+    \pderiv{\|r(x_{k-1})\|_2}{\alpha}\biggr\rvert_{\alpha=0} =
+        \frac{\transpose{r(x_{k-1})}\,J_r(x_{k-1})\dx_{k-1}}{\|r(x_{k-1})\|_2} =
+        -\|r(x_{k-1})\|_2.
+\end{equation}
+The latter reduction comes from considering \cref{Eqn:NewtonsDirection} and succinctly shows that the Newton direction is a descent direction since the value of the derivative is always negative.
+Inserting the value of the derivative into \cref{Eqn:LineSearch:Armijo} shows that the Armijo rule is stricter than \cref{Eqn:LineSearch:ResidualReduction} because the reduction requirement is below unity if $\alpha$ is non-zero.
+However, the criterion is still a simple reduction requirement with a free parameter $\beta$ that can be used to control the overall strictness:
+\begin{equation}
+    \|r(x_{k-1} + \alpha\,\dx_{k-1})\|_2 
+    <
+    \left(1 - \alpha\,\beta\right)\|r(x_{k-1})\|_2.
+\end{equation}
+It is noted that the simplification of the Armijo rule to this simple form does not arise in its optimization uses because optimization solves a linear system involving the Hessian and gradient of a scalar function.
+For the rest of this work, the criterion for acceptance of the step fraction $\alpha$ will be one of strict reduction with a multiplier of unity.
+
+There are a number of algorithms that could be used to perform the line search to meet the imposed criterion.
+The methods vary in their complexity, run-time, and robustness.
+The following is a small, non-exhaustive list of line search methods:
+\begin{itemize}
+	\item{\textit{Proportional back-tracking}: 
+        iteratively multiply the current step fraction by some factor less then one until a reduction in the norm is found.
+        While extremely simple, the method only requires evaluation of the residual and is guaranteed to converge since $\alpha$ will eventually be reduced into the local area of descent.
+    }
+    \item{\textit{Interpolation back-tracking}:
+        use any known values of the residual or Jacobian to form a polynomial whose minimum can be easily found and, if necessary or desired, iterate using the new information.
+        Since the calculated residual is assumed to be higher than the expansion point's and the initial derivative is downward, at least one minimum of the polynomial will exist within the interval.
+        This procedure is typically applied iteratively with a quadratic or a cubic since their minima are readily computed.
+        As long as all of the residuals used are higher than the expansion points', the interval over which the polynomial is constructed will shrink and eventually be reduced into the local area of descent.
+    }
+    \item{\textit{Golden Section Search}:
+        starting from two bounding points and two interior points of an interval, find the new interval which guarantees a minimum is contained within itself, sample a new interior point, and iterate until convergence.
+        The ``golden'' part of the name comes from the interior points being chosen such that they are a relative distance of one over the golden ratio ($\sim0.618$) from the interval bounds.
+        This method is most useful for exact line searches since an exact minimum in the relaxation regime of $\alpha$ may potentially be exactly found, as opposed to the previous \textit{back-tracking} method.
+        However, the search is only guaranteed to find the true minimum if the residual is unimodal (i.e., only has one minimum) within the initial interval and only converges linearly to a minimum.
+        As such, either the proportional and interpolation back-tracking methods are most frequently used.
+        This method is mentioned for an example of a non-back-tracking algorithm.
+    }
+\end{itemize}
+The method implemented in this work is proportional back-tracking with plans to add interpolation back-tracking in the future,
 
 
 
+As an example to motivate the use of line searches, consider the following vector-valued function:
+\begin{equation}
+    \renewcommand{\arraystretch}{1.05}
+    f(x;\mu) =
+    \begin{bmatrix}
+        (2\mu)^{-1}\,\Exp\bigl[-\mu(x_1+x_2)^2\bigr] \\[0.10em]
+        (x_1^2 + 1)^{-1}\,\Cosh[x_2]
+    \end{bmatrix},
+\end{equation}
+where $x = \icolvec{x_1,x_2}$ and the scalar parameter $\mu$ is used to adjust the function's convexity near the origin.
+The associated residual is taken to be
+\begin{equation}
+    r(x;\mu) = f(x;\mu) - f(\icolvec{0,0};\mu),
+    \label{LineSearch:Eqn:Residual}
+\end{equation}
+whose solution is then $x_n = \icolvec{0,0}$ by construction.
+\Cref{Fig:Example:RvsAlpha} shows the residual norms for the first Newton step from the initial point $x_0 = \icolvec{1,1}$ for several values of $\mu$.
+\begin{figure}[t]%
+    \centering
+    \caption{Residual value of \cref{LineSearch:Eqn:Residual} as a function of $\alpha$ for several values of $\mu$.}%
+    \label{Fig:Example:RvsAlpha}
+    \resizebox{5in}{!}{
+        \input{JFNK_Example_ResidualVsRelaxor.tikz}
+    }
+\end{figure}
+For the lowest value of $\mu$, the norm is decreasing along the entire length of the Newton step while the residual quickly explodes to over twenty-times its initial value for the highest $\mu$.
+The intermediate parameters exhibit mild features of the extremes: one that reduces the norm at the full Newton step but not as much as possible and the other results in a slight increase in the norm but does showcase a promising minimum near a step fraction of $0.33$.
 
+Even for this simple example, some form of line search would be required to ensure convergence across all values of $\mu$.
+The two highest values are prime candidates for one of the back-tracking schemes since they have multiple extrema.
+The second smallest value is a candidate for a golden section search since it is unimodal with a better optimum than the full step at around $0.75$.
+Finally, the lowest $\mu$ value can actually be over-relaxed to a value around $1.3$.
+However, these observations and determinations can only be made since the true residual was also observed.
+In practice, a back-tracking algorithm is employed only if the residual does not reduce enough and the Newton iteration is continued automatically.
+
+\subsection{Algorithm}
+
+\begin{algorithm}[t]
+    \setstretch{1.2}
+    \caption{Nonlinear solve with Newton's Method}
+    \label{Algo:Newton}
+    \SetKwFunction{NewtonSolve}{newtonSolve}
+    \SetKw{Solve}{Solve}
+    \SetKw{Return}{Return}
+    \Function{\NewtonSolve{$x_0$,\,$r(x)$,\,$J(x),\,\varepsilon,\,\tau$}}{
+        $x_{k-1} = x_0$\tcm{Initialization}
+        $r_{k-1} = r(x_{k-1})$\;[0.5em]
+        
+        \While(\tcm*[h]{begin linear solves}){$\|r_{k-1}\|_2 > \varepsilon$}{
+            \Solve\,$J(x_{k-1})\,\dx_{k-1} = -r_{k-1}$\;[0.1em]
+            \label[algoLine]{Algo:Newton:Line:Solve}
+            $x_k = x_{k-1} + \dx_{k-1}$\;
+            $r_k = r(x_k)$\;[0.5em]
+            
+            \If(\tcm*[h]{back-track if needed}){$\|r(x_k)\|_2 > \|r(x_{k-1})\|_2$} {
+                $\alpha = \tau$\;
+                \While{$\|r(x_k)\|_2 > \|r(x_{k-1})\|_2$}{
+                    $x_k = x_{k-1} + \alpha\:\dx_{k-1}$\;
+                    $r_k = r(x_k)$\;
+                    $\alpha = \tau\:\alpha$\;
+                }
+            }
+            $x_{k-1} = x_k$\;
+            $r_{k-1} = r_k$\;
+        }
+        \nonl\;[-1em]
+        \Return $x_k$\;
+    }
+\end{algorithm}
+
+An outline of the nonlinear solving algorithm is given in \cref{Algo:Newton}.
+The function introduces two more parameters that have been implied but not fully addressed since they are independent of the mathematics.
+The first parameter is the \textit{absolute residual tolerance} $\varepsilon$.
+The Newton iteration is considered complete when the residual's norm falls below $\varepsilon$.
+If the system is scaled to around an order of one, common default values of $\varepsilon$ falls in the range of $10^{-6}$ to $10^{-8}$.
+The second parameter is the constant used in the proportional back-tracker $\tau$.
+The value of $\tau$ is arbitrary but a good value has been found to be $0.5$.
+
+The motivation and derivation of Newton's method for solving non-linear equations is now complete.
+The next item to be explained is how to efficiently solve the linear system, as shown on \cref{Algo:Newton:Line:Solve} of \cref{Algo:Newton}, and how the manner in which the system is solved will allow to preclusion of calculating and inverting the Jacobian.
 
 
 
@@ -150,14 +283,14 @@ Krylov methods are a class of techniques used to solve linear systems of the for
     A x = b
     \label{Eqn:BasicLinearProblem}
 \end{equation}
-where $x$ and $b$ are $N \by 1$ vectors and $A$ is an $N \by N$ nonsingular matrix.
+where $x$ and $b$ are $n \by 1$ vectors and $A$ is an $n \by n$ nonsingular matrix.
 Different methods place other limitations on $A$, but a required condition for all methods is that the coefficient matrix $A$ be invertible.
 The exact solution to \cref{Eqn:BasicLinearProblem} is simply
 \begin{equation}
     x = A^{-1} b.
     \label{Eqn:BasicLinearSolution}
 \end{equation}
-Although trivially written, if $N$ is large, the exact inversion of $A$ can be computationally and memory intensive.
+Although trivially written, if $n$ is large, the exact inversion of $A$ can be computationally and memory intensive.
 The computational cost of inverting $A$ is only exacerbated when solving nonlinear problems with a Newton-like scheme since several, if not many, linear solves are required to make one nonlinear advancement.
 
 Krylov methods aim to provide an approximate solution to \cref{Eqn:BasicLinearProblem} without ever forming the inverse of $A$ explicitly.
@@ -168,8 +301,8 @@ The section will conclude with the particular Krylov method used for this work: 
 
 
 \subsection{Inverse-free Form}
-Let $x_N$ represent the exact solution to \cref{Eqn:BasicLinearProblem} and $x_0$ represent an initial guess to the solution.
-Assuming the problem is solvable, there exists some $\Delta{x}$ such that $x_N = x_0 + \Delta{x}$.
+Let $x_n$ represent the exact solution to \cref{Eqn:BasicLinearProblem} and $x_0$ represent an initial guess to the solution.
+Assuming the problem is solvable, there exists some $\dx$ such that $x_n = x_0 + \dx$.
 Therefore, the residual vector for the initial guess from the solution would be
 \begin{equation}
     r_0 = b - A x_0
@@ -181,74 +314,190 @@ Isolating $b$ on the left-hand side and multiplying through by $A^{-1}$ then giv
 \end{equation}
 Substituting this into \cref{Eqn:BasicLinearSolution} gives
 \begin{equation}
-    x_N = x_0 + A^{-1} r_0.
+    x_n = x_0 + A^{-1} r_0.
     \label{Eqn:SolutionResidualForm}
 \end{equation}
 The burden of calculating $A$'s inverse is still present.
-To avoid this problem, we use a result of the Cayley-Hamilton theorem: the inverse of a square $N \by N$ matrix can be expressed as a linear combination of the matrix's powers from $0$ to $N-1$.
+To avoid this problem, we use a result of the Cayley-Hamilton theorem: the inverse of a square $n \by n$ matrix can be expressed as a linear combination of the matrix's powers from $0$ to $n-1$.
 To wit, given the proper weights $c_i$, the following equality is satisfied: $A^{-1} = \sum c_i A^i$.
 Substituting this expansion into \cref{Eqn:SolutionResidualForm} yields
 \begin{equation}
-    x_N = x_0 + \sum_{i = 0}^{N-1} c_i A^i r_0.
+    x_n = x_0 + \sum_{i = 0}^{n-1} c_i A^i r_0.
     \label{Eqn:ExactKrylovSolution}
 \end{equation}
 The true solution to the problem is now in a form that incorporates some initial guess and is free of matrix inversions.
 However, the weights $c_i$, which are required for the equality to hold, are based on $A$'s characteristic polynomial.
-Calculating these weights exactly are, as in the explicit calculation of the inverse, difficult to efficiently compute for large $N$ and, as will be explored in the following section, an approximation must be made for tractability.
+Calculating these weights exactly are, as in the explicit calculation of the inverse, difficult to efficiently compute for large $n$ and, as will be explored in the following section, an approximation must be made for tractability.
 
 
 \subsection{Generic Krylov Methods}
 
-The set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$, denoted $\mathcal{K}_N(A,r_0)$, and is the basis for all Krylov methods.
-The set is of dimension $N$ and will hereafter be referred to as the full subspace.
+The set of vectors $\{A^i r_0\}$ present in \cref{Eqn:ExactKrylovSolution} is called the Krylov subspace of $A$, denoted $\mathcal{K}_n(A,r_0)$, and is the basis for all Krylov methods.
+The set is of dimension $n$ and will hereafter be referred to as the full subspace.
 Typically, the methods to be discussed use a variable number $m$ of lower dimensional spaces that will likewise be denoted $\mathcal{K}_m(A,r_0)$.
 
-The approximate solution formed by Krylov methods is based on one simplification to \cref{Eqn:ExactKrylovSolution}: only form a subset of the full subspace as needed.
-At every $i$-th iteration of a Krylov method, a Krylov subspace vector is generated through an application of the matrix $A$and added to the current vector set $\mathcal{K}_m(A,r_0)$.
-Since the subspace is grown through a process akin to power iteration, the newly generated vector is typically orthogonalized against all previously added vectors through any appropriate process (e.g., Gram-Schmidt) to ensure good conditioning.
+The approximate solution formed by Krylov methods is based on one simplification to \cref{Eqn:ExactKrylovSolution}: only form a subset of the full subspace; the idea being that the true solution in the full subspace may not be far from the subset.
+At every $m$-th iteration of a Krylov method, a new vector from the Krylov subspace is generated through the application of the matrix $A$ to the previous vector and added to the current vector set $\mathcal{K}_m(A,r_0)$.
+Since the subspace is grown through a process akin to power iteration, the newly generated vector is typically orthogonalized against all previous vectors through any appropriate process (e.g., Gram-Schmidt) to ensure good conditioning.
 This vector set is then used as the basis for the approximate solution to the linear problem.
-The set is grown and approximate solution updated until the norm of the residual is sufficiently low (typically, a user-defined criterion).
-The maximum number of basis vectors needed varies by problem, but it is guaranteed that the approximation will reach the true solution once the full subspace is formed (assuming exact arithmetic).
+The set is grown and approximate solution updated until the norm of the residual is sufficiently low.
+The maximum number of basis vectors needed varies by problem, but it is guaranteed that the approximation will reach the true solution once the full subspace is formed.
 
 
-Let $Z_m$ be an $N \by m$ matrix whose columns form a basis for $\mathcal{K}_m(A,r_0)$ and $w_m$ be an $m \by 1$ weight vector (analogous to the aforementioned $c_i$).
-At the $m$-th iteration of the Krylov method, a new approximate solution $\Delta{x}_m$ is calculated from the linear combination $Z_m w_m$.
+In terms of linear algebra, let $Z_m = \irowvec{z_1,z_2,...,z_m}$ be an $n \by m$ matrix whose columns form a basis for $\mathcal{K}_m(A,r_0)$ and $w_m = \icolvec{\omega_1,\omega_2,...,\omega_m}$ be an $m \by 1$ weight vector (analogous to the aforementioned $c_i$).
+Starting with $z_1 = r_0/\|r_0\|$, at every $m$-th iteration, generate a new vector in the Krylov subspace by applying $A$ to the previous vector: $z_m = A z_{m-1}$.
+If desired, $z_m$ may be made orthogonal to all previous vectors via any appropriate algorithm.
+A new solution direction $\dx_m$ is then found by calculating the weight vector $w_m$ with $z_m$ added into the Krylov expansion.
 Therefore, the $m$-th approximate solution is
 \begin{equation}
-    x_m = x_0 + \Delta{x}_m = x_0 + Z_m w_m.
-    \label{Eqn:ApproximateKrylovSolution}
+    x_m = x_0 + \dx_m = x_0 + Z_m w_m \label{Eqn:ApproximateKrylovSolution}
 \end{equation}
-A side effect of forming only a subset of the full subspace is that the weights $w_m$ are no longer based on $A$'s characteristic polynomial.
+with the associated residual
+\begin{equation}
+    r_m = r_0 - A\dx_m = r_0 - A Z_m w_m \label{Eqn:ApproximateKrylovResidual}
+\end{equation}
+Two side effects of iteratively growing the basis matrix $Z_m$ are that the weights are no longer based on $A$'s characteristic polynomial and the resulting system to solve for the weights is overdetermined as long as $m < n$.
 To remedy this problem, Krylov methods define an optimality condition that results in weights that attempt to reduce the residual every iteration.
 
 
-Since Krylov methods are a family, a specific method arises from consideration of $A$'s structure, choice of the basis vectors for $Z_m$, and a choice of optimality condition.
+Since Krylov methods are a family, a specific method arises from consideration of $A$'s structure, choice of optimality condition, and choice of the basis vectors for $Z_m$.
 GMRES will give concreteness to these three choices.
 
 
 \subsection{GMRES}
-First presented by Saad and Schultz in 1986 (\NeedReference{}), GMRES is a Krylov method designed to solve any invertible matrix $A$.
-For every iteration $m$ of the method, a new approximate solution is calculated from the minimization problem
-\begin{equation}
-    x_m = \ArgMin\|b - A x_m\|_2^2
-\end{equation}
-Using \cref{Eqn:InitialResidual,Eqn:ApproximateKrylovSolution}, the minimization problem can be rewritten in terms of the unknown weights:
-\begin{equation}
-    w_m = \ArgMin\|r_0 - A Z_m w_m\|_2^2.
-    \label{Eqn:WeightMinimization}
-\end{equation}
-However, subject to this condition, the methodology of Krylov methods presents a new problem since only a subset of the full subspace is formed: solving for the unknown weights is an over-constrained problem.
-The original method from 1986 proposed an iteratively grown Hessenberg decomposition, but this work implements the procedure of \NeedReference{} that maintains a persistent QR factorization of the problem.
+First presented by Saad and Schultz in 1986, GMRES is a Krylov method designed to solve any linear system with an invertible matrix $A$ \cite{saad_gmres_1986}.
+Because GMRES does not require any other special structure, it is well-suited for generic, unsymmetrical problems.
+Of course, with the power to solve any invertible system comes a burden of mathematical and computational complexity when compared to more specialized Krylov methods.
 
-The coefficient matrix for \cref{Eqn:WeightMinimization} is the $N \by m$ matrix $A Z_m$  with $m < N$.
-The QR factorization of that matrix has the form
+The algorithm is developed with the goal of solving the minimization problem
+\begin{equation}
+    \dx_m = \ArgMin_{\dx_m^*} \|r_0 - A \dx_m^*\|_2^2.
+    \label{Eqn:GMRESMinimization}
+\end{equation}
+Therefore, the $m$-th solution direction is the one which minimizes the associated residual $r_m$.
+If the solution direction has $n$ free parameters, the minimization problem is equivalent to exactly solving the full linear system.
+However, if the direction is limited to $m < n$ free parameters, the problem is one of least squares.
+The least squares problem is the one to be solved because GMRES aims to solve the linear system without a full matrix inversion.
+
+\begin{figure}[b]%
+    \begin{subfigure}[t]{0.33\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=2,radius=0.1]
+            \newcommand{\Ax}{0.5}
+            \newcommand{\Bx}{1}
+            \newcommand{\By}{1.5}
+            \newcommand{\gammaA}{71.565051}
+            \coordinate (O)  at  (0,0);
+            \coordinate (A)  at  (\Ax,0);
+            \coordinate (B)  at  (\Bx,\By);
+            \coordinate (AB) at  ( \Ax*2/3 + 1*1/3 , 0*2/3 + \By*1/3);
+            \coordinate (OB) at  (\Bx/2,\By/2);
+            \coordinate (OA) at  (\Ax/2,0/2);
+            %
+            %   Trianlge
+            \draw node[left] {$O$} (O)   -- (A) -- (B) -- (O);
+            %
+            %   Angle marker
+            \draw (A)  ++(-0.1,0) arc[start angle = 180, end angle = \gammaA];
+            %
+            %   Labels
+            \draw (OB) node[left]  {$r_0\;$};
+            \draw (OA) node[below] {$A\dx$};
+            \draw (AB) node[right] {$r_m$};
+            %
+            %   Orthogonal line
+            \draw[color=gray,dashed] (\Ax,0) -- (\Bx,0) -- (\Bx,\By);
+            \draw[color=gray,dashed] (\Bx,0)  ++(-0.1,0) -- ++(0,0.1) -- ++(0.1,0);
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.325\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=2,radius=0.1]
+            \newcommand{\Ax}{1}
+            \newcommand{\Bx}{1}
+            \newcommand{\By}{1.5}
+            \newcommand{\gammaA}{90}
+            \coordinate (O)  at  (0,0);
+            \coordinate (A)  at  (\Ax,0);
+            \coordinate (B)  at  (\Bx,\By);
+            \coordinate (AB) at  (\Ax/2+1/2,0/2+\By/2);
+            \coordinate (OB) at  (\Bx/2,\By/2);
+            \coordinate (OA) at  (\Ax/2,0/2);
+            \draw node[left] {$O$} (O)   -- (A) -- (B) -- (O);
+            \draw (A)  ++(-0.1,0) -- ++(0,0.1) -- ++(0.1,0);
+            \draw (OB) node[left] {$r_0\;$};
+            \draw (OA) node[below]  {$A\dx$};
+            \draw (AB) node[right] {$\;r_m$};
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.33\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=2,radius=0.1]
+            \newcommand{\Ax}{1.8027756}
+            \newcommand{\Bx}{1}
+            \newcommand{\By}{1.5}
+            \newcommand{\gammaA}{118.15496624}
+            \coordinate (O)  at  (0,0);
+            \coordinate (A)  at  (\Ax,0);
+            \coordinate (B)  at  (\Bx,\By);
+            \coordinate (AB) at  (\Ax/2+1/2,0/2+\By/2);
+            \coordinate (OB) at  (\Bx/2,\By/2);
+            \coordinate (OA) at  (\Ax/2,0/2);
+            \draw node[left] {$O$} (O)   -- (A) -- (B) -- (O);
+            \draw (A)  ++(-0.1,0) arc[start angle = 180, end angle = \gammaA];
+            \draw (OB) node[left] {$r_0\;$};
+            \draw (OA) node[below]  {$A\dx$};
+            \draw (AB) node[right] {$\;r_m$};
+            %
+            %   Orthogonal line
+            \draw[color=gray,dashed] (\Bx,0) -- (\Bx,\By);
+            \draw[color=gray,dashed] (\Bx,0)  ++(-0.1,0) -- ++(0,0.1) -- ++(0.1,0);
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Two-dimensional analogue of the $n$-dimensional triangle that motivates the optimality condition: the length of $r_m$ is minimal when it is orthogonal to $A\dx_m$.}%
+    \label{Fig:TriangleExample}%
+\end{figure}
+
+The least squares problem is solved by finding the $m$-th residual vector $r_m$ that lies orthogonal to the $A$-projection of the current Krylov subspace:
+\begin{equation}
+    r_m \perp A \mathcal{K}_m(A,r_0)
+\end{equation}
+Noting that $\dx_m \in \mathcal{K}_m(A,r_0)$, this requirement of orthogonality can be seen by considering the equality $r_0 = r_m + A\dx_m$.
+If $r_0$ lies within the plane $A \mathcal{K}_m(A,r_0)$, it can be exactly found as a linear combination of the basis vectors $Z_m$, and $r_m$ must be exactly $0$ to honor the balance.
+If it lies outside of the plane, the closest $A\dx_m$ can approach $r_0$ is its orthogonal projection onto the plane with $r_m$ representing the components that lie outside the current subspace.
+\Cref{Fig:TriangleExample} shows a simple two-dimensional triangle analogue of this situation: assuming $r_0$ is not parallel to $A\dx_m$, $r_m$ has its shortest, non-zero length when it is perpendicular to $A\dx_m$.
+
+The final choice to be made for the implementation of GMRES is that of the vectors used to form $Z_m$.
+The so-called classic GMRES of Saad and Schultz proposed an iteratively grown orthonormal basis for $\mathcal{K}_m(A,r_0)$ and used those vectors to form $Z_m$ \cite{saad_gmres_1986}.
+The choice of basis is natural since the solution lies in the Krylov subspace.
+However, this choice of basis leads to a least-squares problem involving a Hessenberg matrix which itself requires a QR decomposition for efficient solution of the least-sqaures problerm.
+As such, a version called Simpler GMRES was later developed by Walker and Zhou to build an orthonormal basis for $A\mathcal{K}_m(A,r_0)$ and use those basis vectors to form $Z_m$.
+The choice of vectors in Simpler GMRES leads directly to a QR factorization and is therefore simpler to implement; however, the choice also leads to a method that is inherently less stable than the classic method.
+As such, this work implements Adaptive Simpler GMRES (ASGMRES) due to Jir\'{a}nek and Rozlo\v{z}n\'{i}k which switches between the basis of Simpler GMRES and a basis formed from the sequence of residuals from the iterative solution.
+To wit, at the $m$-th iteration of the solution, given a Simpler GMRES basis vector $q_{m-1}$ and residuals from two previous iterations ${r_{m-1}\,,\,r_{m-2}}$, the vector $z_m$ is assigned thusly:
+\begin{equation}
+    z_m =
+    \begin{cases}
+        r_{m-1}/\|r_{m-1}\|_2,\quad\text{if } \|r_{m-1}\|_2 < \nu\|r_{m-2}\|_2 \\
+        q_{m-1},\quad\text{otherwise}
+    \end{cases}.
+\end{equation}
+The reasoning behind switching between the two sets is that one is more stable if the residuals are decreasing sharply and the other is more stable if the residuals are decreasing slowly.
+The parameter $\nu$, which is bounded between $0$ and $1$, is used to determine what decrease is sufficient enough to warrant the use of the residual vectors.
+
+With the choice of basis vector for $Z_m$ complete, the problem of solving the least-squares problem is all that remains.
+From \cref{Eqn:ApproximateKrylovResidual}, an equivalent form of \cref{Eqn:GMRESMinimization} is
+\begin{equation}
+    w_m = \ArgMin_{w_m^*}\|r_0 - A Z_m w_m^*\|_2^2\label{Eqn:WeightMinimization}.
+\end{equation}
+The QR factorization of the $n \by m$ coefficient matrix $A Z_m$ has the form
 \begin{equation}
     A Z_m
     =
     \widetilde{Q}_m \widetilde{R}_m 
     =
     \begin{bmatrix}
-        Q_m & \times
+        Q_m & Q_{n-m}
     \end{bmatrix}
     \begin{bmatrix}
         R_m   \\
@@ -256,43 +505,165 @@ The QR factorization of that matrix has the form
     \end{bmatrix} = 
         Q_m R_m
 \end{equation}
-where $\widetilde{Q}_m$ is an $N \by N$ orthogonal matrix, $\widetilde{R}_m$ is a full rank  rectangular matrix, $Q_m$ is an $N \by m$ rectangle, and $R_m$ is an $m \by m$ upper-triangular matrix.
+where $\widetilde{Q}_m$ is an $n \by n$ orthogonal matrix, $\widetilde{R}_m$ is an $n \by m$ full rank rectangle, $Q_m$ is an $n \by m$ orthogonal rectangle, $Q_{n-m}$ is an $n \by (n-m)$ orthogonal rectangle, and $R_m$ is an $m \by m$ upper-triangular matrix.
 The matrices $\widetilde{Q}_m$ and $\widetilde{R}_m$ comprise what is called the full factorization, and $Q_m$ and $R_m$ comprise the reduced factorization.
 
-The QR factorization makes solving the minimization problem straightforward.
-There are three key properties of the orthogonal matrix $\widetilde{Q}_m$ that aid in this solution: the transpose $\widetilde{Q}^T_m$ is also the inverse, the transpose is also orthogonal, and orthogonal matrices do not change the $2$-norm of a vector ($\|Qx\|_2 = \|x\|_2 $).
-
-Using the QR factorization of the coefficient matrix and the properties of $\widetilde{Q}_m$, \cref{Eqn:WeightMinimization} has the equivalent form
-\begin{align*}
-    w_m &= \ArgMin\|                   r_0 - \widetilde{Q}_m \widetilde{R}_m w_m \|_2^2 \\
-        &= \ArgMin\|\widetilde{Q}^T_m (r_0 - \widetilde{Q}_m \widetilde{R}_m w_m)\|_2^2 \\
-        &= \ArgMin\|\widetilde{Q}^T_m  r_0 -                 \widetilde{R}_m w_m \|_2^2
-\end{align*}
-The problem can be further simplified using the reduced factorization to yield
+The minimization problem can be reduced to a solvable, square system using the QR factorization.
+Three key properties of the orthogonal matrix $\widetilde{Q}_m$ aid in this reduction: the transpose $\widetilde{Q}^T_m$ is also the inverse, the transpose is also orthogonal, and orthogonal matrices do not change the $2$-norm of a vector ($\|Qx\|_2 = \|x\|_2 $).
+Introducing the full QR factorization into the minimization problem and using the properties of $\widetilde{Q}_m$, \cref{Eqn:WeightMinimization} has the equivalent forms
 \begin{equation}
-    w_m = 
-        \ArgMin
-            \|
-                Q^T_m  r_0
-                -
-                R_m w_m
-            \|_2^2
+    w_m =\ArgMin\left\|\widetilde{Q}^T_m  r_0 - \widetilde{R}_m w_m \right\|_2^2
 \end{equation}
-Since the bottom $N-m$ rows of $\widetilde{R}_m$ are $0$, the reduced factorization omits them and presents a square, invertible system.
-The weights can now be calculated from the linear system
+The problem can be further simplified using the reduced factorization to yield
+\begin{align*}
+    w_m &= \ArgMin\left\|
+                \begin{bmatrix}
+                    Q^T_m  r_0 - R_m w_m \\
+                    Q^T_{n-m} r_0
+                \end{bmatrix}
+            \right\|_2^2 \\
+        &= \ArgMin  \left(
+                        \left\|Q^T_m  r_0 - R_m w_m\|_2^2 + \|Q^T_{n-m}r_0\right\|_2^2
+                    \right)
+\end{align*}
+Since the quantity $\|Q^T_{n-m}r_0\|_2^2$ is independent of the weights, the minimization is achieved by solving the term involving the reduced factorization to render its norm zero.
+The weights are therefore calculated from the square, linear system
 \begin{equation}
     R_m w_m = Q^T_m  r_0
 \end{equation}
+With the weights now known, an approximate solution can be found and the residual checked for convergence against some tolerance.
 
-
-
+While calculating the weights and explicitly evaluating the residual every iteration is possible, that procedure will greatly slow down the solution as $R_m$ becomes large.
+A way around this problem is to recall that the $r_m$ lies perpendicular to $A\mathcal{K}_m(A,r_0)$ and the columns of $Q_m = \irowvec{q_1,q_2,...,q_m}$ form an orthonormal basis for $A\mathcal{K}_m(A,r_0)$.
+As such, $r_m$ can be calculated by an orthogonal projection using the $Q_m$:
+\begin{equation}
+    r_m = (I - Q_m \transpose{Q_m})r_0 = (I - q_m \transpose{q_m})r_{m-1} = r_{m-1} - (\transpose{q_m}r_{m-1})\,q_m
+\end{equation}
+This formula allows for the calculation of the $m$-th residual without explicitly calculating $w_m$ and will therefore greatly increase the efficiency of the implementation
 
 
 \subsection{Algorithm}
 
+A full outline of an implementation of ASGMRES is given in \cref{Algo:ASGMRES}.
+The absolute convergence tolerance $\varepsilon$ and residual decrease ratio $\nu$ are two additional inputs to the required pieces of the linear system itself.
+A full explanation of the QR factorization as shown on \cref{Algo:ASGMRES:Line:UpdateQR1,Algo:ASGMRES:Line:UpdateQR2} is omitted for brevity.
+The final solution of the linear system for the weights will also be omitted, but since $R_m$ is upper-triangular, the solution is simply one of back-substitution.
 
+\begin{algorithm}[t]
+    \setstretch{1.2}
+    \caption{Solve a linear system using Adaptive Simple GMRES}
+    \label{Algo:ASGMRES}
+    \SetKwFunction{ASGMRES}{asgmres}
+    \SetKw{UpdateQR}{UpdateQR}
+    \SetKw{Solve}{Solve}
+    \SetKw{Return}{Return}
+    \Function{\ASGMRES{$x_0,\,A,\,b,\,\varepsilon,\,\nu$}}{
+        $r_0 = b - A x_0$\tcm{Initialization}
+        $z_1 = r_0/\|r_0\|_2$\;
+        \UpdateQR$A Z_1 = Q_1 R_1$\;
+        \label[algoLine]{Algo:ASGMRES:Line:UpdateQR1}
+        $r_1 = r_0 - (\transpose{q_1}r_{0})\,q_1$\;
+        $m = 2$\;
+        $r_{m-2} = r_0$\;
+        $r_{m-1} = r_1$\;[0.75em]
+        
+        \While(\tcm*[h]{begin building the Krylov solution}){$\|r_{m-1}\|_2 > \varepsilon$}{
+            \nonl\;[-1em]
+            \uIf(\tcm*[h]{choose the next basis vector}) {$\|r_{m-1}\| < \nu \|r_{m-2}\|$} {
+                $z_m = r_{m-1}/\|r_{m-1}\|_2$\;
+            } \Else {
+                $z_m = q_{m-1}$\;
+            }
+            \nonl\;[-1em]
+            \UpdateQR$A Z_m = Q_m R_m$\;[0.1em]
+            \label[algoLine]{Algo:ASGMRES:Line:UpdateQR2}
+            $r_{m-2} = r_{m-1}$\;
+            $r_{m-1} = r_{m-1} - (\transpose{q_m}r_{m-1})\,q_m$\;
+            $m = m + 1$\;
+        }
+        \nonl\;[-1em]
+        \Solve $R_m\,w_m = \transpose{Q_m}r_{m-1}$\;[0.1em]
+        $x_m = x_0 + Z_m w_m$\;
+        \Return $x_m$\;
+    }
+\end{algorithm}
+
+
+
+\clearpage
 \section{Jacobian-Free Augmentation}
 
+With both Newton's method and ASGMRES explained, a Jacobian-free non-linear solver can now be discussed.
+Using the ASGMRES implementation discussed to solve the linear system for the Newton direction, the QR-factorization in ASGMRES becomes $J_r(x_k) Z_m = Q_m R_m$.
+This is the only manner in which the Jacobian affects ASGMRES; it only appears as a sequence of matrix-vector products on the left-hand side of the QR-factorization:
+\begin{equation}
+    J_r(x_k) Z_m = \irowvec{J_r(x_k)z_1,J_r(x_k)z_2,...,J_r(x_k)z_m}
+\end{equation}
+Because each row of the Jacobian is a gradient of the associated function from $r(x_k)$, the matrix-vector product results in a dot product of the vector $z_m$ with all of the gradients which produces a vector of directional derivative values.
+Therefore, the resulting product is ins some sense a directional derivative and may be approximated by a finite difference.
+That is to say, the following approximation may be introduced to eliminate the Jacobian's explicit presence:
+\begin{equation}
+    J_r(x_k)z_m \approx \frac{r(x_k + \sigma\,z_m) - r(x_k)}{\sigma},
+    \label{JFNK:Eqn:FiniteDifference}
+\end{equation}
+where $\sigma$ is a small number.
+To see why this approximation is valid, consider the Taylor series of $r(x_k + \sigma\,z_m)$ about $x_k$
+\begin{equation}
+    r(x_k + \sigma\,z_m) = r(x_k) + J_r(x_k)\sigma\,z_m + c(x_k,\sigma\,z_m).
+\end{equation}
+Substituting this expansion into \cref{JFNK:Eqn:FiniteDifference} sans the higher-order terms yields the approximate balance and yields an equality with the higher-order terms in the limit of $\sigma$ going to zero.
+So the $m$-th column of the left-hand side of the QR-factorization can be approximately computed using the approximation.
+And because everything is being solved approximately to a tolerance anyways, one more approximation, especially one that greatly reduces the computational complexity of the solution, is not detrimental to the overall solution.
+
+A modified ASGMRES algorithm is presented in \cref{Algo:JFGMRES}.
+The only change is instead of performing the matrix-matrix product $A Z_m$, a new matrix $L$ is introduced that holds the matrix-vector columns from the Jacobian's action on the basis vectors $z_m$.
+Also, since $\dx_k$ is meant to be small, the guess value is taken to be the zero vector and the only $x$ value needed is that of the current Newton expansion point.
+
+\begin{algorithm}[ht]
+    \setstretch{1.1}
+    \caption{Solve for a Newton update using ASGMRES with no Jacobian}
+    \label{Algo:JFGMRES}
+    \SetKwFunction{JFGMRES}{jfgmres}
+    \SetKw{UpdateQR}{UpdateQR}
+    \SetKw{Solve}{Solve}
+    \SetKw{Return}{Return}
+    \Function{\JFGMRES{$x_k,\,r,\,\varepsilon,\,\nu,\,\sigma$}}{
+        $r_0 = -r(x_k)$\tcm{Initialization}
+        $z_1 = r_0/\|r_0\|_2$\;[0.5em]
+        $ L = \frac{r(x_k + \sigma\,z_1) - r(x_k)}{\sigma}$
+         \tcm*[h]{Store the first approximate column of $J_r(x_k) z_1$}\;[0.5em]
+        \UpdateQR$L = Q_1 R_1$\;
+        $r_1 = r_0 - (\transpose{q_1}r_{0})\,q_1$\;
+        $m = 2$\;
+        $r_{m-2} = r_0$\;
+        $r_{m-1} = r_1$\;[0.75em]
+        
+        \While(\tcm*[h]{begin building the Krylov solution}){$\|r_{m-1}\|_2 > \varepsilon$}{
+            \nonl\;[-1em]
+            \uIf(\tcm*[h]{choose the next basis vector}) {$\|r_{m-1}\| < \nu \|r_{m-2}\|$} {
+                $z_m = r_{m-1}/\|r_{m-1}\|_2$\;
+            } \Else {
+                $z_m = q_{m-1}$\;
+            }
+            \nonl\;[-1em]
+            $ L = \left[L\,,\,\frac{r(x_k + \sigma\,z_m) - r(x_k)}{\sigma}\right]$
+            \tcm*[h]{concatenate the new column with all previous columns}\;[0.5em]
+            \UpdateQR$L = Q_m R_m$\;[0.1em]
+            $r_{m-2} = r_{m-1}$\;
+            $r_{m-1} = r_{m-1} - (\transpose{q_m}r_{m-1})\,q_m$\;
+            $m = m + 1$\;
+        }
+        \nonl\;[-1em]
+        \Solve $R_m\,w_m = \transpose{Q_m}r_{m-1}$\;[0.1em]
+        $x_m = x_0 + Z_m w_m$\;
+        \Return $x_m$\;
+    }
+\end{algorithm}
+
+
+
+\bibliography{../Sources}
+\bibliographystyle{plain}
 
 \end{document}
 
