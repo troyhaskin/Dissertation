@@ -341,6 +341,16 @@
 }
 \ExplSyntaxOff
 
+\DeclareDocumentCommand \rNL { m } {%
+    r_{\mkern-4mu\text{\tiny\textsc{nl}}}
+    \IfEmptyTF{#1} { } {
+        \mkern-2mu(#1)
+    }
+}
+\DeclareDocumentCommand \DrNL { m } {
+    D\mkern-1.25mu\rNL{#1}
+}
+
 
 
 \newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
@@ -371,3 +381,5 @@
   \setlength{\abovedisplayshortskip}{0.25\baselineskip}%
   \setlength{\belowdisplayshortskip}{0.25\baselineskip}%
 }
+
+
