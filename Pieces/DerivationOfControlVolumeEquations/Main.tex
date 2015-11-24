@@ -1,7 +1,7 @@
 % ===================================================================================== %
 %                                        Header                                         %
 % ===================================================================================== %
-\documentclass[Prelim,12pt]{WisconsinThesis}
+\documentclass[12pt]{../UWMadThesis}
 
 \usepackage{bookmark}
 \usepackage{import}
@@ -13,28 +13,8 @@
 \usepackage{multirow}
 \usepackage{microtype}
 
-\input{HelperCommands}
-\newcommand{\NeedReference}{\colorbox{yellow}{\textsc{need reference}}}
-\DefaultFileName{Main}
-\graphicspath{{./Graphics/}}
+\input{../HelperCommands}
 
-\let\bar\overline
-\newcommand{\pdt}   {\partial_t}
-\newcommand{\pdz}   {\partial_z}
-\newcommand{\pdi}   {\partial_i}
-\newcommand{\pdj}   {\partial_j}
-\newcommand{\V}     {\ensuremath{\Omega}}
-\newcommand{\dV}    {\,\partial\V}
-\newcommand{\IntV}  {\int_{\V}}
-\renewcommand{\S}   {\ensuremath{\Gamma}}
-\newcommand{\dS}    {\,\partial\S}
-\newcommand{\IntS}  {\int_{\S}}
-\newcommand{\q}     {\ensuremath{q}}
-\newcommand{\qi}    {\ensuremath{q_i}}
-
-\DeclareMathOperator*{\Lim}{Lim}
-\DeclareMathOperator {\Cos}{Cos}
-\DeclareMathOperator {\Sin}{Sin}
 
 \doublespacing
 
@@ -243,7 +223,7 @@ From experiment, Newton observed that a proportional relationship exists between
 Stokes then extended this proportional relationship to higher dimensions by making three assumptions: the tensor is a linear function of strain, the fluid is isotropic, and the tensor's divergence must be zero for a fluid at rest (such that pressure is the only extant surface force).
 With all of these observations and assumptions considered, the Newton stress tensor model (sometimes described as a compressible model) is defined by the equation:
 \begin{equation}
-    \tau_{ij} = \mu \left(\pdiff{u_i}{x_j} + \pdiff{u_j}{x_i}\right) + \lambda \delta_{ij} \pdiff{u_k}{x_k}
+    \tau_{ij} = \mu \left(\pderiv{u_i}{x_j} + \pderiv{u_j}{x_i}\right) + \lambda \delta_{ij} \pderiv{u_k}{x_k}
 \end{equation}
 where $\mu$ is the dynamic viscosity and $\lambda$ is the bulk viscosity.
 
