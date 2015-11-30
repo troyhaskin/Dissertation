@@ -20,30 +20,32 @@
 
 \begin{document}
 
-\chapter{Theory}
 
-The theory encompassed by this work can be divided into four basic parts: conservation laws, thermohydraulics, numerical methods, and stability.
-Conservation laws, such as those for momentum and energy, form a fundamental basis of analysis in all branches of science.
-Therefore, a precise definition for a generic conserved quantity and an associated conservation law will be given.
-Following this generic treatment, the specific conservation laws for thermohydraulics will be presented.
-Numerical methods for solving the thermohydraulic conservation laws will then be given.
-Finally, the stability theory for the thermohydraulic system will be discussed.
+\chapter{Governing Equations}
 
-\section{Conservation Laws}
-\label{CLawDefinition}
+The governing equations to be solved for the fluid system will now be delineated.
+A general discussion of conservation laws is presented first and then the specific thermohydraulic equations.
+The section will conclude with the constitutive relations used to close the system of thermohydraulic equations.
+The equations and relations are presented in their most general forms appropriate to fluid modeling for theoretical completeness.
+However, certain aspects of the presented equations will not be incorporated into the final results, as will be discussed in the numerical methods section, for tractability.
 
-\subsection{Scalar Form}
-A conserved quantity \q{} refers to any physical property whose time evolution within an arbitrary, closed volume exactly balances with its surface fluxes and volume sources.
-For the purpose of mathematical discussion and analysis, the conserved quantity \q{} will simultaneously represent a function of space and time that conforms to the requirements of the physical property.
-These definitions define the following scalar conservation law over a volume \V{} with a closed surface \S{}:%
-\begin{equation}%
-    \pdt\!\IntV \q(x_i,t) \dV = \IntS -F_i(\q,x_i,t) n_i\dS + \IntV S(\q,x_i,t) \dV,
+
+\section{Conservation Laws}\label{CLawDefinition}
+
+A \textit{conserved quantity} \q\ is taken to be any physical property whose time evolution within an arbitrary, closed volume exactly balances with its surface fluxes and volume sources.
+For the purpose of mathematical discussion and analysis, the conserved quantity \q\ will simultaneously represent a function of space and time that conforms to the requirements of the physical property.
+These definitions define the following scalar \textit{conservation law} over a volume \V\ with an enclosing surface \S:
+\begin{equation}
+    \deriv{}{t}\!  \IntV \q(x_i,t) \dV = \IntS -F_i(\q,x_i,t) n_i\dS + \IntV S(\q,x_i,t) \dV,
     \label{Eqn:GeneralIntegralCLaw}
 \end{equation}
-where $F_i$ is the surface flux of \q{}, $n_i$ is the outward unit normal of the surface \S{}, and $S$ is the volume source of \q{}.
-Such that the units in the equation agree, both \q{} and $S$ are taken on a per volume basis and $F_i$ on a per area basis.
-The negative sign in the surface integral ensures that outward fluxes act as sinks and inward fluxes as sources to the time evolution of \q{}'s volume integral.
+where $F_i$ is a vector of surface flux functions of \q, $n_i$ is the outward unit normal of the surface \S, and $S$ is the volume source of \q.
+Such that the units in the equation agree, both \q\ and $S$ are taken on a per volume basis and $F_i$ on a per area basis.
+The negative sign in the surface integral ensures that outward fluxes act as sinks and inward fluxes as sources to the time evolution of \q's volume integral.
 \Cref{Eqn:GeneralIntegralCLaw} is the most general scalar conservation law that will be presented and is always physically valid regardless of the functions' behaviors.
+
+
+\subsection{Differential Form}
 
 A general conservation law can also be presented in differential form (i.e., as a differential equation).
 First the Divergence Theorem is used to equate the surface integral in \cref{Eqn:GeneralIntegralCLaw} to a volume integral:
@@ -51,29 +53,30 @@ First the Divergence Theorem is used to equate the surface integral in \cref{Eqn
     \IntS -F_i(\q,x_i,t) n_i\dS = \IntV - \pdi F_i(\q,x_i,t) \dV.
     \label{Eqn:SurfToVol}
 \end{equation}
+For simplicity, the volume \V\ is now taken to be fixed in space for all time, although a time-varying derivation with the identical result is possible via the Reynolds Transport Theorem.
 Substituting \cref{Eqn:SurfToVol} into \cref{Eqn:GeneralIntegralCLaw} and moving all terms to the left-hand side gives:
 \begin{equation}%
     \IntV \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) \dV = 0,
     \label{Eqn:PreDifferentialForm}
 \end{equation}
-where the time derivative operator could be moved into the integral since the volume is taken to be time-independent.
-Since the integration volume in \cref{Eqn:PreDifferentialForm} is arbitrary, we take limit of the equality as the volume shrinks to a zero.
+where the time derivative operator could be moved into the integral since the volume is time-independent.
+Since the integration volume in \cref{Eqn:PreDifferentialForm} is arbitrary, taking the limit of the equality as the volume shrinks to a zero gives
 \begin{equation}%
     \Lim_{\V \rightarrow 0}\Biggl[\IntV \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) \dV \Biggr]= 0.
     \label{Eqn:LimitOfPreDifferentialForm}
 \end{equation}
 In this limit, the enforcement of the equality changes from one over a finite volume into one that is enforced at a particular point.
-To ensure point-wise enforcement over a given domain, the integrand itself is required to be equally zero at every point in the domain; this yields the differential conservation law
+To ensure point-wise enforcement over the domain of $x_i$, the integrand itself is required to be equally zero at every point in the domain; this yields the differential conservation law
 \begin{equation}
     \pdt\q(x_i,t) + \pdi F_i(\q,x_i,t) - S(\q,x_i,t) = 0.
     \label{Eqn:GeneralDifferentialCLaw}
 \end{equation}
 When equipped with adequate boundary and initial data, this differential equation defines the requirement for all sufficiently smooth functions that describe how the conserved quantity evolves at every point in space-time.
 
-The differential form may seem cleaner than the integral form, but \emph{it is not valid for all functional forms of \q{}}.
+The differential form may seem cleaner than the integral form, but it is not valid for all functional forms of \q.
 In transitioning from \cref{Eqn:LimitOfPreDifferentialForm} to \cref{Eqn:GeneralDifferentialCLaw}, it is assumed that all functions in the integrand remain bounded.
 If any of the terms within the limit become infinite, the balance cannot be satisfied.
-In particular, if \q{} has an area where it undergoes a discontinuous jump, called a shock, the gradient of the flux is infinite and the differential form is rendered invalid.
+In particular, if \q\ has an area where it undergoes a discontinuous jump, called a shock, the gradient of the flux is infinite and the differential form is rendered invalid.
 While methods that handle shocks in a robust fashion (shock-capturing schemes) are not the focus of this work, it is mentioned for completeness and consideration.
 
 \subsection{Vector Form}
@@ -86,7 +89,7 @@ The integral conservation law for a vector of conserved quantities \qi{} is
     \pdt\!\IntV \qi(x_i,t) \dV = \IntS -F_{ij}(\qi,x_i,t) n_j\dS + \IntV S_i(\qi,x_i,t) \dV,
     \label{Eqn:GeneralIntegralCLawForSystems}
 \end{equation}
-where $F_{ij}$ is a matrix of surface fluxes of \qi{} in the $j$-th direction, $n_j$ is the outward unit normal of the surface \S{}, and $S_i$ is the volume source of \qi{}.
+where $F_{ij}$ is a matrix of surface fluxes of \qi\ in the $j$-th direction, $n_j$ is the outward unit normal of the surface \S, and $S_i$ is the volume source of \qi.
 The integrals of the vector quantities represent element-wise integration.
 A process similar to the scalar case also yields the differential form of the system conservation law:
 \begin{equation}
@@ -124,17 +127,17 @@ The net mass in a control volume or, rather, the volume-integrated density is co
 It is controlled by the background flow field advecting the mass through the boundary.
 Therefore, the integral conservation law for density is
 \begin{equation}
-    \pdt\!\IntV \rho \dV = \IntS -(u_j \rho)n_j\dS + \IntV S^\rho\dV,
+    \deriv{}{t}\!\IntV \rho \dV = \IntS -(u_j \rho)n_j\dS + \IntV S^\rho\dV,
 \end{equation}
 
 \subsection{Conservation of Momentum}
 A control volume's momentum balance is more complicated than the simple in-out mass balance.
 It is inherently a vector quantity, so the combination of mass and the background flow field feed the momentum in a non-linear fashion.
-Also, even though a continuum approximation has been made, there still physical molecular stresses on the boundary must be modeled in some way.
-Lastly, a body force must be added to account for buoyancy effects on the volume relative to the outside universe.
-With all of the above nuances considered, the integral conservation for momentum is taken to be
+Also, even though a continuum approximation has been made, physical molecular stresses on the boundary must still be modeled in some manner for physical solutions in all circumstance.
+Lastly, a body force is be added to account for buoyancy effects on the volume relative to the control volume's surroundings.
+With all of the above nuances considered, the integral conservation of momentum is taken to be
 \begin{equation}
-    \pdt \IntV \rho u_i \dV = \IntS (-u_j \rho u_i) n_j \dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j \dS + \IntV \rho g_i + S^u_i \dV
+    \deriv{}{t} \IntV \rho u_i \dV = \IntS (-u_j \rho u_i) n_j \dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j \dS + \IntV \rho g_i + S^u_i \dV
     \label{Eqn:IntegralCoP}
 \end{equation}
 where $\rho{u_i}$ is the momentum in direction $i$, $u_j$ is the velocity in direction $j$, $\delta_{ij}$ is the Kronecker delta, $P$ is the thermodynamic pressure, $\tau_{ij}$ is the viscous stress tensor, and $g_i$ is the gravitational acceleration in direction $i$.
@@ -142,9 +145,8 @@ A more detailed discussion of the pressure and viscous stress tensor is presente
 
 Each of the terms on the right-hand side of \cref{Eqn:IntegralCoP} stems from the considerations made.
 The first integral represents how the background flow field transports the momentum across the volume's surface.
-The second integral accounts for all of the molecular stresses present in the volume, both normal and tangential.
-The pressure is an ever-present, thermodynamic property of the medium, and the tensor $\tau_{ij}$ accounts for all molecular friction and other deviations from thermodynamic equilibrium.
-The last integral has a source of momentum due to the mass of the volume in addition to the general source $S^u$.
+The second integral accounts for the ever-present thermodynamic pressure of the fluid and all other non-equilibrium molecular friction via the tensor $\tau_{ij}$.
+The last integral has a source of momentum due to the density of the volume and a generic source $S^u_i$.
 
 
 
@@ -171,21 +173,38 @@ All of the integral conservation laws shown above also have differential forms:
 \begin{align}
     \pdt \rho + \pdj(u_j \rho)           &= S^\rho \\
     \pdt (\rho u_i) + \pdj(u_j \rho u_i) &= -\pdi{P} + \pdj \tau_{ij} + \rho g_i + S^u_i \\
-    \pdt (\rho e) + \pdj(u_j \rho{e})    &= -\pdj(u_j P) + \pdj(u_i \tau_{ij}) + \rho g_i u_i + S^e
+    \pdt (\rho e) + \pdj(u_j \rho{e})    &= -\pdj(u_j P) + \pdj(u_i \tau_{ij} - q_j) + \rho g_i u_i + S^e
 \end{align}
 Given the same initial and boundary conditions, these differential equations and their integral counterparts are equivalent for sufficiently smooth solutions.
-As shown here, ``sufficiently smooth'' means that at least all first derivatives must be continuous over the entire solution domain; however, certain constitutive relations  (e.g., for the stress tensor) may place more stringent requirements on continuity.
+As required by the equations listed, ``sufficiently smooth'' means that at least all first derivatives must be continuous over the entire solution domain; however, certain constitutive relations  (e.g., the stress tensor) may place more stringent requirements on continuity.
 
-\subsection{Channel Flow}
+\subsection{Conservation of Bulk Momentum}
+
 All of the above equations are three-dimensional, but in thermohydraulic modeling, it is common practice to collapse the momentum equation to a single, dominant flow direction.
-The result of this dimensional collapse will be called \textit{channel flow} momentum equation.
-The channel flow equation can be created by simply dotting the integral momentum equation with a constant unit vector $z_i$.
+The result of this dimensional collapse results in an equations that conserves \textit{bulk momentum}.
+The bulk flow equation is created by dotting the integral momentum equation with a constant unit vector $z_i$.
 The unit vector represents the physically dominant flow direction for the given volume.
-Performing the dot operation and letting $a_z = a_i z_i$ for any vector $a_i$, the channel flow equation is of the form
+Performing the dot operation and letting $a_z = a_i z_i$ for any vector $a_i$, the bulk flow equation is 
 \begin{equation}
-    \pdt \IntV \rho u_z \dV = \IntS (-u_j \rho u_z) n_j \dS + \IntS - P n_z + \tau_{ij} z_i n_j \dS + \IntV \rho g_z + S^u_z \dV
+    \pdt \IntV \rho u_z \dV = \IntS (-u_j \rho u_z) n_j \dS + \IntS - P n_z + \tau_{ij} z_i n_j \dS + \IntV \rho g_z + S^u_z \dV.
+    \label{Eqn:IntegralCoB}
 \end{equation}
 
+A further implication called \textit{channel flow conservation} is also employed by a number of modeling tools.
+The channel flow equations are derived from bulk momentum conservation by placing the following restrictions on the integration volume:
+\begin{itemize}
+	\item{there are exactly two open surfaces that parallel to one another and perpendicular to the bulk flow direction;}
+	\item{the outward normal the surface connecting the two openings and enclosing the volume is always perpendicular to the bulk flow direction.}
+\end{itemize}
+By imposing these requirements, \cref{Eqn:IntegralCoB} takes on the simpler form
+\begin{equation}
+    \pdt \IntV \rho u_z \dV =
+        \int_{\S_{\text{1}} + \S_{\text{2}}}\mkern-10mu \pm(P + u_z \rho u_z)\dS + 
+        \int_{\S_{\text{w}}} \tau_{ij} z_i n_j \dS + \IntV \rho g\,\Cos(\theta) + S^u_z \dV,
+    \label{Eqn:IntegralCoCF}
+\end{equation}
+where $\S_{\text{1}}$ and $\S_{\text{2}}$ are open surfaces one and two, $\S_{\text{w}}$ is the third (wetted) surface, and $\theta$ is the angle between the bulk flow direction and gravity with counter-clockwise sense.
+The plus-minus accounts for the sign flip which occurs between surfaces one and two, which technically embody inflow and outflow once the sense of the bulk flow direction is chosen.
 
 
 
@@ -203,7 +222,7 @@ The terms of interest are the thermodynamic pressure, viscous stress tensor, and
 Pressure is a macroscopic, thermodynamic property that arises from ensembles of particles exerting forces over some unit area.
 A constitutive relation that relates pressure to other system variables that define the system's state is called an \textit{equation-of-state} (EOS).
 An EOS can be constructed from first principle (microscopic) approaches or thermodynamic potential (macroscopic) approaches and may be composed of one or more equations.
-Regardless of the EOS's construction, it should be able to calculate all relevant thermodynamic properites given two independent properites for a pure fluid \NeedReference{}.
+Regardless of the EOS's construction, it should be able to calculate all relevant thermodynamic properties given two independent properties for a pure fluid \NeedReference{}.
 
 Since there are multiple avenues for creating an EOS, for any given fluid, several may exist; each one varying in complexity of formulation, range of validity, and fidelity to data.
 The choice of EOS is dependent on the importance of each of those three attributes.
@@ -227,17 +246,31 @@ With all of these observations and assumptions considered, the Newton stress ten
 \end{equation}
 where $\mu$ is the dynamic viscosity and $\lambda$ is the bulk viscosity.
 
-
+While the above relation is suitable to \cref{Eqn:IntegralCoP}, the bulk and channel momentum conservation equations require a different relation since the multi-dimensional nature of the flow has been dotted away.
+One such relation is the Fanning friction factor which poses the traction from the walls as a loss of kinetic energy:
+\begin{equation}
+    \tau_{ij} z_i n_j = \Delta{P}_{\text{fan}} =
+        2\,f\subs{\textsc{f}}\,\frac{L\subs{char}}{D\subs{eff}}\,\rho\,v^2,
+\end{equation}
+where $f\subs{\textsc{f}}$ is the Fanning friction factor, $L\subs{char}$ is a characteristic (path) length, and $D\subs{eff}$ is an effective flow diameter.
+The details of what densities and velocities to use is left to the numerical discretization portion that discusses the averaging process.
+The Fanning friction factor is well approximated by the Colebrook-White equation
+\begin{equation}
+    \frac{1}{\Sqrt{f\subs{\textsc{f}}}} = -4 \Log\left(\frac{\varepsilon}{3.71\,D\subs{eff}} + \frac{1.26}{\text{Re}\;\Sqrt{f\subs{\textsc{f}}}}\right),
+\end{equation}
+where $\varepsilon$ is the surface roughness and $\text{Re}$ is the Reynolds number.
 
 
 \subsection{Conductive Flux}
 
+The conductive flux is most often modeled by Fourier's Law:
+\begin{equation}
+    q_j = - \kappa \pdj{T},
+\end{equation}
+where $kappa$ is the thermal conductivity, and $T$ is the thermodynamic Temperature.
+The law is a simple but effective first order linear approximation of true conduction behavior and adds an explicit diffusive component to the conservation of energy equation.
+However, due to that diffusive component, the simulation of thermal conduction is actually not part of this work, as will be discussed in the numerical methods section, but is presented for completeness.
 
-
-
-
-\section{Numerical Methods}
-\section{Stability Theory}
 
 \end{document}
 

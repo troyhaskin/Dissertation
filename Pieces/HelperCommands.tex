@@ -65,7 +65,10 @@
     }
 }
 
-\newcommand{\Del}[1][]{
+\newcommand{\del}[1][]{
+    \dd{}_{#1}
+}
+\newcommand{\pdel}[1][]{
     \partial_{#1}
 }
 
@@ -362,10 +365,10 @@
 \newcommand{\pdi}   {\partial_i}
 \newcommand{\pdj}   {\partial_j}
 \newcommand{\V}     {\ensuremath{\Omega}}
-\newcommand{\dV}    {\,\partial\V}
+\newcommand{\dV}    {\,\dd{\V}}
 \newcommand{\IntV}  {\int_{\V}}
 \renewcommand{\S}   {\ensuremath{\Gamma}}
-\newcommand{\dS}    {\,\partial\S}
+\newcommand{\dS}    {\,\dd{\S}}
 \newcommand{\IntS}  {\int_{\S}}
 \newcommand{\q}     {\ensuremath{q}}
 \newcommand{\qi}    {\ensuremath{q_i}}
