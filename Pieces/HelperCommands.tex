@@ -1,50 +1,54 @@
-\newcommand{\Density}{\ensuremath{\rho}\xspace}
-\newcommand{\Temperature}{\ensuremath{T}\xspace}
-\newcommand{\Pressure}{\ensuremath{P}\xspace}
-\newcommand{\IntEnergy}{\ensuremath{i}\xspace}
-\newcommand{\Entropy}{\ensuremath{s}\xspace}
-\newcommand{\Enthalpy}{\ensuremath{h}\xspace}
+\usepackage{algorithm2e}
+\usepackage{booktabs}
+
+
+\newcommand{\Density}{\ensuremath{\rho}}
+\newcommand{\Temperature}{\ensuremath{T}}
+\newcommand{\Pressure}{\ensuremath{P}}
+\newcommand{\IntEnergy}{\ensuremath{i}}
+\newcommand{\Entropy}{\ensuremath{s}}
+\newcommand{\Enthalpy}{\ensuremath{h}}
 \newcommand{\ThCond}{\kappa}
 \newcommand{\Viscosity}{\mu}
-\newcommand{\DiffCoef}{\ensuremath{D}\xspace}
+\newcommand{\DiffCoef}{\ensuremath{D}}
 
-\newcommand{\isat}{\ensuremath{\IntEnergy\subs[\!]{sat}}\xspace}
-\newcommand{\Psat}{\ensuremath{\Pressure\subs[\!\!]{sat}}\xspace}
-\newcommand{\Tsat}{\ensuremath{\Temperature\subs[\!\!\:]{sat}}\xspace}
+\newcommand{\isat}{\ensuremath{\IntEnergy\subs[\!]{sat}}}
+\newcommand{\Psat}{\ensuremath{\Pressure\subs[\!\!]{sat}}}
+\newcommand{\Tsat}{\ensuremath{\Temperature\subs[\!\!\:]{sat}}}
 \newcommand{\SubL}{\subs[\!\!\:]{\rule{0pt}{8pt}$\textstyle\ell$}}
 \newcommand{\SubG}{\subs[\!\!\:]{$\mathit{g}$}}
 
-\newcommand{\rhol}{\ensuremath{\rho\SubL}\xspace}
-\newcommand{\rhog}{\ensuremath{\rho\SubG}\xspace}
-\newcommand{\il}{\ensuremath{i\SubL}\xspace}
-\newcommand{\ig}{\ensuremath{i\SubG}\xspace}
-\newcommand{\rhoul}{\ensuremath{\rhou\SubL}\xspace}
-\newcommand{\rhoug}{\ensuremath{\rhou\SubG}\xspace}
-\newcommand{\rhoil}{\ensuremath{\rhoi\SubL}\xspace}
-\newcommand{\rhoig}{\ensuremath{\rhoi\SubG}\xspace}
-\newcommand{\alphal}{\ensuremath{\alpha\SubL}\xspace}
-\newcommand{\alphag}{\ensuremath{\alpha\SubG}\xspace}
+\newcommand{\rhol}{\ensuremath{\rho\SubL}}
+\newcommand{\rhog}{\ensuremath{\rho\SubG}}
+\newcommand{\il}{\ensuremath{i\SubL}}
+\newcommand{\ig}{\ensuremath{i\SubG}}
+\newcommand{\rhoul}{\ensuremath{\rhou\SubL}}
+\newcommand{\rhoug}{\ensuremath{\rhou\SubG}}
+\newcommand{\rhoil}{\ensuremath{\rhoi\SubL}}
+\newcommand{\rhoig}{\ensuremath{\rhoi\SubG}}
+\newcommand{\alphal}{\ensuremath{\alpha\SubL}}
+\newcommand{\alphag}{\ensuremath{\alpha\SubG}}
 
-\newcommand{\tauSat}{\ensuremath{\tau\subs[\!\!\:]{sat}}\xspace}
-\newcommand{\deltaL}{\ensuremath{\delta\subs[\!\!\:]{\rule{0pt}{8pt}$\textstyle\ell$}}\xspace}
-\newcommand{\deltaG}{\ensuremath{\delta\subs[\!\!\:]{$\mathit{g}$}}\xspace}
+\newcommand{\tauSat}{\ensuremath{\tau\subs[\!\!\:]{sat}}}
+\newcommand{\deltaL}{\ensuremath{\delta\subs[\!\!\:]{\rule{0pt}{8pt}$\textstyle\ell$}}}
+\newcommand{\deltaG}{\ensuremath{\delta\subs[\!\!\:]{$\mathit{g}$}}}
 
-\newcommand{\rhoc}  {\ensuremath{\rho\subs{c}}\xspace}
-\newcommand{\Tc}    {\ensuremath{T\subs{c}}\xspace}
+\newcommand{\rhoc}  {\ensuremath{\rho\subs{c}}}
+\newcommand{\Tc}    {\ensuremath{T\subs{c}}}
 
 \newcommand{\Skip}[1][0.45em]{\\[#1]}
-\newcommand{\TCS}    {Thermodynamic Coexistence System\xspace}
-\newcommand{\TCSRef} {\hyperref[Eqn:TCS]{\TCS}\xspace}
-\newcommand{\MCS}    {Mechanical Coexistence System\xspace}
-\newcommand{\MCSRef} {\hyperref[Eqn:MCS]{\MCS}\xspace}
+\newcommand{\TCS}    {Thermodynamic Coexistence System}
+\newcommand{\TCSRef} {\hyperref[Eqn:TCS]{\TCS}}
+\newcommand{\MCS}    {Mechanical Coexistence System}
+\newcommand{\MCSRef} {\hyperref[Eqn:MCS]{\MCS}}
 
 \newcommand{\Afe}{\ensuremath{A\subs{\textsc{fe}}}}
-\newcommand{\HFE}{Helmholtz free energy\xspace}
-\newcommand{\EOS}{equation of state\xspace}
+\newcommand{\HFE}{Helmholtz free energy}
+\newcommand{\EOS}{equation of state}
 
-\newcommand{\Space}{\ensuremath{z}\xspace}
-\newcommand{\Time}{\ensuremath{t}\xspace}
-\newcommand{\Speeds}{\ensuremath{\mathbf{\lambda}}\xspace}
+\newcommand{\Space}{\ensuremath{z}}
+\newcommand{\Time}{\ensuremath{t}}
+\newcommand{\Speeds}{\ensuremath{\mathbf{\lambda}}}
 
 \DeclareMathOperator{\Rez}{R}
 
@@ -81,9 +85,9 @@
 }
 
 \newcommand{\qConRaw}{\mathbf{q}}
-\newcommand{\qCon}{\ensuremath{\qConRaw}\xspace}
-\newcommand{\qPer}{\ensuremath{\widehat{\qConRaw}}\xspace}
-\newcommand{\qSS} {\ensuremath{\qConRaw^0}\xspace}
+\newcommand{\qCon}{\ensuremath{\qConRaw}}
+\newcommand{\qPer}{\ensuremath{\widehat{\qConRaw}}}
+\newcommand{\qSS} {\ensuremath{\qConRaw^0}}
 
 \newcommand{\ConSys}{
     \Psi
@@ -172,37 +176,21 @@
 
 
 
-\NewEnviron{BoxedAlgorithm}[1][H]{
-    \begin{center}
-        \begin{minipage}{0.999\textwidth}
-            \centering
-            \fcolorbox{black}{white}{
-                \centering
-                \begin{minipage}[t]{0.85\textwidth}
-                    \begin{algorithm}[#1]
-                        \BODY
-                    \end{algorithm}
-                \end{minipage}
-            }
-        \end{minipage}
-    \end{center}
-}
+
+\DeclareRobustCommand{\TH}  {thermal hydraulics}
+\DeclareRobustCommand{\THc} {Thermal hydraulics}
+\DeclareRobustCommand{\THcc}{Thermal Hydraulics}
+\DeclareRobustCommand{\THs} {thermal hydraulic}
+
+\DeclareRobustCommand{\CLaw}  {conservation law}
+\DeclareRobustCommand{\CLaws} {conservation laws}
 
 
-\DeclareRobustCommand{\TH}  {thermal hydraulics\xspace}
-\DeclareRobustCommand{\THc} {Thermal hydraulics\xspace}
-\DeclareRobustCommand{\THcc}{Thermal Hydraulics\xspace}
-\DeclareRobustCommand{\THs} {thermal hydraulic\xspace}
-
-\DeclareRobustCommand{\CLaw}  {conservation law\xspace}
-\DeclareRobustCommand{\CLaws} {conservation laws\xspace}
-
-
-\newcommand{\rhou}{\ensuremath{\rho{u}}\xspace}
-\newcommand{\rhoi}{\ensuremath{\rho{i}}\xspace}
+\newcommand{\rhou}{\ensuremath{\rho{u}}}
+\newcommand{\rhoi}{\ensuremath{\rho{i}}}
 
 \newcommand{\tr}{\ensuremath{{}\sups{\textsc{T}}}}
-\newcommand{\mdotloss}[1][]{\ensuremath{\dot{m}'''\subs[\!\!\!\!\!#1]{loss}}\xspace}
+\newcommand{\mdotloss}[1][]{\ensuremath{\dot{m}'''\subs[\!\!\!\!\!#1]{loss}}}
 \newcommand{\Keff}{\ensuremath{K\subs{eff}}}
 
 \newcommand{\POfRhoRhoi}{\ensuremath{P\left(\rho,\frac{\rhoi}{\rho}\right)}}
@@ -234,22 +222,22 @@
                                  \tfrac{\partial\Delta{P}}{\partial(\rhou)}\bigr\rvert_{\text{ext}}$}
                                 
                                 
-\newcommand{\etal}{et al.\xspace}
-\newcommand{\etc}{etc.\xspace}
-\newcommand{\eg}{e.g.\xspace}
-\newcommand{\ie}{i.e.\xspace}
+\newcommand{\etal}{et al.}
+\newcommand{\etc}{etc.}
+\newcommand{\eg}{e.g.}
+\newcommand{\ie}{i.e.}
 
 
-\newcommand{\rhok}{ \ensuremath{\alpha\rho\subs{\phi}}\xspace}
-\newcommand{\rhouk} {\ensuremath{\alpha\rhou\subs{\phi}}\xspace}
-\newcommand{\rhoik} {\ensuremath{\alpha\rhoi\subs{\phi}}\xspace}
-\newcommand{\alphak}{\ensuremath{\alpha\subs{\phi}\xspace}}
-\newcommand{\uk}{\ensuremath{u\subs{\phi}}\xspace}
-\newcommand{\ik}{\ensuremath{i\subs{\phi}}\xspace}
-\newcommand{\CVvol}[1][k]{\ensuremath{\Omega_\text{#1}}\xspace}
-\newcommand{\MCvol}[1][m]{\ensuremath{\Omega_\text{#1}}\xspace}
-\newcommand{\CVsurf}[1][k]{\ensuremath{\Gamma_\text{#1}}\xspace}
-\newcommand{\MCsurf}[1][m]{\ensuremath{\Gamma_\text{#1}}\xspace}
+\newcommand{\rhok}{ \ensuremath{\alpha\rho\subs{\phi}}}
+\newcommand{\rhouk} {\ensuremath{\alpha\rhou\subs{\phi}}}
+\newcommand{\rhoik} {\ensuremath{\alpha\rhoi\subs{\phi}}}
+\newcommand{\alphak}{\ensuremath{\alpha\subs{\phi}}}
+\newcommand{\uk}{\ensuremath{u\subs{\phi}}}
+\newcommand{\ik}{\ensuremath{i\subs{\phi}}}
+\newcommand{\CVvol}[1][k]{\ensuremath{\Omega_\text{#1}}}
+\newcommand{\MCvol}[1][m]{\ensuremath{\Omega_\text{#1}}}
+\newcommand{\CVsurf}[1][k]{\ensuremath{\Gamma_\text{#1}}}
+\newcommand{\MCsurf}[1][m]{\ensuremath{\Gamma_\text{#1}}}
 
 
 
@@ -367,6 +355,7 @@
 \newcommand{\V}     {\ensuremath{\Omega}}
 \newcommand{\dV}    {\,\dd{\V}}
 \newcommand{\IntV}  {\int_{\V}}
+\let\SS\S
 \renewcommand{\S}   {\ensuremath{\Gamma}}
 \newcommand{\dS}    {\,\dd{\S}}
 \newcommand{\IntS}  {\int_{\S}}

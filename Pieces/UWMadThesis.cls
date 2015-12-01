@@ -86,10 +86,10 @@
 }
 \RequirePackage{hyperref}
 \RequirePackage{bookmark}
+\RequirePackage{caption}
+\RequirePackage[hypcap=true]{subcaption}
 \RequirePackage[noabbrev,nameinlink]{cleveref}
 \RequirePackage[usenames,dvipsnames,svgnames,table,hyperref]{xcolor}
-\RequirePackage{caption}
-\RequirePackage{subcaption}
 \DeclareDocumentCommand \UWMadClass { } {
     \texttt{\c__UWMad_Class_Name_tl}~class
 }
