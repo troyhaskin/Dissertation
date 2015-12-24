@@ -20,7 +20,7 @@ This work will focus on the water-cooled \Acronym{RCCS} design, leaving air-cool
 
 
 A collaboration between \Acronym{ANL} and the \TheUniversity\ produced a base, full-scale \Acronym{RCCS} system consisting of a two independent piping networks with each network having four main lines/tanks.
-\Cref{Figure:RCCSTotalSystem} outlines the basic design of system B but precludes any detail near the reactor.
+\Cref{Figure:RCCSTotalSystem} outlines the basic design of system but precludes any detail near the reactor.
 The elevation change of the system is on the order of several tens of meters with the reactor cavity portion being approximately twenty meters on its own.
 Within the reactor cavity, the eight cold lines of the \Acronym{RCCS} splits into approximately 200 so-called riser pipes that line the cavity wall and ensconce the reactor (see \cref{Figure:RCCSMockup}).
 The riser pipes then receive heat from the uninsulated reactor pressure vessel via convection and radiation.
@@ -41,9 +41,8 @@ In the event of loss of onsite and offsite power (so-called station blackout), t
     \includegraphics[scale=0.73]{RCCSMockup.png}%
 \end{figure}
 
-However, without forced cooling, the reference temperature of the entire water system will continue to rise with continued decay heat exposure.
-At some point during the transient, the water leaving the riser system will reach the saturation temperature at atmospheric pressure.  
-Due to the gravitational head of all the water on top of the risers, the water will not immediately boil.
+Without forced cooling, the reference temperature of the entire water system will continue to rise with continued decay heat exposure, and at some point during the transient, the water leaving the riser system will be at the saturation temperature of the system's gauge pressure.
+However, the water will not immediately boil after leaving the due to the gravitational head of all the water above of the risers.
 Rather, as the water flows to the top of the system, it will instantly boil as it passes into a region where the local pressure falls below the saturation pressure; a process called \textit{flashing}.
 This sudden discontinuous jump in substance properties results in flow oscillations because the steam produced from the flash is approximately 1,000 times less dense than the liquid state on the cold side of the system.
 
@@ -52,7 +51,7 @@ Before flashing, the mass flow rate is non-oscillatory and increasing due to per
 At the onset of flashing, the flow rate rapidly oscillates and evolves in a complicated manner.
 At some point in the evolution, the system's flow rate stabilizes and evolves just as the single phase system.
 The period, amplitude, and overall time evolution of these oscillations is subject to numerous factors and various linear and nonlinear effects.
-The oscillations are commonly referred to as density wave instabilities since they are driven by the density of the system \cite{achard_analysis_1985}.
+The oscillations are commonly referred to as density wave instabilities since they are driven by the density differences across the system \cite{achard_analysis_1985}.
 These incessant perturbations could potentially lead to large, erratic flow excursions that could pose a safety risk via extreme mechanical or thermal damage.
 
 \begin{figure}%

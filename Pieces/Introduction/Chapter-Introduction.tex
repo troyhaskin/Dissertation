@@ -21,7 +21,26 @@
         \g__UWMad_RelativeDirectory_ImageExtensions_clist
         {\l_tmpa_tl}
 
-    \clist_show:N \g__UWMad_RelativeDirectory_ImageExtensions_clist
+    %\clist_show:N \g__UWMad_RelativeDirectory_ImageExtensions_clist
+    \tl_new:N   \l__UWMad_File_Path_tl
+    \tl_new:N   \l__UWMad_File_Name_tl
+    \tl_new:N   \l__UWMad_File_Extension_tl
+    
+    \def\l_tmpa_tl{path/file.ext}
+    
+    \UWMad_File_PathFileName:nnnx
+        \l__UWMad_File_Path_tl
+        \l__UWMad_File_Name_tl
+        \l__UWMad_File_Extension_tl
+        {\l_tmpa_tl/\l_tmpa_tl}
+        
+    \tl_if_blank:VTF {\l__UWMad_File_Path_tl} {
+        \msg_term:n {The~path~is~empty!}
+    } {
+        \msg_term:n {The~path~is~\l__UWMad_File_Path_tl}
+    }
+    \tl_show:N \l__UWMad_File_Name_tl
+    \tl_show:N \l__UWMad_File_Extension_tl
 
 \ExplSyntaxOff
 
@@ -40,8 +59,8 @@ Motivation for this effort is given through the examination of an experimental f
 Then, a literature overview of the field of stability analysis of fluid systems is presented with a broader perspective than that of this work.
 Finally, the chapter concludes with the end goals of this investigation and an outline of the work.
 
-
 \iffalse
+ 
 \input{Section1-ReactorCavityCoolingSystem}
 \newpage
 \input{Section2-Literature}
@@ -50,13 +69,11 @@ Finally, the chapter concludes with the end goals of this investigation and an o
 \section{Research Purpose}\label{Section:Purpose}
 
 The purpose of this research is to theoretically investigate the linear stability of a closed loop, natural circulation system undergoing phase-change with water as a working fluid.
-The goal is to ultimately apply stability theory to three parallel channels in a closed circuit with mass loss.
-While the geometry may be a simple extension of other works, a defining characteristic of this system is that of mass loss.
+The goal is to ultimately apply stability theory to three parallel channels in a closed circuit with mass loss, which form a novel combination for the literature.
 As the system boils, the inventory is draining and a question that has not been completely answered is how does this affect the stability and overall evolution of the system.
 In addition to the geometrical considerations, this work also explores a novel discretization scheme to the standard set of thermohydraulic equations that aims to more accurately represent branching flows than standard channel flow models.
 Also, this work applies a full non-linear solver to the set of discretized equations with no operator splitting over a time-step.
 Lastly, the linear stability of the system over a transient is determined through a detailed volume integration of the governing equations and an eigenvalue calculation.
-
 
 The outline of the topics to be discussed in this work is:
 \begin{enumerate}[topsep=0pt,parsep=0pt,itemsep=2pt]
@@ -74,7 +91,8 @@ Each section builds upon the last and works to fulfill the delineated goals abov
 \bibliography{../Sources}
 \bibliographystyle{unsrt}
 
-\fi
+ 
+ \fi
 
 \end{document}
 

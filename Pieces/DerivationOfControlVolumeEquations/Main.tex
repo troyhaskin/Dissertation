@@ -73,7 +73,7 @@ The actual solution of these problems will be discussed in future sections, but 
 
 The integral conservation law for a vector of conserved quantities \qi{} is
 \begin{equation}%
-    \pdt\!\IntV \qi(x_i,t) \dV = \IntS -F_{ij}(\qi,x_i,t) n_j\dS + \IntV S_i(\qi,x_i,t) \dV,
+    \deriv{}{t}\!\IntV \qi(x_i,t) \dV = \IntS -F_{ij}(\qi,x_i,t) n_j\dS + \IntV S_i(\qi,x_i,t) \dV,
     \label{Eqn:GeneralIntegralCLawForSystems}
 \end{equation}
 where $F_{ij}$ is a matrix of surface fluxes of \qi\ in the $j$-th direction, $n_j$ is the outward unit normal of the surface \S, and $S_i$ is the volume source of \qi.
@@ -142,7 +142,7 @@ The energy equation is similar to the momentum equation since there are non-line
 The energy to be balanced is the \textit{total energy} of the medium, where total means the sum of thermal, kinetic, and potential energies.
 The integral conservation for total energy is taken to be
 \begin{equation}
-    \pdt \IntV \rho e \dV = \IntS \left[- (\rho{e} + P) u_j + u_i \tau_{ij} - q_j\right] n_j\dS + \IntV \rho g_j u_j + S^e \dV
+   \deriv{}{t}\! \IntV \rho e \dV = \IntS \left[- (\rho{e} + P) u_j + u_i \tau_{ij} - q_j\right] n_j\dS + \IntV \rho g_j u_j + S^e \dV
     \label{Eqn:IntegralCoE}
 \end{equation}
 where $\rho{e}$ is the total energy of the system and $q_j$ is a conductive heat flux; all of the other terms have the same meaning as in the momentum equation.
@@ -173,7 +173,7 @@ The bulk flow equation is created by dotting the integral momentum equation with
 The unit vector represents the physically dominant flow direction for the given volume.
 Performing the dot operation and letting $a_z = a_i z_i$ for any vector $a_i$, the bulk flow equation is 
 \begin{equation}
-    \pdt \IntV \rho u_z \dV = \IntS (-u_j \rho u_z) n_j \dS + \IntS - P n_z + \tau_{ij} z_i n_j \dS + \IntV \rho g_z + S^u_z \dV.
+    \deriv{}{t}\! \IntV \rho u_z \dV = \IntS (-u_j \rho u_z) n_j \dS + \IntS - P n_z + \tau_{ij} z_i n_j \dS + \IntV \rho g_z + S^u_z \dV.
     \label{Eqn:IntegralCoB}
 \end{equation}
 
@@ -185,7 +185,7 @@ The channel flow equations are derived from bulk momentum conservation by placin
 \end{itemize}
 By imposing these requirements, \cref{Eqn:IntegralCoB} takes on the simpler form
 \begin{equation}
-    \pdt \IntV \rho u_z \dV =
+    \deriv{}{t}\! \IntV \rho u_z \dV =
         \int_{\S_{\text{1}} + \S_{\text{2}}}\mkern-10mu \pm(P + u_z \rho u_z)\dS + 
         \int_{\S_{\text{w}}} \tau_{ij} z_i n_j \dS + \IntV \rho g\,\Cos(\theta) + S^u_z \dV,
     \label{Eqn:IntegralCoCF}
