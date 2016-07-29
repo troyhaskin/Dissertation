@@ -18,16 +18,15 @@
 
 \input{../HelperCommands}
 
-
 \begin{document}
 
 \chapter{Discretization}
 
 The conservation laws presented in the previous section will now be converted into a set of nonlinear, algebraic equations whose solution represents the system's evolution in space-time.
-In general, the purpose of this \textit{discretization} is to transform a set of equations that are mathematically defined for every value of space-time to a set defined for a discrete subset of space-time.
+In general, the purpose of this \textit{discretization} is to transform the probelm from finding a set of functions that have a defined value for every point of space-time to finding a set of unknown coefficients to chosen functions which represent the solution over a discrete subset of space-time.
 The motivation behind this conversion is that finding a vector of unknowns to balance a set of algebraic equations is easier, though still not trivial, than finding a continuous solution to a general, nonlinear differential equation.
-Of course, this process adds \emph{discretization errors} to the obtained solution.
-However, those errors are viewed as a cost of problem tractability and, when the discretization is made carefully, do not often undermine the underlying physical significance of the conservation laws.
+Of course, this process adds \textit{discretization errors} to the obtained solution; however, those errors are viewed as a necessary cost to effect a useful solution.
+Additionally, when the discretization is made carefully, it does not often undermine the underlying physical significance of the conservation laws.
 
 The discussion of discretization is presented in two parts: choice of spatial discretization and choice of temporal discretization.
 This separation of concerns is achieved via the \textit{method of lines}, also known as a \textit{semi-discrete scheme}.
@@ -36,48 +35,47 @@ The system can then be solved using a standard and robust ODE time integration m
 
 It is noted that most of the following discussion assumes the solution being found is one to a differential equation.
 As stated in the previous section, the conversion between differential and integral equations is valid as long as the solution has finite values of all required derivatives at every point in the domain.
-Because the topic of shockwaves is deemed beyond the scope of this work, the two forms are treated synonymously with a focus on the differential side since that is from where most of the relevant theory is derived.
+Because the topic of shockwaves is deemed beyond the scope of this work, the two forms are treated synonymously with a focus on the differential side since that is from where most of the relevant theory is acquired.
 
 
 \section{Spatial Discretization}
 
-The spatial discretization of a system of equations is taken to be the collective answers to the following questions:
-\begin{itemize}[topsep=-0.40\parskip]
-	\item{How are the unknowns taken to vary in space?}
-    \item{How is the spatial domain of the system partitioned?}
-    \item{Where are the unknowns stored on the partitioned domain?}
-\end{itemize}
-The first  question concerns what is called the \emph{approximation} of the solution.
-The second and third questions concern what is called the \emph{partitioning} of the solution.
-For a single equation of unknowns, these questions are inexorably linked.
+The spatial discretization of a system of equations is taken to be both a concrete specification of how the solution is taken to vary in space and how the spatial domain of the system partitioned.
+The first specification concerns what is called the \emph{approximation} of the solution, and the second concerns what is called the \emph{partitioning} of the solution.
+For a single equation of unknowns, these choices are inexorably linked.
 However, a system of equations allows each of the equations to be partitioned differently despite having the same approximation, and thus the two concerns will be explained separately.
 
 
 \subsection{Approximation}
 
-The approximation of a solution to a system of differential equations is defined as follows.
-Since the functional form of the solution is unknown globally, local functional forms of the solution with a varying number of undetermined coefficients (i.e., degrees of freedom) are assumed over a set of discrete points or sections of the domain.
+The approximation of a solution to a system of differential equations involves the explicit selection of a functional form made to balance the system.
+Since the actual functional form of the solution is unknown globally, local functional forms of the solution with a varying number of undetermined coefficients (i.e., degrees of freedom) are assumed over a set of discrete points or sections of the domain.
 The coefficients are then calculated by requiring the functional forms to balance the system of equations in some manner and satisfy any compulsory compatibility conditions (such as global continuity).
-The collection of these local functional forms with the determined coefficients then form the approximate global solution.
+The union of these local functional forms with the determined coefficients then form the approximate global solution.
 
 From that very general framework, there are three often used methods of approximation: finite difference, finite volume, and finite element.
 In brief, the main ideas behind these methods are:
 \begin{itemize}[topsep=-0.5\parskip]
     %
-	\item{Finite difference methods (FDM) are derived from either local truncated Taylor expansions to approximate the derivatives or from local polynomial interpolants with sufficient support\footnote{In this instance, \emph{support} means that the degree of the interpolating polynomial at least matches the differential order of the system such that all polynomial derivatives have non-trivial terms.  For example, a third order differential equation requires a cubic interpolant because any lower degree polynomial would have a third derivative of $0$ and could in no way balance (i.e., support) the differential equation.} for the system being solved. The system is then required to be balanced at every point about which the approximation is made.}
     %
-    \item{Finite volume methods (FVM) assume the global solution to be a collection of disjoint partitions locally defined by an arbitrary polynomial that only communicate at their boundaries via fluxes. The equation is then required to be satisfied in an integral-sense over each of the partitions. Because the communication between volumes is achieved entirely through fluxes, FVM is able to exactly conserve advecting quantities locally and globally for a given conservation law.}
+    \item{Finite difference methods (FDM) are derived from either local truncated Taylor expansions to approximate derivatives or from local polynomial interpolants with sufficient support\footnote{In this instance, \emph{support} means that the degree of the interpolating polynomial at least matches the differential order of the system such that all polynomial derivatives have non-trivial terms.  For example, a third order differential equation requires a cubic interpolant because any lower degree polynomial would have a third derivative of $0$ and could in no way balance (i.e., support) the differential equation.} for the system being solved. The system is then required to be balanced at every point about which the approximation is made.}
+    %
+    %
+    \item{Finite volume methods (FVM) assume the global solution to be a collection of disjoint partitions locally defined by an arbitrary polynomial that only communicate at their boundaries via fluxes. The equation is then required to be satisfied in an integral-sense over each of the partitions.}
+    %
     %
     \item{Finite element methods (FEM) assume the global solution to be a collection of contiguous partitions locally defined by an arbitrary polynomial. The equation is then required to be satisfied in a weighted integral-sense over the entire domain.}
     %
+    %
 \end{itemize}
-Finite differences are the oldest class of methods and easily allow for high-order approximations but are not easily extended to non-rectangular grids.
-Finite volumes are easily extended to arbitrary grids due to their integral nature and can be guaranteed to ensure exact conservation but arbitrarily high-order approximations are difficult to form in general.
-Finite elements are easily extended to arbitrary grids due to their integral nature and are easily extended to arbitrarily high-order approximations but the global nature of the solution does not necessarily guarantee local conservation of advecting quantities.
+ 
+Finite differences are the oldest class of methods and easily allow for high-order approximations but are not easily extended to non-rectangular grids and may not exactly conserve quantities by construction.
+Finite volumes are easily extended to arbitrary grids due to their integral nature and can be guaranteed to ensure exact conservation but arbitrarily high-order approximations are difficult to form.
+Finite elements are easily extended to arbitrary grids due to their integral nature and are easily extended to arbitrarily high-order approximations but the global nature of the solution does not necessarily guarantee local conservation of quantities.
 
-The method of approximation used for the remained of this work will be FVM.
+The method of approximation used for the remainder of this work will be FVM.
 The benefits of arbitrary geometry and exact conservation outweigh the lack of high-order methods.
-Further, only a first-order method will be pursued.
+Further, only a first-order method will be pursued and concretely presented in the following section.
 Although first-order finite volume methods are known to be diffusive for source-less conservation laws, the method is always stable, even in the presence of shockwaves, and gives order-of-magnitude answers, as those sought in engineering level modeling.
 The latter assertion is demonstrated in the following example.
 
@@ -109,7 +107,7 @@ The algebraic equations from three different approximation methods are derived a
         The fluxes are then formed using a chosen relationship between partition values, and the original right-hand is integrated in some approximate fashion over the partition.  The choices leading the second and third expressions are a piece-wise linear relationship between partition values and the mid-point integration rule for the right-hand side.
     }
     %
-    %
+    %`
     \item{
         Assuming the unknown $T(x)$ to behave linearly within the two partitions bounded by $x_{i-1}$ and $x_{i+1}$, the partition-wise enforced finite element equation is
         \begin{equation}
@@ -122,7 +120,7 @@ The algebraic equations from three different approximation methods are derived a
 The approximate and analytical solutions are shown in \cref{Fig:NM_Example_ApproximationComparison}.
 As can be seen, despite the extremely similar difference equations between the three methods, the underlying choice of spatial dependence leads to very different approximate solutions.
 Furthermore, as seen in \cref{Fig:NM_Example_ApproximationComparisonError}, the FVM's assumption of partition-wise constant data leads to a first-order convergent method instead of the second-order convergence shown by FDM and FEM.
-However, regardless its first-order nature, the solution provided by FVM still qualitatively reproduces the analytical solution.
+However, regardless of its first-order nature, the solution provided by FVM still qualitatively reproduces the analytical solution.
 And because the end goal of this work is not a rigorous resolution of the spatial domain at all scales but a conservative, system-wide stability analysis, the first-order FVM method is viewed as the best compromise between the FDM and FEM methodologies.
 
 
@@ -141,6 +139,26 @@ And because the end goal of this work is not a rigorous resolution of the spatia
 
 
 \subsection{Partitioning}
+
+Partitioning, alternatively known as a \textit{meshing}, involves selecting a collection of partitions whose union recreates the problem geometry as closely as possible.
+In general, the partitioning is not unique and may be vary between equations in the system.
+For FVM, partitions are commonly referred to as \textit{control volumes}.
+Control volumes can be any shape needed to cover the physical domain but, for simplicity, are often limited to polyhedra or a natural differential element in the coordinate system being used.
+
+This work will make use control volumes with completely flat bounding faces.
+The flat bounding faces make approximating the surface integrals in the conservation laws more straightforward.
+While this may appear limiting, evaluation of the surface integral is only performed where there is a non-zero flux of a conserved quantity.
+And since the velocity is assumed to be zero on all solid surfaces within the model assuming no-slip and impermeability, the control volumes can be deformed to fit the bounding physical surface with only the artificial flux exchange surfaces required to be flat.
+
+Additionally, this work employs a so-called \textit{staggered scheme} with two different partitionings: one for the conservation of energy and mass and another for the conservation of bulk momentum.
+The staggered scheme overcomes a problem introduced by solving a single, bulk momentum equation: the control volumes used to solve the bulk momentum equation have an inherent flow direction $z_i$, but the mass and momentum control volumes are exposed to fluxes of material from any direction.
+Therefore, if the partitionings were the same for all equations
+
+
+
+
+
+\subsection{Semi-discrete Conservation Laws}
 
 
 
