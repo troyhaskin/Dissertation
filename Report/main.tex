@@ -1,0 +1,124 @@
+\documentclass{UWMadThesis}
+
+% ============================================================ %
+%                      Thesis Information                      %
+% ============================================================ %
+\Title{On the Stability of Natural Circulation Loops with Phase Change}
+\Author{Troy C. Haskin}
+\Program{Nuclear Engineering--Engineering Physics}
+\Doctorate
+\Dissertation
+
+\DefenseDate{August 26, 2016}
+\University{University of Wisconsin--Madison}
+
+\Advisor{Michael L. Corradini}       {Professor}{Engineering Physics}
+\CommitteeMember{Robert J. Witt}     {Professor}{Engineering Physics}
+\CommitteeMember{Gregory A. Moses}   {Professor}{Engineering Physics}
+\CommitteeMember{Jake Blanchard}     {Professor}{Engineering Physics}
+\CommitteeMember{Christopher Rutland}{Professor}{Mechanical Engineering}
+
+
+% ========================== %
+%   Document class options   %
+% ========================== %
+\input{HelperCommands}
+
+
+\UWMadSetup {
+    RelativeDirectory / {
+        chapter-directory-name      = same,
+        chapter-directory-prefix    = Chapter-,
+        section-directory-name      = none,
+        subsection-directory-name   = none,
+        the-only-graphics-directory = Graphics
+    },
+    Acronym / {
+        main-title = {List of Acronyms},
+        link-color = black
+    }
+}
+
+
+\begin{document}
+
+\show\TheUniversity
+
+%   Title page
+\MakeTitlePage{}
+
+%   License page
+\begin{LicensePage}
+    \CreativeCommons
+    \Attribution
+    \NonCommercial
+    \ShareAlike
+\end{LicensePage}
+
+\TableOfContents
+\ListOfTables
+\ListOfFigures
+
+\begin{Acronym}
+    \Entry{ANL}{Argonne National Laboratory}
+    \Entry{EOS}{equation of state}
+    \Entry{FDM}{Finite Difference Method}
+    \Entry{FEM}{Finite Element Method}
+    \Entry{FVM}{Finite Volume Method}
+    \Entry{GMRES}{Generalized Minimal Residual (Method)}
+    \Entry{HEM}{Homogenous Equilibrium Model}
+    \Entry{IAPWS}{International Association for the Properties of Water and Steam}
+    \Entry{IAPWS-95}{IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use}
+    \Entry{MOL}{Method of Lines}
+    \Entry{NGNP}{Next Generation Nuclear Plant}
+    \Entry{NRC}{Nuclear Regulatory Commission}
+    \Entry{ODE}{Ordinary differential equation}
+    \Entry{PDE}{Partial differential equation}
+    \Entry{RCCS}{Reactor Cavity Cooling System}
+    \Entry{SFM}{Separated Flow Model}
+\end{Acronym}
+
+
+\Include{Chapter}{Introduction}
+\Include{Chapter}{Theory}
+\Include{Chapter}{Simulations}
+
+
+
+\chapter{Conclusion}
+The presented simulation results for a simple, closed loops over a number of single and two-phase states showed the system to be linearly stable under the models used and assumptions made.
+The simulations were performed using the highest fidelity equations-of-state currently available for water, solved using a modern fully, nonlinear solver which avoids need to form the true Jacobian for Newton-like convergence, and used a new \Acro{FVM} discretization scheme which emphasized precise and complete coverage of the computational domain for accurate integration of the entire computational domain for the stability analysis.
+
+Future efforts will aim to refine the state space over which the steady-states are calculated to truly exhaust potential operation zones in which the systems may become unstable to small perturbations.
+Additionally, expanding the work to include larger systems in terms of both volume and path length is definitely an avenue that needs exploration.
+It would be interesting to study how the character of the system changes, if at all, in scaling the small loop presented in this work to the more modest scale of the UW--Madison RCCS or even large cooling loops, such as the future experiment at Argonne National Lab.
+
+In simulating such large systems, however, pieces of the code used to perform the simulations of this work would need to be reimplemented in a faster computer language.
+The stiffness of large volumes of liquid water and the complexity of solving for the system parameters via the full equation of state quickly becomes a computational nightmare in the current implementation.
+Massive speed increases would easily be seen if all of the two-phase checks and calculations were performed in a faster language.
+
+Also, the flexibility and generality of the solver is something to investigate and expand upon.
+In particular, adding more complex models beyond HEM, such as a true two-fluid model and wall conduction/convection capabilities to the current framework may be worth the effort.
+
+By adding more detailed models, increasing the computational efficiency of the tools, and allowing the model geometry to comes closer to reality, better investigations can be taken into the analysis of two-phase systems.
+Even adding a higher level of geometric specification and mathematical rigor can lead to a more thoughtful derivation of models and consideration  of other methods to better analyze and explore these systems.
+
+
+
+\UWMadSetup{
+    RelativeDirectory / {
+        chapter-directory-prefix = Appendix-
+    }
+}
+\Include{Chapter}{Thermodynamics}
+
+% ======================================== %
+%               Bibliography               %
+% ======================================== %
+    \cleardoublepage
+    \setstretch{1.3}
+    \bibliographystyle{References/elsarticle-num}
+    \bibliography{References/Library}
+    %\addcontentsline{toc}{chapter}{Bibliography}
+    
+\end{document}

@@ -1,0 +1,81 @@
+% This file was created by matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=3.041in,
+height=3.041in,
+at={(0in,0in)},
+scale only axis,
+xmode=log,
+xmin=10,
+xmax=10000,
+xminorticks=true,
+xlabel={Number of Elements},
+xmajorgrids,
+xminorgrids,
+ymode=log,
+ymin=1e-09,
+ymax=1,
+yminorticks=true,
+ylabel={L\subs[\;]{2}},
+ymajorgrids,
+yminorgrids,
+axis background/.style={fill=white},
+legend style={legend cell align=left,align=left,draw=white!15!black}
+]
+\addplot [color=mycolor1,solid,line width=1.8pt,mark=*,mark options={solid,fill=mycolor1}]
+  table[row sep=crcr]{%
+1000000	1000000\\
+};
+\addlegendentry{Finite Element};
+
+\addplot [color=mycolor1,solid,line width=2.0pt,mark size=3.0pt,mark=*,mark options={solid,fill=mycolor1},forget plot]
+  table[row sep=crcr]{%
+10	0.0104892418001551\\
+22	0.00216436699827244\\
+46	0.000494933349341206\\
+100	0.000104721477776275\\
+215	2.26544355796557e-05\\
+464	4.86399110311661e-06\\
+1000	1.0471949623653e-06\\
+2154	2.25644089400555e-07\\
+4642	4.86916173361008e-08\\
+10000	1.19160691631451e-08\\
+};
+\addplot [color=mycolor2,solid,line width=1.8pt,mark=*,mark options={solid,fill=mycolor2}]
+  table[row sep=crcr]{%
+10	0.0108419335152182\\
+22	0.00217972899524845\\
+46	0.000495740304186416\\
+100	0.00010475764263288\\
+215	2.26561288013438e-05\\
+464	4.8640759660085e-06\\
+1000	1.04719883250554e-06\\
+2154	2.25818303341078e-07\\
+4642	4.82172544073274e-08\\
+10000	9.33632825425e-09\\
+};
+\addlegendentry{Finite Difference};
+
+\addplot [color=mycolor3,solid,line width=1.8pt,mark=*,mark options={solid,fill=mycolor3}]
+  table[row sep=crcr]{%
+10	0.103101231660383\\
+22	0.0461620146020419\\
+46	0.0220368196440293\\
+100	0.010128625600685\\
+215	0.00471046109397271\\
+464	0.00218255377838049\\
+1000	0.00101269435859108\\
+2154	0.000470145176020128\\
+4642	0.000218158595681709\\
+10000	0.000101269211375916\\
+};
+\addlegendentry{Finite Volume};
+
+\end{axis}
+\end{tikzpicture}%

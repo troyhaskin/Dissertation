@@ -16,7 +16,7 @@ Also, the tank (the large volume topping the model) is open to atmosphere that a
                 The black, directed line is the non-simple, closed curve along which the conservation laws must be satisfied.
                  The blue and red outlines denote the cooling and heating zones, respectively.}%
     \label{Figure:ComputationGeometry}%
-    \includegraphics[height=3.5in]{ComputationalGeometry}%
+    \includegraphics[height=3.5in]{ComputationalGeometry.png}%
 \end{figure}
 
 
@@ -24,7 +24,7 @@ Also, the tank (the large volume topping the model) is open to atmosphere that a
 The simplest (yet hardest) numerical example to begin with is the steady-state nodal method for a simply closed loop.
 Setting the time derivative of \cref{Eqn:HEMBasic} to $0$ yields 
 \begin{equation}
-    \pdiff{}{z}\begin{bmatrix}
+    \pderiv{}{z}\begin{bmatrix}
                     \rhou                 \\
                     u\,\rhou + P(\rho,i)   \\
                     u\left[\rhoi  + P(\rho,i)\right]
@@ -169,7 +169,7 @@ Therefore, the equation's original form (\cref{Eqn:HEMBasic}) will be written wi
 
 Integrating the conservation of mass and energy equations over a closed, fixed volume \CVvol yields
 \begin{equation}
-    \iiint_{\CVvol}\pdiff{}{t}\begin{bmatrix}
+    \iiint_{\CVvol}\pderiv{}{t}\begin{bmatrix}
                    \rho \\
                    \rhoi 
                 \end{bmatrix}\partial\CVvol
@@ -186,14 +186,14 @@ Integrating the conservation of mass and energy equations over a closed, fixed v
     \label{Eqn:HEMBasic3D}
 \end{equation}
 Because \CVvol is taken to be closed, the integral of the gradient can become a surface integral over \CVsurf by the Divergence Theorem.
-Also, the volume average of some quantity \psi will be defined as
+Also, the volume average of some quantity $\psi$ will be defined as
 \begin{equation}
     \psi\subs{k} = \oneo{\CVvol}\iiint_{\CVvol}\psi \partial\CVvol.
     \label{Eqn:VolumeAveragedQuantity}
 \end{equation}
 \Cref{Eqn:HEMBasic3D} may now be re-written (with the time derivative alone on the left-hand side) as 
 \begin{equation}
-                \pdiff{}{t}\begin{bmatrix}
+                \pderiv{}{t}\begin{bmatrix}
                    \rho\subs{k} \\
                    \rhoi\subs{k} 
                 \end{bmatrix}
@@ -214,7 +214,7 @@ The $\mathbf{\hat{n}}$ (outward pointing is taken to be positive) in this equati
 
 A similar procedure can be performed on the momentum equation over a volume \MCvol with surface \MCsurf to yield 
 \begin{equation}
-    \pdiff{\rhou\subs{m}}{t}
+    \pderiv{\rhou\subs{m}}{t}
     = -  
     \oneo{\MCvol}
                 \oiint_{\MCsurf} u\,\rhou + P(\rho,i) \mathbf{\hat{n}}\,\partial\CVsurf +
@@ -234,9 +234,9 @@ The last item allows for the volume integral in \cref{Eqn:HEMFVM2} to be written
 The equations are now
 \begin{subequations}\label{Eqn:Semidiscrete1}
 \begin{align}
-    \pdiff{\rho\subs{k}}{t}  &= - \oneo{\CVvol}\sum{\rhou\subs{k} A\subs{k}}\\
-    \pdiff{\rhoi\subs{k}}{t} &= - \oneo{\CVvol}\sum{u_d\left[\rhoi_d  + P(\rho_d,i_d)\right] A\subs{k}} + \dot{Q}\subs{add,k}(z,t) \\
-    \pdiff{\rhou\subs{m}}{t} &= - \oneo{\MCvol}\left[u\,\rhou\rvert^\text{to}_\text{from} + P_\text{to} - P_\text{from}\right]A\subs{m} + 
+    \pderiv{\rho\subs{k}}{t}  &= - \oneo{\CVvol}\sum{\rhou\subs{k} A\subs{k}}\\
+    \pderiv{\rhoi\subs{k}}{t} &= - \oneo{\CVvol}\sum{u_d\left[\rhoi_d  + P(\rho_d,i_d)\right] A\subs{k}} + \dot{Q}\subs{add,k}(z,t) \\
+    \pderiv{\rhou\subs{m}}{t} &= - \oneo{\MCvol}\left[u\,\rhou\rvert^\text{to}_\text{from} + P_\text{to} - P_\text{from}\right]A\subs{m} + 
                                   \frac{A\subs{m}}{\MCvol}
                                    \int_{\text{from}}^{\text{to}}\left[\rho{g(z)} - \frac{\Keff(\qCon)}{2} u\,|\rhou|\right] \mathrm{d}s
 \end{align}
@@ -251,7 +251,7 @@ In the momentum equation, the pressure was evaluated explicitly at both ends of 
 \Cref{Eqn:Semidiscrete1} is now a fully, semi-discrete ordinary differential equation.
 For an arbitrary number of control volumes $K$ and momentum cells $M$, there is a solution vector $\qCon = [\rho\subs{K},\rhoi\subs{K},\rhou\subs{M}]\tr$ that always satisfies the ODE
 \begin{align}
-    \pdiff{}{t}
+    \pderiv{}{t}
                 \begin{bmatrix}
                     \rho\subs{K}    \\
                     \rhoi\subs{K}   \\
@@ -259,7 +259,7 @@ For an arbitrary number of control volumes $K$ and momentum cells $M$, there is 
                 \end{bmatrix}
                 &=
                 \begin{bmatrix}
-                    n\subs{\rho} (\qCon) \\
+                    n\subs{$\rho$} (\qCon) \\
                     n\subs{\rhoi}(\qCon) \\
                     n\subs{\rhou}(\qCon) 
                 \end{bmatrix}
@@ -267,7 +267,7 @@ For an arbitrary number of control volumes $K$ and momentum cells $M$, there is 
 where the $n$ functions are defined by \cref{Eqn:Semidiscrete1} for the associated quantity.
 And more simply
 \begin{equation}
-    \pdiff{\qCon}{t} =N(\qCon)
+    \pderiv{\qCon}{t} =N(\qCon)
     \label{Eqn:SemidiscreteFinal}
 \end{equation}
 This is the semi-discrete form to be considered.
@@ -306,7 +306,7 @@ It is shown that the acoustic waves can have a speed of several kilometers per s
     \centering
     \caption[Acoustic speed versus material speed]{Semilog plot of the acoustic speed versus material speed.  The speeds vary over several orders of magnitude.}%
     \label{Figure:AcousticVSMaterial}%
-    \includegraphics[width=5.0in]{AcousticSpeedVsMaterialSpeed}%
+    \includegraphics[width=5.0in]{AcousticSpeedVsMaterialSpeed.png}%
 \end{figure}
 In order to avoid this, among other reasons \cite{gottlieb_high_2009}, implicit Euler will be explored in this and future work.
 

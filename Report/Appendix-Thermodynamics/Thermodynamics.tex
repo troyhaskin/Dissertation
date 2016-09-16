@@ -1,34 +1,35 @@
 \newcommand{\phiR} {\ensuremath{\phi\sups{\textsc{r}}}\xspace}
 \newcommand{\phiI} {\ensuremath{\phi\sups{\textsc{i}}}\xspace}
-\newcommand{\phiRd}{\ensuremath{    \pdiff{\phiR}{\delta}   }\xspace}
-\newcommand{\phiId}{\ensuremath{    \pdiff{\phiI}{\delta}   }\xspace}
-\newcommand{\phiRt}{\ensuremath{    \pdiff{\phiR}{\tau  }   }\xspace}
-\newcommand{\phiIt}{\ensuremath{    \pdiff{\phiI}{\tau  }   }\xspace}
-\newcommand{\phid}{\ensuremath{     \pdiff{\phi} {\delta}   }\xspace}
-\newcommand{\phit}{\ensuremath{     \pdiff{\phi} {\tau  }   }\xspace}
+\newcommand{\phiRd}{\ensuremath{    \pderiv{\phiR}{\delta}   }\xspace}
+\newcommand{\phiId}{\ensuremath{    \pderiv{\phiI}{\delta}   }\xspace}
+\newcommand{\phiRt}{\ensuremath{    \pderiv{\phiR}{\tau  }   }\xspace}
+\newcommand{\phiIt}{\ensuremath{    \pderiv{\phiI}{\tau  }   }\xspace}
+\newcommand{\phid}{\ensuremath{     \pderiv{\phi} {\delta}   }\xspace}
+\newcommand{\phit}{\ensuremath{     \pderiv{\phi} {\tau  }   }\xspace}
 \newcommand{\Helm} {\ensuremath{\phi (\delta,\tau)}\xspace}
 \newcommand{\HelmI}{\ensuremath{\phiI(\delta,\tau)}\xspace}
 \newcommand{\HelmR}{\ensuremath{\phiR(\delta,\tau)}\xspace}
 
 
 
-\appendix{Thermophysical Properties}\label[appendix]{Appendix:THProperties}
+\appendix{Thermophysical Properties}
+\label{Appendix:THProperties}
 
 \section{Equation of State}\label{Section:EOS}
 
-The \EOS used for the simulations is the \Acronym{IAPWS} Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use (IAPWS-95) \cite{iapws_revised_2009}.
-The specifics of the \EOS are discussed in the following section.
-Also, the procedure for back-calculating the temperature given a density and internal energy from the formulation is outlined since the conservation laws for the simulations evolve the internal energy based on mechanical balance but the \EOS uses temperature for explicit calculation of state properties.
+The \Acro{EOS} used for the simulations is the \Acro{IAPWS} Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use (IAPWS-95) \cite{iapws_revised_2009}.
+The specifics of the \Acro{EOS} are discussed in the following section.
+Also, the procedure for back-calculating the temperature given a density and internal energy from the formulation is outlined since the conservation laws for the simulations evolve the internal energy based on mechanical balance but the \Acro{EOS} uses temperature for explicit calculation of state properties.
 
 \subsection{IAPWS Formulation 1995}
-The IAPWS-95 is a fully non-ideal \EOS for water that uses on an empirical curve fit of the Helmholtz Free Energy potential \Afe.
-The natural variables of the potential are density \Density and temperature \Temperature, and the formulation uses a dimensionless density \delta and a dimensionless temperature \tau defined by 
+The IAPWS-95 is a fully non-ideal \Acro{EOS} for water that uses on an empirical curve fit of the Helmholtz Free Energy potential \Afe.
+The natural variables of the potential are density \Density and temperature \Temperature, and the formulation uses a dimensionless density $\delta$ and a dimensionless temperature $\tau$ defined by 
 \begin{align}
     \delta &= \frac{\rho}{\rhoc} \Skip
     \tau   &= \frac{\Tc}{T}
 \end{align}
 where \rhoc and \Tc are, respectively, the critical point density and temperature of water.
-The dimensionless form of the potential is the fundamental basis of the \Acronym{IAPWS} formulation and has the form
+The dimensionless form of the potential is the fundamental basis of the \Acro{IAPWS} formulation and has the form
 \begin{equation}
     \frac{\Afe(\rho,T)}{R\,T} = \Helm = \HelmI + \HelmR,
 \end{equation}
@@ -78,19 +79,17 @@ In terms of the non-dimensional \HFE function \Helm, these equilibrium condition
 \Cref{Eqn:TCS:MaxwellCriterion} is the Maxwell construction (i.e., equal area rule) of the Gibbs free energy equivalence (\cite{gould_chemical_2010}).  
 The above system consists of three equations and four unknowns: \Psat, \tauSat, \deltaL, and \deltaG; therefore, the system can be solved once one of the saturation values is specified.
 A pressure-volume diagram is shown in \cref{Fig:PvDiagram} calculated from an implementation of the IAPWS-95 formulation.
-
 \begin{figure}%
-    \begin{center}
-        \caption{Pressure versus specific volume with several isotherms.  The gray line denotes the phase coexistence curve.}%
-        \label{Fig:PvDiagram}%
-        \includegraphics[scale=0.16]{PressureVsVolume}%7
-    \end{center}
+    \centering
+    \caption{Pressure versus specific volume with several isotherms.  The gray line denotes the phase coexistence curve.}%
+    \label{Fig:PvDiagram}%
+    \includegraphics[scale=0.17]{PressureVsVolume.png}%7
 \end{figure}
 
 
 \subsection{Back Calculation of Temperature}
 Temperature is a very powerful state variable because it is a directly measurable quantity that provides a qualitative measurement of a fluid's internal energy.
-However, in the balance equations \cref{Eqn:HEMBasic}, density and internal energy are the variables that are mechanically balanced, completely independent of thermodynamics. 
+However, in the balance equations presented in \cref{Section:GoverningEquations}, density and internal energy are the variables that are mechanically balanced, completely independent of thermodynamics. 
 As such, it is most natural to update the thermodynamic and transport quantities with the mechanically specified density and internal energy to have a consistent evolution system.
 Furthermore, since density and internal energy are defined and independent in the two-phase region (unlike pressure and temperature), the time evolution may lead to mixture quantities.
 
@@ -107,41 +106,36 @@ For the two-phase region, the situation is a bit more complicated since the mixt
 The full algorithm is outlined below.
 Once the temperature has been calculated, all other properties can be directly solved for using the natural variables of the Helmholtz potential.
 
-
-\begin{BoxedAlgorithm}
-    \DontPrintSemicolon
-    \SetAlgoLined
-    \SetKwInput{Input}{Input}
-    \SetKwInput{Output}{Output}
-    
-    \begin{spacing}{1.1}
-    % Algorithm begin
-    \TitleOfAlgo{Temperature Back Calculation}
-    \Input{A known dimensionless density \delta and internal energy \IntEnergy.}
-    \Output{Corresponding dimensionless temperature \tau.}
-    
-    \vspace{0.5em}
-    \isat = \mbox{GetSaturationInternalEnergy}(\delta)\;
-    \eIf{ \IntEnergy $>$ \isat }{  
-        \textsc{\% Single phase solve}\;
-        $\tau  = \tau\subs{guess}$\;
-        $d\tau = \Inf$\;
-        \While{$\Abs(d\tau) > \varepsilon$}{
-            $d\tau = - \Rez\subs[\!]{one}(\tau)/\Rez'\subs[\!\!\!]{one}(\tau)$\;
-            $\tau = \tau + d\tau$\;
+\begin{algorithm}[t]
+    \setstretch{1.2}
+    \caption{Temperature Back Calculation}
+    \label{Algo:TemperatureBackCalc}
+    \SetKwFunction{Temperature}{temperature}
+    \SetKw{Return}{return}
+    \SetKwFunction{GetSaturationInternalEnergy}{GetSaturationInternalEnergy}
+    \SetKwFunction{GetSaturationProperties}{GetSaturationProperties}
+    \Function{\Temperature{$\delta,\,i_{\text{\textsc{nd}}}\,\tau_{\text{guess}}$}}{
+        $i_{\text{sat}} = \GetSaturationInternalEnergy(\delta)$\;
+        $\tau = \tau_{\text{guess}}$\;
+        $\dd{\tau} = \Inf$\;
+        \uIf{ $ i_{\text{\textsc{nd}}} > i_{\text{sat}} $ } {
+            \tcm*[h]{One Phase}\nonl\;
+            \While{ $\Abs(\dd{\tau}) > \varepsilon$ } {
+                $\dd{\tau} = R_{\text{one}}(\tau)/R'_{\text{one}}(\tau)$\;
+                $\tau = \tau - \dd{\tau}$\;
+            }
+        } \Else {
+            \tcm*[h]{Two Phase}\nonl\;
+            \While{ $\Abs(\dd{\tau}) > \varepsilon$ } {
+                $[P_{\text{sat}},\,\deltaL,\,\deltaG] = \GetSaturationProperties(\tau)$\;
+                $\dd{\tau} = R_{\text{two}}(\tau,P_{\text{sat}},\,\deltaL,\,\deltaG)/R'_{\text{two}}(\tau,P_{\text{sat}},\,\deltaL,\,\deltaG)$\;
+                $\tau = \tau - \dd{\tau}$\;
+            }
         }
-    }{
-        \textsc{\% Two-phase solve}\;
-        $\tau  = \tau\subs{guess}$\;
-        $d\tau = \Inf$\;
-        \While{$\Abs(d\tau) > \varepsilon$}{
-            $[\Psat,\deltaL,\deltaG] = \mbox{GetSaturationProperties}(\tau)$\;
-            $ d\tau = - \Rez\subs[\!]{two}(\tau)/\Rez'\subs[\!\!\!]{two}(\tau)$\;
-            $\tau = \tau + d\tau$\;
-        }
+        \Return $\tau$\;
     }
-    \end{spacing}
-\end{BoxedAlgorithm}
+\end{algorithm}
+
 Above is an algorithmic outline of the temperature back calculation.  
 The functions GetSaturationInternalEnergy() and GetSaturationProperties() rely on solving \cref{Eqn:TCS} 
 through another Newton method.
@@ -149,7 +143,7 @@ The residual $\Rez\subs[\!]{one}$ is the same as \cref{Eqn:SinglePhaseResidualFo
 while $\Rez\subs[\!]{two}$ calculates the mixture internal energy at the current $\tau$ iterant 
 and the approximates the derivative in the vapor dome (since there is no closed form).
 
-\begin{figure}[H]%
+\begin{figure}[b]%
     \begin{center}
         \caption[Internal energy versus density with an arbitrary isochore]{ 
                     Internal energy versus density with an arbitrary isochore.  
@@ -157,13 +151,13 @@ and the approximates the derivative in the vapor dome (since there is no closed 
                     is always less than the single phase along an isochore.
         }%
         \label{Fig:IntERhoDiagram}%
-        \includegraphics[scale=0.16]{InteEnergyVsDensity}%7
+        \includegraphics[scale=0.16]{InteEnergyVsDensity.png}%7
     \end{center}
 \end{figure}
 
 \cleardoublepage
 \section{Transport Properties}\label{Section:TransportProps}
-Thermal conductivity \ThCond and dynamic viscosity \Viscosity are transport properties and have no direct relation to thermodynamic potentials.
-However, the \Acronym{IAPWS} has curve fits that are functions of density and temperature and are meant to be used in conjunction with the IAPWS-95 \EOS \cite{iapws_release_2008,iapws_release_2011}.
+Thermal conductivity $\ThCond$ and dynamic viscosity $\Viscosity$ are transport properties and have no direct relation to thermodynamic potentials.
+However, the \Acro{IAPWS} has curve fits that are functions of density and temperature and are meant to be used in conjunction with the IAPWS-95 \Acro{EOS} \cite{iapws_release_2008,iapws_release_2011}.
 
 

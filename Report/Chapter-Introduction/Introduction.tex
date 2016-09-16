@@ -1,0 +1,30 @@
+\chapter{Introduction}
+
+Stability of two-phase natural circulation systems is not a novel subject in-and-of itself.
+However, this work aims to perform the analysis on a closed-loop geometry with unique characteristics to be discussed.
+Motivation for this effort will be given from examination of a physical system.
+Then, a literature review will be given that overviews the field of stability analysis in general.
+Finally, some concluding remarks will be given pertaining to the goals of this work.
+
+\IncludeSection{Section2-ReactorCavityCoolingSystem}
+\newpage
+\IncludeSection{Section3-Literature}
+
+\section{Research Purpose}\label{Section:Purpose}
+
+The contribution of this work to the two-phase stability literature is a combination of topics in one analysis.
+First, this work uses a non-ideal, continuous \Acro{EOS} for water.
+Rather than approximating liquid water as a stiffened gas \cite{hayward_compressibility_1967-1} or using tabulated values, a complete implementation of the equation of state of water from the \Acro{IAPWS} is used.
+All thermodynamic and kinematic properties used in the simulations are calculated from the mechanically balanced mass and energy of the system.
+Second, this work uses an implementation of a modern, nonlinear solver that accurately and conservatively calculates all of the steady-states from which the linear stability calculations are made.
+The solver is based on Newton-Raphson methods but avoids the need to form the true Jacobian of the system during simulation, which greatly decreases the computational cost of the solution.
+Third, a modified discretization scheme is presented.
+It is a scheme that aims to allow complete physical coverage of the computational domain by a course, staggered grid and therefore allow complete and correct integration of the physical domain on both the conservation and momentum fields.
+This proper integration allows for a mathematically rigorous integration of the domain for accurate calculation of linear stability via full domain integration.
+The final result of these efforts is a stability analysis of a simple, closed-loop system under different power loads in both single and two-phase states.
+
+
+
+
+
+

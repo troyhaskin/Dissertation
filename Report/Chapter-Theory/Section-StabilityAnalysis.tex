@@ -1,0 +1,182 @@
+\section{Stability Analysis}\label{Section:StabilityTheory}
+A stability analysis is an umbrella term for studying the basic structure of solutions to differential equations.
+The concerns of stability analysis include oscillations in solutions, sensitivity of solutions to perturbations, solution uniqueness dependent upon system parameters, and solution divergence (i.e., blow-up).
+This section focuses on the tractable subject of the linear stability.
+A full discussion of nonlinear stability theory is beyond the scope of this work and is left to the literature (\eg, \cite{guckenheimer_nonlinear_1983,galaktionov_stability_2004}).
+
+At the heart of linear stability analysis is the solution of an eigenvalue problem.
+Through manipulation and simplification of the conservation laws, the ultimate goal of linear stability is to find the eigenvalues of a coefficient matrix $a_{ij}$ present in the ordinary differential equation
+\begin{equation}
+    \pdt \dq_i = a_{ij} \dq_i,
+\end{equation}
+where $\dq_i$ are small, system-wide perturbations off of a steady-state solution, as will be discussed.
+The eigenvalues determine the asymptotic behavior of the perturbations in time.
+If the perturbations eventually decay toward zero, the system with the associated $a_{ij}$ is said to be \emph{stable}.
+If the perturbations grow, it is \emph{unstable}.
+These aspects will be explored again in the following subsection in more depth.
+
+The section proceeds with a general discussion and derivation of the above equation and finishes with the particular application of the analysis to the system of equations presented in previous sections.
+
+
+
+
+\subsection{The Perturbation Equation}
+The differential form of the conservation law of primary concern for this work is
+\begin{equation}
+    \pdt\q_i(x_i,t) + \pdj f_{ij}(\q_i,x_i,t) - s_i(\q_i,x_i,t) = 0
+\end{equation}
+where $f_{ij}$ and $s_i$ are taken to be nonlinear functions of the system parameters $\q_i$.
+The assumed nonlinearity in the flux and source functions makes analytical solutions of the equation extremely difficult to acquire and analyze in a rigorous manner.
+Linear stability analysis remedies this shortcoming by Taylor expanding the nonlinear problem about an equilibrium point.
+A solution of the form
+\begin{equation}
+    \q_i(x_i,t) = \qSS_i(x_i) + \dq_i(x_i,t)
+\end{equation}
+is assumed.
+That is to say, the total solution is taken to be the linear combination of a steady-state solution $\qSS(x_i)$ and a transient, perturbation solution $\dq(x_i,t)$.
+Substituting this ansatz into the conservation law gives the following:
+\begin{equation}
+    \pdt\dq_i(x_i,t) + \pdj f_{ij}( \qSS_i + \dq_i;x_i,t) - s_i(\qSS_i + \dq_i;x_i,t) = 0.
+\end{equation}
+The still-extant nonlinearity is then removed via a Taylor expansion about the steady-state solution.
+Since all surface fluxes exactly balance all sources at steady-state, the zero-th order terms in the Taylor expansion cancel, and only the first-order Jacobian terms remain with all higher orders neglected:
+\begin{equation}
+    \pdt\dq_i(x_i,t) + \pdj\left[\pderiv{f_{ij}}{\qSS_k{}} \dq_k\right] = \pderiv{s_i}{\qSS_k{}}\dq_k.
+\end{equation}
+This linear, partial differential equation for the perturbation solution forms the fundamental basis for linear stability analysis.
+
+Despite the perturbation equation being linear, it is still a partial differential equation with a spatially dependent coefficient matrix under the gradient on the left-hand side that does not lend itself easily toward a closed-form solution.
+Further, the differential form will only give a point-wise perspective on the perturbations' evolution and not a more important, system-wide perspective.
+The solution to these problems is to integrate the perturbation equation over the entire computational domain to turn the partial differential equation into an ordinary differential equation:
+\begin{equation}
+    \pdt\int_\Omega \dq_i(x_i,t)\dV + \int_\S\pderiv{f_{ij}}{\qSS_k{}} \dq_k n_j\dS = \int_\Omega\pderiv{s_i}{\qSS_k{}}\dq_k \dV.
+    \label{Eqn:IntegratedPertrubation}
+\end{equation}
+While this procedure bares resemblance to the earlier outlined \Acro{FVM}, there are two key differences.
+The first difference is that the integration should be done over the entire system and not broken into pieces.
+Breaking the integration into pieces will allow local tracking of perturbations, but the resulting coefficient matrix will have possibly spurious positive eigenvalues associated with the positive advection of material across control volume boundaries; therefore, the integration should not be partitioned.
+
+The second difference is that some simple spatial form of the perturbations should be chosen such that they can be removed from the integrals to generate the ordinary differential equations presented at the beginning of this section.
+This step is needed since the domain cannot be partitioned without corrupting the eigenvalue calculation.
+The two simplest choices for the spatial dependence of the perturbations is point sources or everywhere-constant sources.
+The point sources are arguably the least severe to consider given their local nature and would require a volume-by-volume tracking scheme to determine where to perform the integration; therefore, point sources will not be considered in this work.
+Everywhere-constant sources, while not physically correct, would likely provide bounding behavior for the system given the size and coverage of the disturbances.
+Furthermore, it would allow the perturbations to be pulled directly out of the integrals and naturally lead to a system of ordinary differential equations.
+This is the choice of spatial perturbations that will be explored for the rest of this work.
+With this choice of basis and some minor manipulations, \cref{Eqn:IntegratedPertrubation} becomes
+\begin{equation}
+    \pdt\dq_i(t) = \frac{1}{\int_\Omega \dV} \left[\int_\Omega\pderiv{s_i}{\qSS_k{}}\dV - \int_\S\pderiv{f_{ij}}{\qSS_k{}}n_j\dS\right] \dq_k(t);
+\end{equation}
+this is the general conservation law for linear stability analysis.
+Now, the specific sources and fluxes of the system of equations described in \cref{Section:GoverningEquations} will be put into this equation.
+
+
+
+
+\subsection{Thermohydraulic Stability Equation}
+
+To give concreteness to the above generics, we consider \cref{Eqn:TheFinalEquations} in their differential form:
+    \begin{align}
+        \deriv{}{t}
+        \begin{bmatrix}
+            \rho \\ \rho i \\ \rho u_z 
+        \end{bmatrix}
+         &= 
+        -\pdj
+        \begin{bmatrix}
+            \rho u_j     \\ 
+            (\rho{i} + P) u_j\\
+            u_j \rho u_z + P z_i - \tau_{ij} z_i
+        \end{bmatrix}
+        + 
+        \begin{bmatrix}
+            s^\rho \\
+            s^e \\
+            \rho g_z + s^u_z
+        \end{bmatrix}
+    \end{align}
+Linearizing these equations about a steady-state solution and canceling the balancing zero-th order terms gives
+    \begin{align}
+        \deriv{}{t}
+        \begin{bmatrix}
+            \delta\mkern-2mu\rho \\ \delta\mkern-2mu\rho i \\ \delta\mkern-2mu\rho u_z 
+        \end{bmatrix}
+         &= 
+        -\pdj
+        \left(
+            \begin{bmatrix}
+                \partial_{q_k}(\rho u_j)\\
+                \partial_{q_k}[(\rho{i} + P) u_j]\\
+                \partial_{q_k}(u_j \rho u_z + P \delta_{ij}z_i - \tau_{ij}z_i) 
+            \end{bmatrix}
+            \delta\mkern-2mu q_k
+        \right)
+        + 
+        \left(
+        \begin{bmatrix}
+            \partial_{q_k} ( s^\rho )\\
+            \partial_{q_k}(s^e )\\
+            \partial_{q_k}(\rho g_z + s^u_z ) 
+        \end{bmatrix}
+            \delta\mkern-2mu q_k
+        \right),
+    \end{align}
+where $\delta\mkern-2mu q_k = \icolvec{\delta\mkern-2mu\rho,\delta\mkern-2mu\rho i,\delta\mkern-2mu\rho u_z}$.
+
+A fair bit of the apparent mess in calculating the derivatives can be avoided by carrying out the system-wide integration at this stage.
+As opposed to the \Acro{FVM} solution discussed earlier, there is no material transfer across any of the system boundaries and all advection terms immediately integrate to zero regardless of value.
+Further, since the bulk flow direction is always perpendicular to the outward surface normals for the simulations under consider, the pressure surface integrals will likewise be zero.
+Finally, the only external source of material is the heat addition and removal from the system which is constant; therefore, all of the source terms differentiate to zero as well.
+All of these arguments lead to the perturbation equation of 
+    \begin{align}
+        \deriv{}{t}
+        \begin{bmatrix}
+            \delta\mkern-2mu\rho \\ \delta\mkern-2mu\rho i \\ \delta\mkern-2mu\rho u_z 
+        \end{bmatrix}
+         &= 
+        \frac{1}{V_{\text{sys}}}
+        \begin{bmatrix}
+            0 & 0 & 0 \\
+            0 & 0 & 0 \\
+            \alpha_\rho & \alpha_{\rho i} & \alpha_{\rho u_z} 
+        \end{bmatrix}
+        \begin{bmatrix}
+            \delta\mkern-2mu\rho \\ \delta\mkern-2mu\rho i \\ \delta\mkern-2mu\rho u_z 
+        \end{bmatrix},
+    \end{align}
+    where
+    \begin{align*}
+        \alpha_\rho &= -\int_{\S}\partial_{\rho}\Delta{P}_{\text{dar}}\dS + \int_{\V}g_z\dV \\
+        \alpha_\rho &= -\int_{\S}\partial_{\rho i}\Delta{P}_{\text{dar}}\dS \\
+        \alpha_\rho &= -\int_{\S}\partial_{\rho u_z}\Delta{P}_{\text{dar}}\dS 
+    \end{align*}
+   
+By way of the matrix exponential, this system of differential equations has the solution
+\begin{align}
+    \begin{bmatrix}
+        \delta\mkern-2mu\rho(t) \\ \delta\mkern-2mu\rho i(t) \\ \delta\mkern-2mu\rho u_z(t) 
+    \end{bmatrix}
+     &= 
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        \frac{\alpha_\rho}{\alpha_{\rho u_z}}     \left(e^{\tilde{\alpha} t} - 1 \right) &
+        \frac{\alpha_{\rho i}}{\alpha_{\rho u_z}} \left(e^{\tilde{\alpha} t} - 1 \right) &
+        e^{\tilde{\alpha} t}
+    \end{bmatrix}
+    \begin{bmatrix}
+        \delta\mkern-2mu\rho(0)\\ \delta\mkern-2mu\rho i(0) \\ \delta\mkern-2mu\rho u_z(0) 
+    \end{bmatrix},
+\end{align}
+where $\tilde{\alpha} = \alpha_{\rho u_z} / V_{\text{sys}}$.
+And we see that the solution makes sense in relation to all of the assumptions that have been made up to now.
+Since the system was assumed to be perfectly isolated, there are no mechanisms to dissipate excess mass or energy perturbed into the system.
+As such, any non-zero initial perturbations in mass and energy will remain but with no dynamic behavior on either the mass or energy components of the system; they will simply be constant additions to the system.
+
+Further, the time dependence on the $\alpha_{\rho u_z}$ parameter is shown through the exponential functions.  If the value of the parameter is negative, the system will be asymptotically stable in that all perturbations will eventually decay to zero or another finite value dependent on any non-zero mass and energy perturbations introduced into the system.
+The calculation of the sign of these parameters, the eigenvalues of the above system, is what ultimately determines the stability of the system.
+And in order to calculate them properly, an accurate integration of the entire system is required.
+Accurate integration of the entire system necessitates local values attained from a \Acro{FVM} solution of the system.
+
+
+

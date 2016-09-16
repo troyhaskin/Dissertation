@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
+\usepgfplotslibrary{external}
+\usetikzlibrary{quotes,angles,external}
+ \tikzexternalize%[shell escape=-enable-write18]
+\tikzsetexternalprefix{tikz/}
+
+
+
+\begin{document}
+5
+    \sisetup{per-mode=symbol}
+    \begin{figure}%
+        \centering
+        \tikzsetnextfilename{PressureVsVolume}
+        \input{PressureVsVolume.tikz}
+        \caption{1}%
+        \label{1}%
+    \end{figure}
+    \cleardoublepage
+    \begin{figure}%
+        \centering
+        \tikzsetnextfilename{IntEnergyVsTemperature}
+        \input{IntEnergyVsTemperature.tikz}
+        \caption{1}%
+        \label{2}%
+    \end{figure}
+    \cleardoublepage
+    \begin{figure}%
+        \centering
+        \tikzsetnextfilename{AcousticSpeedVsMaterialSpeed}
+        \input{AcousticSpeedVsMaterialSpeed.tikz}
+        \caption{1}%
+        \label{3}%
+    \end{figure}
+
+
+\end{document}
