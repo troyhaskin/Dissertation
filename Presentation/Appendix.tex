@@ -137,13 +137,13 @@
     \begin{frame}[label=Multiphase]{Multiphase Model}
          \begin{equation}
             \renewcommand{\arraystretch}{2.2}
-            \pdiff{}{t}\begin{bmatrix}
+            \pderiv{}{t}\begin{bmatrix}
                            \rhok \\
                            \rhouk \\
                            \rhoik 
                         \end{bmatrix}
             + 
-            \pdiff{}{z}\begin{bmatrix}
+            \pderiv{}{z}\begin{bmatrix}
                             \rhouk                 \\
                             \uk\,    \rhouk  + P(\rho\subs{\phi},\ik)   \\
                             \uk\left[\rhoik  + P(\rho\subs{\phi},\ik)\right]
@@ -153,7 +153,7 @@
         \begin{equation}\renewcommand{\arraystretch}{2.2}
             \begin{bmatrix}
                 \mathbb{M}\subs{\phi} \\
-                \rhok{g(z)} - \frac{\Keff\subs{,\phi}(\qCon)}{2} \uk\,|\rhouk| + \mathbb{P}\subs{\phi}  \\
+                \rhok{g(z)} - \frac{K_{\text{eff,$\phi$}}(\qCon)}{2} \uk\,|\rhouk| + \mathbb{P}\subs{\phi}  \\
                 \dot{Q}\subs{add,\phi}(\qCon,z,t) + \mathbb{E}\subs{\phi}
             \end{bmatrix}
             \notag

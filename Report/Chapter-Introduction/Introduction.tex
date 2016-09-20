@@ -19,7 +19,7 @@ All thermodynamic and kinematic properties used in the simulations are calculate
 Second, this work uses an implementation of a modern, nonlinear solver that accurately and conservatively calculates all of the steady-states from which the linear stability calculations are made.
 The solver is based on Newton-Raphson methods but avoids the need to form the true Jacobian of the system during simulation, which greatly decreases the computational cost of the solution.
 Third, a modified discretization scheme is presented.
-It is a scheme that aims to allow complete physical coverage of the computational domain by a course, staggered grid and therefore allow complete and correct integration of the physical domain on both the conservation and momentum fields.
+It is a scheme that aims to allow complete physical coverage of the computational domain by a coarse, staggered grid and therefore allow complete and correct integration of the physical domain on both the conservation and momentum fields.
 This proper integration allows for a mathematically rigorous integration of the domain for accurate calculation of linear stability via full domain integration.
 The final result of these efforts is a stability analysis of a simple, closed-loop system under different power loads in both single and two-phase states.
 

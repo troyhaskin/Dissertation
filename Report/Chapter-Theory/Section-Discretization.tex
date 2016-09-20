@@ -211,7 +211,7 @@ This donor approach ensures exact conservation of mass.
 
 The spatially discretized energy equation for the $k$-th control volume has the form
 \begin{equation}
-    \deriv{}{t}\! \IntV \rho i \dV = s^e_k V_k + \sum_{n=1}^{N} u_n \rho{h}_{d,n} A_n \label{Eqn:SemiEnergy}
+    \deriv{}{t}\! \IntV \rho i_k \dV = s^e_k V_k + \sum_{n=1}^{N} u_n \rho{h}_{d,n} A_n \label{Eqn:SemiEnergy}
 \end{equation}
 where $s^e_k$ is a source term, $V_k$ is the volume of the control volume, $u_n$ is the exchange velocity, $\rho{h}_{d,n}$ is the donor enthalpy, and $A_n$ is the exchange surface area.  The donor enthalpy $\rho{h}_{d,n}$ is equal to $\rho{i}_{d,n} + P_{d,n}$ is the enthalpy of the ``from'' volume if $\Sign(u_n)$ is positive or the density of the ``to'' volume otherwise.
 This donor approach ensures exact conservation of energy.

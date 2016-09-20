@@ -6,41 +6,77 @@
     % --------------------------------------------------- %
     %                  Motivation:Goals                   %
     % --------------------------------------------------- %
-    \subsection{Motivation}
+    \subsection*{Motivation}
     \begin{frame}{Goals}
-        Aim to assess, predict, and physically explain observed two-phase flow behavior in a natural circulation loop
+        Simulate a simple closed-loop with naturally circulating water in both single and two-phase regimes using
         \begin{Itemize}
-            \item{Using a non-ideal equation of state for water}
-            \item{Several models for convection and friction}
-            \item{Multiple risers (non-simple loops)}
+            \item{Non-ideal equation of state for water}
+            \item{Simple but accurate models for frictional pressure losses}
+            \item{Modern, nonlinear solver with complete residual convergence}
+            \item{Rigorous discretization that allows for exact integration of conservation equations over physical domain}
         \end{Itemize}
+        
+        And ultimately determine the linear stability of the system under consideration.
     \end{frame}
     
     % --------------------------------------------------- %
     %             Motivation:Leading Questions            %
     % --------------------------------------------------- %
-    \begin{frame}{Leading Questions}
-        \begin{Itemize}
-            \item<1->{What are two-phase instabilities?}
+ \begin{frame}{Stability}
+        \only<1>{
+        What is stability?
+            \begin{Itemize}
+                \item{Often used term}
+                \item{Used with many definitions (both implicit and explicit)}
+            \end{Itemize}
+        }
+        
+        \only<2>{
+        One definition:
             \begin{beamercolorbox}[sep=0.4em,rounded=true]{titlelike}
                 Transient (possibly oscillatory) thermal hydraulic phenomenon stemming from 
                 nonlinear-geometric-multiphase feedback that could lead to system excursions 
                 causing dangerous mechanical or thermal damage and possibly human harm.
             \end{beamercolorbox}
-            \pause
-            \item<2->{Applications?}
+        }
+        
+        \only<3-4>{
+        Another definition:
+            \begin{beamercolorbox}[sep=0.4em,rounded=true]{titlelike}
+                A system of the form
+                \begin{equation}
+                    \partial_{t} q = f(t,q)
+                \end{equation}
+                is stable if $q \in [q_{\text{low}},q_{\text{hi}}]$ for all time.
+            \end{beamercolorbox}
+        }
+        
+        \only<4>{
+            Definition for here:
+            \begin{beamercolorbox}[sep=0.4em,rounded=true]{titlelike}
+                A system of the form
+                \begin{equation}
+                    \partial_{t} q = A q
+                \end{equation}
+                is stable if all eigenvalues of $A$ are less than or equal to zero.
+            \end{beamercolorbox}
+        }
+        \only<5>{Applications?
                 \begin{Itemize}
                     \item<2->{Thermosiphon}
                     \item<2->{Power cycle loops}
                     \item<2->{And... }
                  \end{Itemize}
-        \end{Itemize}
+        }
     \end{frame}
+
+
+
 
     % --------------------------------------------------- %
     %                 RCCS:Overview                       %
     % --------------------------------------------------- %
-    \subsection{RCCS}
+    \subsection*{RCCS}
     \begin{frame}{Reactor Cavity Cooling System}
         \begin{columns}
             \begin{column}[T]{0.45\textwidth}
@@ -113,13 +149,14 @@
     % --------------------------------------------------- %
     %                     Literature                      %
     % --------------------------------------------------- %
-    \subsection{Literature}
+    \subsection*{Literature}
     \begin{frame}{Been done before?}
-        Two-phase, natural circulation stability literature exists.
+        Two-phase, natural circulation stability in the literature exists (see thesis).
         \vspace{1em}
         But...
         \begin{Itemize}
-            \item{Almost no analytical work on non-simple, closed loop (multiple riser)}
-            \item{None had depletion of inventory in two-phase}
+            \item{Analytical work limited to simple equations-of-state}
+            \item{Large volumes with piece-wise properties (non-dimensional numbers abound)}
+            \item{System code usage hindered by simple discretization scheme and confounded by complicated models}
         \end{Itemize}
     \end{frame}

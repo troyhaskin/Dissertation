@@ -29,104 +29,272 @@
 % ---------------------------------------------------------------------------- %
 %                              Derivative Commands                             %
 % ---------------------------------------------------------------------------- %
-\newcommand{\bigdiffn}[4]{\dfrac{#1{}^{#4}}{#1 #3{}^{#4}} \left[ #2 \right]}
-\newcommand{\gendiffn}[4]{\dfrac{#1{}^{#4} #2}{#1 #3{}^{#4}}}
+\ExplSyntaxOn
+\tl_new:N   \g_UWMad_Math_derivSymbol_tl
+\tl_gset:Nn \g_UWMad_Math_derivSymbol_tl   {\mathrm{d}}
+\tl_new:N   \g_UWMad_Math_pderivSymbol_tl
+\tl_gset:Nn \g_UWMad_Math_pderivSymbol_tl  {\partial}
+\tl_new:N   \g_UWMad_Math_tderivSymbol_tl
+\tl_gset:Nn \g_UWMad_Math_tderivSymbol_tl  {\mathrm{D}}
+\tl_new:N   \g_UWMad_Math_DelimiterDefaultLeft_tl
+\tl_gset:Nn \g_UWMad_Math_DelimiterDefaultLeft_tl  {[}
+\tl_new:N   \g_UWMad_Math_DelimiterDefaultRight_tl
+\tl_gset:Nn \g_UWMad_Math_DelimiterDefaultRight_tl {]}
+\tl_new:N   \l_UWMad_Math_DelimiterLeft_tl
+\tl_new:N   \l_UWMad_Math_DelimiterRight_tl
+\DeclareDocumentCommand \derivSymbol { } {
+    \g_UWMad_Math_derivSymbol_tl
+}
+\DeclareDocumentCommand \pderivSymbol { } {
+    \g_UWMad_Math_pderivSymbol_tl
+}
+\DeclareDocumentCommand \tderivSymbol { } {
+    \g_UWMad_Math_tderivSymbol_tl
+}
+\DeclareDocumentCommand \derivSymbolChange { m } {
+    \tl_set:Nn \g_UWMad_Math_derivSymbol_tl {#1}
+}
+\DeclareDocumentCommand \pderivSymbolChange { m } {
+    \tl_set:Nn \g_UWMad_Math_pderivSymbol_tl {#1}
+}
+\DeclareDocumentCommand \tderivSymbolChange { m } {
+    \tl_set:Nn \g_UWMad_Math_tderivSymbol_tl {#1}
+}
+\DeclareDocumentCommand \derivSymbolChangeDefault { m } {
+    \tl_gset:Nn \g_UWMad_Math_derivSymbol_tl {#1}
+}
+\DeclareDocumentCommand \pderivSymbolChangeDefault { m } {
+    \tl_gset:Nn \g_UWMad_Math_pderivSymbol_tl {#1}
+}
+\DeclareDocumentCommand \tderivSymbolChangeDefault { m } {
+    \tl_gset:Nn \g_UWMad_Math_tderivSymbol_tl {#1}
+}
+\DeclareDocumentCommand \DelimiterChangeDefault { m m } {
+    \tl_gset:Nn  \g_UWMad_Math_DelimiterDefaultLeft_tl  {#1}
+    \tl_gset:Nn  \g_UWMad_Math_DelimiterDefaultRight_tl {#2}
+}
+\DeclareDocumentCommand \DerivativeGeneral { +m +m m m } {
+    \frac{ #4^{#3} #1      }
+         { #4      #2^{#3} }
+}
+\DeclareDocumentCommand \DerivativeGeneralBig { +m +m m m m m} {
 
-\newcommand{\diff}[3][d]{
-    \ifthenelse{\equal{p}{#1}}{
-        \gendiffn{\partial}{#2}{#3}{}
+    \IfNoValueTF {#5} {
+        \tl_set_eq:NN
+            \l_UWMad_Math_DelimiterLeft_tl
+            \g_UWMad_Math_DelimiterDefaultLeft_tl
+    } {
+        \tl_set:Nn \l_UWMad_Math_DelimiterLeft_tl {#5}
+    }
+
+    \IfNoValueTF {#6} {
+        \tl_set_eq:NN
+            \l_UWMad_Math_DelimiterRight_tl
+            \g_UWMad_Math_DelimiterDefaultRight_tl
+    } {
+        \tl_set:Nn \l_UWMad_Math_DelimiterRight_tl {#6}
+    }
+
+    \frac{ #4^{#3}    }
+         { #4 #2^{#3} }
+    \!\!
+    \left\l_UWMad_Math_DelimiterLeft_tl
+        #1
+    \right\l_UWMad_Math_DelimiterRight_tl
+}
+\DeclareDocumentCommand \deriv { +m +m G{} } {
+    \DerivativeGeneral
+        {#1}{#2}{#3}{\derivSymbol}
+}
+\DeclareDocumentCommand \pderiv { +m +m G{} } {
+    \DerivativeGeneral
+        {#1}{#2}{#3}{\pderivSymbol}
+}
+\DeclareDocumentCommand \tderiv { +m +m G{} } {
+    \DerivativeGeneral
+        {#1}{#2}{#3}{\tderivSymbol}
+}
+\DeclareDocumentCommand \derivbig { o +m o +m G{} } {
+    \DerivativeGeneralBig
+        {#2}{#4}{#5}{\derivSymbol}{#1}{#3}
+}
+\DeclareDocumentCommand \pderivbig { o +m o +m G{} } {
+    \DerivativeGeneralBig
+        {#2}{#4}{#5}{\pderivSymbol}{#1}{#3}
+}
+\DeclareDocumentCommand \tderivbig { o +m o +m G{} } {
+    \DerivativeGeneralBig
+        {#2}{#4}{#5}{\tderivSymbol}{#1}{#3}
+}
+\DeclareMathOperator*{\Sup}    {Sup}
+\DeclareMathOperator*{\Inf}    {Inf}
+\DeclareMathOperator*{\Lim}    {Lim}
+\DeclareMathOperator*{\Min}    {Min}
+\DeclareMathOperator*{\Max}    {Max}
+\DeclareMathOperator*{\ArgMin} {ArgMin}
+\DeclareMathOperator*{\ArgMax} {ArgMax}
+\DeclareMathOperator{\Abs}     {Abs}
+\DeclareMathOperator{\Ln}      {Ln}
+\DeclareMathOperator{\Log}     {Log}
+\DeclareMathOperator{\Exp}     {Exp}
+\DeclareMathOperator{\Cos}     {Cos}
+\DeclareMathOperator{\Sin}     {Sin}
+\DeclareMathOperator{\Tan}     {Tan}
+\DeclareMathOperator{\Sec}     {Sec}
+\DeclareMathOperator{\Csc}     {Csc}
+\DeclareMathOperator{\Cot}     {Cot}
+\DeclareMathOperator{\Cosh}    {Cosh}
+\DeclareMathOperator{\Sinh}    {Sinh}
+\DeclareMathOperator{\Tanh}    {Tanh}
+\DeclareMathOperator{\Sech}    {Sech}
+\DeclareMathOperator{\Csch}    {Csch}
+\DeclareMathOperator{\Coth}    {Coth}
+\DeclareMathOperator{\ArcCos}  {ArcCos}
+\DeclareMathOperator{\ArcSin}  {ArcSin}
+\DeclareMathOperator{\ArcTan}  {ArcTan}
+\DeclareMathOperator{\ArcSec}  {ArcSec}
+\DeclareMathOperator{\ArcCsc}  {ArcCsc}
+\DeclareMathOperator{\ArcCot}  {ArcCot}
+\DeclareMathOperator{\ArcCosh} {ArcCosh}
+\DeclareMathOperator{\ArcSinh} {ArcSinh}
+\DeclareMathOperator{\ArcTanh} {ArcTanh}
+\DeclareMathOperator{\ArcSech} {ArcSech}
+\DeclareMathOperator{\ArcCsch} {ArcCsch}
+\DeclareMathOperator{\ArcCoth} {ArcCoth}
+\cs_new:Nn \UWMad_Math_RootWithTail:nn {
+
+    \hbox_set:Nn \l_tmpa_box {
+        $
+            \mathchoice
+                {\root #1 \of {#2\:\!}}
+                {\root #1 \of {#2\:\!}}
+                {\root #1 \of {#2\:\!}}
+                {\root #1 \of {#2\:\!}}
+        $
+    }
+    %
+    \dim_set:Nn \l_tmpa_dim {\box_ht:N \l_tmpa_box}
+    \dim_set:Nn \l_tmpb_dim {0.8\l_tmpa_dim}
+    %
+    \hbox_set:Nn \l_tmpb_box {
+        \tex_vrule:D height \l_tmpa_dim depth -\l_tmpb_dim
+    }
+    %
+    \box_use:N \l_tmpa_box
+    \box_move_down:nn {0.40pt}{\box_use:N \l_tmpb_box}
+}
+\DeclareDocumentCommand \Sqrt { O{} m } {
+    \UWMad_Math_RootWithTail:nn{#1}{#2}
+}
+\DeclareExpandableDocumentCommand \IfMathModeTF { +m +m } {
+    \mode_if_math:TF {
+        #1
     }{
-        \ifthenelse{\equal{b}{#1}}{
-            \bigdiffn{d}{#2}{#3}{}
-        }{
-            \ifthenelse{\equal{bp}{#1}}{
-                \bigdiffn{\partial}{#2}{#3}{}
-            }{
-                \gendiffn{d}{#2}{#3}{}
-            }
-        }
+        $#2$
     }
 }
-
-\newcommand{\diffn}[4][d]{
-    \ifthenelse{\equal{p}{#1}}{
-        \gendiffn{\partial}{#2}{#3}{#4}
-    }{
-        \ifthenelse{\equal{b}{#1}}{
-            \bigdiffn{#2}{#3}{#4}
-        }{
-            \ifthenelse{\equal{bp}{#1}}{
-                \bigdiffn{\partial}{#2}{#3}{#4}
-            }{
-                \gendiffn{#1}{#2}{#3}{#4}
-            }
-        }
-    }
+\cs_gset_eq:NN \supsipa \sups
+\cs_undefine:N \sups
+\ExplSyntaxOff
+    \DeclareDocumentCommand \subs { O{} +m } {%
+        \IfMathModeTF{%
+            _{\!\!\:#1\text{\scriptsize #2}}%
+        }{%
+            _{\!#1\text{\scriptsize #2}}%
+        }%
+    }%
+    \DeclareDocumentCommand \sups { O{} +m } {%
+        \IfMathModeTF{%
+            ^{#1\text{\scriptsize #2}}%
+        }{%
+            ^{#1\text{\scriptsize #2}}%
+        }%
+    }%
+    \DeclareDocumentCommand \subsups { O{} +m O{} +m } {%
+        \IfMathModeTF{%
+            _{#1\text{\scriptsize #2}}^{\!\!\:#3\text{\scriptsize #4}}%
+        }{%
+            _{#1\text{\scriptsize #2}}^{\!\!\!#3\text{\scriptsize #4}}%
+        }%
+    }%
+\ExplSyntaxOn
+\cs_gset_eq:NN \supsubs \subsups
+\DeclareDocumentCommand \OneOver { +m } {
+    \frac{1}{#1}
 }
+\DeclareDocumentCommand \oneo { +m } {
+    \OneOver{#1}
+}
+\DeclareDocumentCommand \dd { m } {
+    \mathrm{d}{#1}
+}
+\DeclareDocumentCommand \dprime { } {
+    {\prime\prime}
+}
+\DeclareDocumentCommand \tprime { } {
+    {\prime\prime\prime}
+}
+\DeclareDocumentCommand \LessThan        { } {<}
+\DeclareDocumentCommand \GreaterThanThan { } {>}
+\ExplSyntaxOff
 
 \newcommand{\bigdiff}   [2] {\diff[b]{#1}{#2}}
 \newcommand{\pdiff}     [2] {\diff[p]{#1}{#2}}
 \newcommand{\bigpdiff}  [2] {\diff[bp]{#1}{#2}}
 \let\frac\dfrac
-\newcommand{\subs}      [2][]{\ensuremath{{}_{#1\text{\scriptsize #2}}}}
-\newcommand{\sups}      [2][]{\ensuremath{{}^{#1\text{\scriptsize #2}}}}
-\newcommand{\oneo}      [1]  {\ensuremath{\frac{1}{#1}}}
 
 
 
 
-\newcommand{\Density}{\ensuremath{\rho}\xspace}
-\newcommand{\Temperature}{\ensuremath{T}\xspace}
-\newcommand{\Pressure}{\ensuremath{P}\xspace}
-\newcommand{\IntEnergy}{\ensuremath{i}\xspace}
-\newcommand{\Entropy}{\ensuremath{s}\xspace}
-\newcommand{\Enthalpy}{\ensuremath{h}\xspace}
+\newcommand{\Density}{\ensuremath{\rho}}
+\newcommand{\Temperature}{\ensuremath{T}}
+\newcommand{\Pressure}{\ensuremath{P}}
+\newcommand{\IntEnergy}{\ensuremath{i}}
+\newcommand{\Entropy}{\ensuremath{s}}
+\newcommand{\Enthalpy}{\ensuremath{h}}
 \newcommand{\ThCond}{\kappa}
 \newcommand{\Viscosity}{\mu}
-\newcommand{\DiffCoef}{\ensuremath{D}\xspace}
+\newcommand{\DiffCoef}{\ensuremath{D}}
 
-\newcommand{\isat}{\ensuremath{\IntEnergy\subs[\!]{sat}}\xspace}
-\newcommand{\Psat}{\ensuremath{\Pressure\subs[\!\!]{sat}}\xspace}
-\newcommand{\Tsat}{\ensuremath{\Temperature\subs[\!\!\:]{sat}}\xspace}
+\newcommand{\isat}{\ensuremath{\IntEnergy\subs[\!]{sat}}}
+\newcommand{\Psat}{\ensuremath{\Pressure\subs[\!\!]{sat}}}
+\newcommand{\Tsat}{\ensuremath{\Temperature\subs[\!\!\:]{sat}}}
 \newcommand{\SubL}{\subs[\!\!\:]{\rule{0pt}{8pt}$\textstyle\ell$}}
 \newcommand{\SubG}{\subs[\!\!\:]{$\mathit{g}$}}
 
-\newcommand{\rhol}{\ensuremath{\rho\SubL}\xspace}
-\newcommand{\rhog}{\ensuremath{\rho\SubG}\xspace}
-\newcommand{\il}{\ensuremath{i\SubL}\xspace}
-\newcommand{\ig}{\ensuremath{i\SubG}\xspace}
-\newcommand{\rhoul}{\ensuremath{\rhou\SubL}\xspace}
-\newcommand{\rhoug}{\ensuremath{\rhou\SubG}\xspace}
-\newcommand{\rhoil}{\ensuremath{\rhoi\SubL}\xspace}
-\newcommand{\rhoig}{\ensuremath{\rhoi\SubG}\xspace}
-\newcommand{\alphal}{\ensuremath{\alpha\SubL}\xspace}
-\newcommand{\alphag}{\ensuremath{\alpha\SubG}\xspace}
+\newcommand{\rhol}{\ensuremath{\rho\SubL}}
+\newcommand{\rhog}{\ensuremath{\rho\SubG}}
+\newcommand{\il}{\ensuremath{i\SubL}}
+\newcommand{\ig}{\ensuremath{i\SubG}}
+\newcommand{\rhoul}{\ensuremath{\rhou\SubL}}
+\newcommand{\rhoug}{\ensuremath{\rhou\SubG}}
+\newcommand{\rhoil}{\ensuremath{\rhoi\SubL}}
+\newcommand{\rhoig}{\ensuremath{\rhoi\SubG}}
+\newcommand{\alphal}{\ensuremath{\alpha\SubL}}
+\newcommand{\alphag}{\ensuremath{\alpha\SubG}}
 
-\newcommand{\tauSat}{\ensuremath{\tau\subs[\!\!\:]{sat}}\xspace}
-\newcommand{\deltaL}{\ensuremath{\delta\subs[\!\!\:]{\rule{0pt}{8pt}$\textstyle\ell$}}\xspace}
-\newcommand{\deltaG}{\ensuremath{\delta\subs[\!\!\:]{$\mathit{g}$}}\xspace}
+\newcommand{\tauSat}{\ensuremath{\tau\subs[\!\!\:]{sat}}}
+\newcommand{\deltaL}{\ensuremath{\delta\subs[\!\!\:]{\rule{0pt}{8pt}$\textstyle\ell$}}}
+\newcommand{\deltaG}{\ensuremath{\delta\subs[\!\!\:]{$\mathit{g}$}}}
 
-\newcommand{\rhoc}  {\ensuremath{\rho\subs{c}}\xspace}
-\newcommand{\Tc}    {\ensuremath{T\subs{c}}\xspace}
+\newcommand{\rhoc}  {\ensuremath{\rho\subs{c}}}
+\newcommand{\Tc}    {\ensuremath{T\subs{c}}}
 
 \newcommand{\Skip}[1][0.45em]{\\[#1]}
-\newcommand{\TCS}    {Thermodynamic Coexistence System\xspace}
-\newcommand{\TCSRef} {\hyperref[Eqn:TCS]{\TCS}\xspace}
-\newcommand{\MCS}    {Mechanical Coexistence System\xspace}
-\newcommand{\MCSRef} {\hyperref[Eqn:MCS]{\MCS}\xspace}
+\newcommand{\TCS}    {Thermodynamic Coexistence System}
+\newcommand{\TCSRef} {\hyperref[Eqn:TCS]{\TCS}}
+\newcommand{\MCS}    {Mechanical Coexistence System}
+\newcommand{\MCSRef} {\hyperref[Eqn:MCS]{\MCS}}
 
 \newcommand{\Afe}{\ensuremath{A\subs{\textsc{fe}}}}
-\newcommand{\HFE}{Helmholtz free energy\xspace}
-\newcommand{\EOS}{equation of state\xspace}
+\newcommand{\HFE}{Helmholtz free energy}
+\newcommand{\EOS}{equation of state}
 
-\newcommand{\Space}{\ensuremath{z}\xspace}
-\newcommand{\Time}{\ensuremath{t}\xspace}
-\newcommand{\Speeds}{\ensuremath{\mathbf{\lambda}}\xspace}
+\newcommand{\Space}{\ensuremath{z}}
+\newcommand{\Time}{\ensuremath{t}}
+\newcommand{\Speeds}{\ensuremath{\mathbf{\lambda}}}
 
-\DeclareMathOperator{\Ln}{Ln}
-\DeclareMathOperator{\Abs}{Abs}
-\DeclareMathOperator{\Inf}{Inf}
-\DeclareMathOperator{\Exp}{Exp}
+
 \DeclareMathOperator{\Rez}{R}
 
 \let\originalleft\left
@@ -158,9 +326,8 @@
 }
 
 \newcommand{\qConRaw}{\mathbf{q}}
-\newcommand{\qCon}{\ensuremath{\qConRaw}\xspace}
-\newcommand{\qPer}{\ensuremath{\widehat{\qConRaw}}\xspace}
-\newcommand{\qSS} {\ensuremath{\qConRaw^0}\xspace}
+\newcommand{\qCon}{\ensuremath{\qConRaw}}
+\newcommand{\qPer}{\ensuremath{\widehat{\qConRaw}}}
 
 \newcommand{\ConSys}{
     \Psi
@@ -266,20 +433,20 @@
 %}
 
 
-\DeclareRobustCommand{\TH}  {thermal hydraulics\xspace}
-\DeclareRobustCommand{\THc} {Thermal hydraulics\xspace}
-\DeclareRobustCommand{\THcc}{Thermal Hydraulics\xspace}
-\DeclareRobustCommand{\THs} {thermal hydraulic\xspace}
+\DeclareRobustCommand{\TH}  {thermal hydraulics}
+\DeclareRobustCommand{\THc} {Thermal hydraulics}
+\DeclareRobustCommand{\THcc}{Thermal Hydraulics}
+\DeclareRobustCommand{\THs} {thermal hydraulic}
 
-\DeclareRobustCommand{\CLaw}  {conservation law\xspace}
-\DeclareRobustCommand{\CLaws} {conservation laws\xspace}
+\DeclareRobustCommand{\CLaw}  {conservation law}
+\DeclareRobustCommand{\CLaws} {conservation laws}
 
 
-\newcommand{\rhou}{\ensuremath{\rho{u}}\xspace}
-\newcommand{\rhoi}{\ensuremath{\rho{i}}\xspace}
+\newcommand{\rhou}{\ensuremath{\rho{u}}}
+\newcommand{\rhoi}{\ensuremath{\rho{i}}}
 
 \newcommand{\tr}{\ensuremath{{}\sups{\textsc{T}}}}
-\newcommand{\mdotloss}[1][]{\ensuremath{\dot{m}'''\subs[\!\!\!\!\!#1]{loss}}\xspace}
+\newcommand{\mdotloss}[1][]{\ensuremath{\dot{m}'''\subs[\!\!\!\!\!#1]{loss}}}
 \newcommand{\Keff}{\ensuremath{K\subs{eff}}}
 
 \newcommand{\POfRhoRhoi}{\ensuremath{P\left(\rho,\frac{\rhoi}{\rho}\right)}}
@@ -310,67 +477,92 @@
                                  \tfrac{\partial\Delta{P}}{\partial(\rhou)}\bigr\rvert_{\text{ext}}$}
                                 
                                 
-\newcommand{\etal}{et al.\xspace}
-\newcommand{\etc}{etc.\xspace}
-\newcommand{\eg}{e.g.\xspace}
-\newcommand{\ie}{i.e.\xspace}
+\newcommand{\etal}{et al.}
+\newcommand{\etc}{etc.}
+\newcommand{\eg}{e.g.}
+\newcommand{\ie}{i.e.}
 
 
-\newcommand{\rhok}{ \ensuremath{\alpha\rho\subs{\phi}}\xspace}
-\newcommand{\rhouk} {\ensuremath{\alpha\rhou\subs{\phi}}\xspace}
-\newcommand{\rhoik} {\ensuremath{\alpha\rhoi\subs{\phi}}\xspace}
-\newcommand{\alphak}{\ensuremath{\alpha\subs{\phi}\xspace}}
-\newcommand{\uk}{\ensuremath{u\subs{\phi}}\xspace}
-\newcommand{\ik}{\ensuremath{i\subs{\phi}}\xspace}
-\newcommand{\CVvol}[1][k]{\ensuremath{\Omega_\text{#1}}\xspace}
-\newcommand{\MCvol}[1][m]{\ensuremath{\Omega_\text{#1}}\xspace}
-\newcommand{\CVsurf}[1][k]{\ensuremath{\Gamma_\text{#1}}\xspace}
-\newcommand{\MCsurf}[1][m]{\ensuremath{\Gamma_\text{#1}}\xspace}
-
-
-
+\newcommand{\rhok}{ \ensuremath{\alpha\rho\subs{\phi}}}
+\newcommand{\rhouk} {\ensuremath{\alpha\rhou\subs{\phi}}}
+\newcommand{\rhoik} {\ensuremath{\alpha\rhoi\subs{\phi}}}
+\newcommand{\alphak}{\ensuremath{\alpha\subs{\phi}}}
+\newcommand{\uk}{\ensuremath{u\subs{\phi}}}
+\newcommand{\ik}{\ensuremath{i\subs{\phi}}}
+\newcommand{\CVvol}[1][k]{\ensuremath{\Omega_\text{#1}}}
+\newcommand{\MCvol}[1][m]{\ensuremath{\Omega_\text{#1}}}
+\newcommand{\CVsurf}[1][k]{\ensuremath{\Gamma_\text{#1}}}
+\newcommand{\MCsurf}[1][m]{\ensuremath{\Gamma_\text{#1}}}
 
 
 
 
 
-    \let\Oldalpha     \alpha     \renewcommand{\alpha}     {\ensuremath{\Oldalpha     }\xspace}
-    \let\Oldbeta      \beta      \renewcommand{\beta}      {\ensuremath{\Oldbeta      }\xspace}
-    \let\Oldgamma     \gamma     \renewcommand{\gamma}     {\ensuremath{\Oldgamma     }\xspace}
-    \let\Olddelta     \delta     \renewcommand{\delta}     {\ensuremath{\Olddelta     }\xspace}
-    \let\Oldepsilon   \epsilon   \renewcommand{\epsilon}   {\ensuremath{\Oldepsilon   }\xspace}
-    \let\Oldvarepsilon\varepsilon\renewcommand{\varepsilon}{\ensuremath{\Oldvarepsilon}\xspace}
-    \let\Oldzeta      \zeta      \renewcommand{\zeta}      {\ensuremath{\Oldzeta      }\xspace}
-    \let\Oldeta       \eta       \renewcommand{\eta}       {\ensuremath{\Oldeta       }\xspace}
-    \let\Oldtheta     \theta     \renewcommand{\theta}     {\ensuremath{\Oldtheta     }\xspace}
-    \let\Oldvartheta  \vartheta  \renewcommand{\vartheta}  {\ensuremath{\Oldvartheta  }\xspace}
-    \let\Oldkappa     \kappa     \renewcommand{\kappa}     {\ensuremath{\Oldkappa     }\xspace}
-    \let\Oldlambda    \lambda    \renewcommand{\lambda}    {\ensuremath{\Oldlambda    }\xspace}
-    \let\Oldmu        \mu        \renewcommand{\mu}        {\ensuremath{\Oldmu        }\xspace}
-    \let\Oldnu        \nu        \renewcommand{\nu}        {\ensuremath{\Oldnu        }\xspace}
-    \let\Oldxi        \xi        \renewcommand{\xi}        {\ensuremath{\Oldxi        }\xspace}
-    \let\Oldpi        \pi        \renewcommand{\pi}        {\ensuremath{\Oldpi        }\xspace}
-    \let\Oldvarpi     \varpi     \renewcommand{\varpi}     {\ensuremath{\Oldvarpi     }\xspace}
-    \let\Oldrho       \rho       \renewcommand{\rho}       {\ensuremath{\Oldrho       }\xspace}
-    \let\Oldvarrho    \varrho    \renewcommand{\varrho}    {\ensuremath{\Oldvarrho    }\xspace}
-    \let\Oldsigma     \sigma     \renewcommand{\sigma}     {\ensuremath{\Oldsigma     }\xspace}
-    \let\Oldvarsigma  \varsigma  \renewcommand{\varsigma}  {\ensuremath{\Oldvarsigma  }\xspace}
-    \let\Oldtau       \tau       \renewcommand{\tau}       {\ensuremath{\Oldtau       }\xspace}
-    \let\Oldupsilon   \upsilon   \renewcommand{\upsilon}   {\ensuremath{\Oldupsilon   }\xspace}
-    \let\Oldphi       \phi       \renewcommand{\phi}       {\ensuremath{\Oldphi       }\xspace}
-    \let\Oldvarphi    \varphi    \renewcommand{\varphi}    {\ensuremath{\Oldvarphi    }\xspace}
-    \let\Oldchi       \chi       \renewcommand{\chi}       {\ensuremath{\Oldchi       }\xspace}
-    \let\Oldpsi       \psi       \renewcommand{\psi}       {\ensuremath{\Oldpsi}\xspace}
-    \let\Oldomega     \omega     \renewcommand{\omega}     {\ensuremath{\Oldomega     }\xspace}
-    \let\OldGamma     \Gamma     \renewcommand{\Gamma}     {\ensuremath{\OldGamma     }\xspace}
-    \let\OldLambda    \Lambda    \renewcommand{\Lambda}    {\ensuremath{\OldLambda    }\xspace}
-    \let\OldSigma     \Sigma     \renewcommand{\Sigma}     {\ensuremath{\OldSigma     }\xspace}
-    \let\OldPsi       \Psi       \renewcommand{\Psi}       {\ensuremath{\OldPsi       }\xspace}
-    \let\OldDelta     \Delta     \renewcommand{\Delta}     {\ensuremath{\OldDelta     }\xspace}
-    \let\OldXi        \Xi        \renewcommand{\Xi}        {\ensuremath{\OldXi        }\xspace}
-    \let\OldUpsilon   \Upsilon   \renewcommand{\Upsilon}   {\ensuremath{\OldUpsilon   }\xspace}
-    \let\OldOmega     \Omega     \renewcommand{\Omega}     {\ensuremath{\OldOmega     }\xspace}
-    \let\OldTheta     \Theta     \renewcommand{\Theta}     {\ensuremath{\OldTheta     }\xspace}
-    \let\OldPi        \Pi        \renewcommand{\Pi}        {\ensuremath{\OldPi        }\xspace}
-    \let\OldPhi       \Phi       \renewcommand{\Phi}       {\ensuremath{\OldPhi       }\xspace}
 
+
+
+    \let\Oldalpha     \alpha     \renewcommand{\alpha}     {\ensuremath{\Oldalpha     }}
+    \let\Oldbeta      \beta      \renewcommand{\beta}      {\ensuremath{\Oldbeta      }}
+    \let\Oldgamma     \gamma     \renewcommand{\gamma}     {\ensuremath{\Oldgamma     }}
+    \let\Olddelta     \delta     \renewcommand{\delta}     {\ensuremath{\Olddelta     }}
+    \let\Oldepsilon   \epsilon   \renewcommand{\epsilon}   {\ensuremath{\Oldepsilon   }}
+    \let\Oldvarepsilon\varepsilon\renewcommand{\varepsilon}{\ensuremath{\Oldvarepsilon}}
+    \let\Oldzeta      \zeta      \renewcommand{\zeta}      {\ensuremath{\Oldzeta      }}
+    \let\Oldeta       \eta       \renewcommand{\eta}       {\ensuremath{\Oldeta       }}
+    \let\Oldtheta     \theta     \renewcommand{\theta}     {\ensuremath{\Oldtheta     }}
+    \let\Oldvartheta  \vartheta  \renewcommand{\vartheta}  {\ensuremath{\Oldvartheta  }}
+    \let\Oldkappa     \kappa     \renewcommand{\kappa}     {\ensuremath{\Oldkappa     }}
+    \let\Oldlambda    \lambda    \renewcommand{\lambda}    {\ensuremath{\Oldlambda    }}
+    \let\Oldmu        \mu        \renewcommand{\mu}        {\ensuremath{\Oldmu        }}
+    \let\Oldnu        \nu        \renewcommand{\nu}        {\ensuremath{\Oldnu        }}
+    \let\Oldxi        \xi        \renewcommand{\xi}        {\ensuremath{\Oldxi        }}
+    \let\Oldpi        \pi        \renewcommand{\pi}        {\ensuremath{\Oldpi        }}
+    \let\Oldvarpi     \varpi     \renewcommand{\varpi}     {\ensuremath{\Oldvarpi     }}
+    \let\Oldrho       \rho       \renewcommand{\rho}       {\ensuremath{\Oldrho       }}
+    \let\Oldvarrho    \varrho    \renewcommand{\varrho}    {\ensuremath{\Oldvarrho    }}
+    \let\Oldsigma     \sigma     \renewcommand{\sigma}     {\ensuremath{\Oldsigma     }}
+    \let\Oldvarsigma  \varsigma  \renewcommand{\varsigma}  {\ensuremath{\Oldvarsigma  }}
+    \let\Oldtau       \tau       \renewcommand{\tau}       {\ensuremath{\Oldtau       }}
+    \let\Oldupsilon   \upsilon   \renewcommand{\upsilon}   {\ensuremath{\Oldupsilon   }}
+    \let\Oldphi       \phi       \renewcommand{\phi}       {\ensuremath{\Oldphi       }}
+    \let\Oldvarphi    \varphi    \renewcommand{\varphi}    {\ensuremath{\Oldvarphi    }}
+    \let\Oldchi       \chi       \renewcommand{\chi}       {\ensuremath{\Oldchi       }}
+    \let\Oldpsi       \psi       \renewcommand{\psi}       {\ensuremath{\Oldpsi}}
+    \let\Oldomega     \omega     \renewcommand{\omega}     {\ensuremath{\Oldomega     }}
+    \let\OldGamma     \Gamma     \renewcommand{\Gamma}     {\ensuremath{\OldGamma     }}
+    \let\OldLambda    \Lambda    \renewcommand{\Lambda}    {\ensuremath{\OldLambda    }}
+    \let\OldSigma     \Sigma     \renewcommand{\Sigma}     {\ensuremath{\OldSigma     }}
+    \let\OldPsi       \Psi       \renewcommand{\Psi}       {\ensuremath{\OldPsi       }}
+    \let\OldDelta     \Delta     \renewcommand{\Delta}     {\ensuremath{\OldDelta     }}
+    \let\OldXi        \Xi        \renewcommand{\Xi}        {\ensuremath{\OldXi        }}
+    \let\OldUpsilon   \Upsilon   \renewcommand{\Upsilon}   {\ensuremath{\OldUpsilon   }}
+    \let\OldOmega     \Omega     \renewcommand{\Omega}     {\ensuremath{\OldOmega     }}
+    \let\OldTheta     \Theta     \renewcommand{\Theta}     {\ensuremath{\OldTheta     }}
+    \let\OldPi        \Pi        \renewcommand{\Pi}        {\ensuremath{\OldPi        }}
+    \let\OldPhi       \Phi       \renewcommand{\Phi}       {\ensuremath{\OldPhi       }}
+
+\usepackage{environ,xspace,booktabs,esint}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
+\usetikzlibrary{quotes,angles}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{siunitx,multirow}
+
+\let\bar\overline
+\newcommand{\pdt}   {\partial_t\:\!}
+\newcommand{\pdz}   {\partial_z}
+\newcommand{\pdi}   {\partial_i}
+\newcommand{\pdj}   {\partial_j}
+\newcommand{\V}     {\ensuremath{\Omega}}
+\newcommand{\dV}    {\,\dd{\V}}
+\newcommand{\IntV}  {\int_{\V}}
+\let\SS\S
+\renewcommand{\S}   {\ensuremath{\Gamma}}
+\newcommand{\dS}    {\,\dd{\S}}
+\newcommand{\IntS}  {\int_{\S}}
+\newcommand{\q}     {\ensuremath{q}}
+\newcommand{\qi}    {\ensuremath{q_i}}
+\newcommand{\dq}    {\delta\mkern-2mu q}
+\newcommand{\qSS}   {q^{\text{\tiny\textsc{ss}}}}
+\newcommand{\by}    {\!\times\!}

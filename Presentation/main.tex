@@ -1,0 +1,639 @@
+% ===================================================================================== %
+%                                        Header                                         %
+% ===================================================================================== %
+\documentclass[10pt,t,xcolor=table,compress]{UWMadBeamer}
+
+\usepackage{graphicx}
+\usepackage{transparent}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{appendixnumberbeamer}
+
+
+\input{HelperCommands}
+\setlength{\parskip}{0.5em}
+
+
+\newenvironment{Itemize}
+    {\begin{itemize}\setlength{\itemsep}{0.8em}\setlength{\leftmargin}{0.0em}\setlength{\labelwidth}{0em}}
+    {\end{itemize}}
+
+
+
+%\title{On the Stability of Natural Circulation Loops with Phase Change}
+\title{On the Behavior of Natural Circulation Loops with Phase Change}
+\institute{University of Wisconsin--Madison}
+\department{Engineering Physics Department}
+\author{Troy C. Haskin}
+\date{2016/09/20}
+
+
+\graphicspath{{./Graphics/}}
+\logo{\transparent{0.1}\includegraphics[scale=0.22]{UWMadison-Crest}}
+
+
+
+\setbeamersize{text margin left = 0.03\paperwidth}
+\setbeamersize{text margin right = 0.03\paperwidth}
+
+
+% =========================================================================== %
+%                              Document                                       %
+% =========================================================================== %
+\begin{document}
+
+
+% ======================================================= %
+%                         Titlepage                       %
+% ======================================================= %
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+% ======================================================= %
+%                         Outline                         %
+% ======================================================= %
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+
+
+% ======================================================= %
+%                       Introduction                      %
+% ======================================================= %
+\input{Introduction}
+
+
+
+% ======================================================= %
+%                     Preliminary Work                    %
+% ======================================================= %
+
+   
+% ======================================================= %
+%                   Thermohydraulic Theory                %
+% ======================================================= %
+\section{Thermohydraulics}
+
+    \subsection*{Conservation Laws}
+
+    % --------------------------------------------------- %
+    %                     CLaw: General                   %
+    % --------------------------------------------------- %
+    \begin{frame}{General Conservation Law (CLaw)}
+        Conservation laws balance a vector of conserved variables \qCon over a control volume.\\[2em]
+        
+        Nonlinear form:
+        \begin{equation}
+            \pderiv{q_i}{t} + \pderiv{f_i(q_i; x_i,t)}{x_i}= s_i(q_i,z,t)
+            \label{Eqn:GeneralCLaw}
+        \end{equation}
+        
+        Quasilinear form:
+        \begin{equation}
+            \pderiv{q_i}{t} + \pderiv{f_i(q_i;z,t)}{q_i{}}\pderiv{q_i(x_i,t)}{z} = s_i(q_i,x_i,t)
+            \label{Eqn:GeneralCLawQuasilinear}
+        \end{equation}
+        
+        Characteristic speeds:
+        \begin{equation}
+            \Lambda = \mbox{Eig}\left[\pderiv{f_i(q_i;z,t)}{q_i{}}\right]\label{Eqn:GeneralSpeeds}
+        \end{equation}
+    \end{frame}
+
+
+
+
+
+    % --------------------------------------------------- %
+    %                     The CLaws                       %
+    % --------------------------------------------------- %
+    \subsection*{Equations}
+    \begin{frame}{Conservation of Mass}
+        Integral form:
+        \begin{equation}%
+            \pdt\!\IntV \rho \dV = \IntS -u_j \rho n_j\dS + \IntV s^{\rho}\dV
+        \end{equation}
+        
+        Differential form:
+        \begin{equation}%
+            \pdt\rho + \pdj(u_j \rho)  =  s^{\rho}
+        \end{equation}
+    \end{frame}
+    \begin{frame}{Conservation of Momentum}
+        Integral form:
+        \begin{equation}
+            \pdt \IntV \rho u_i \dV = \IntS (-u_j \rho u_i) n_j \dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j \dS + \IntV \rho g_i + s^u \dV
+        \end{equation}
+        
+        Differential form:
+        \begin{equation}
+            \pdt(\rho u_i) + \pdj(u_j \rho u_i) = -\pdi P + \pdi \tau_{ij} + \rho g_i + s^u
+        \end{equation}
+    \end{frame}
+    \begin{frame}{Conservation of Energy}
+        Integral form:
+        \begin{equation}%
+            \pdt \IntV \rho e \dV = \IntS \left[- (\rho{e} + P) u_j + u_i \tau_{ij} - q_j\right] n_j\dS + \IntV \rho g_j u_j + s^e\dV
+        \end{equation}
+        
+        Differential form:
+        \begin{equation}%
+            \pdt(\rho e)+ \pdj[(\rho{e} + P) u_j] = \pdj(u_i \tau_{ij} - q_j) + \rho g_j u_j +  s^e
+        \end{equation}
+    \end{frame}
+    
+    \subsection*{Simplifications}
+    \begin{frame}{Conservation of Bulk Momentum}
+        Only want to track one momentum per cell.
+        
+        Dot the Conservation of Momentum equation with bulk flow direction $z_i$:
+        \begin{equation}
+            \pdt \IntV \rho u_i z_i \dV = \IntS (-u_j \rho u_i) n_j z_i\dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j z_i\dS + \IntV \rho g_i z_i+ s^u_z\dV
+        \end{equation}
+        
+        Let $u_z = u_i z_i$:
+        \begin{equation}
+            \pdt \IntV \rho u_z \dV = \IntS (-u_j \rho u_z) n_j\dS + \IntS (-\delta_{ij} P + \tau_{ij}) n_j z_i\dS + \IntV \rho g_i z_i+ s^u_z\dV
+        \end{equation}
+        
+        \only<2>{ Channel flow conservation:
+            \begin{equation}
+                \deriv{}{t}\! \IntV \rho u_z \dV =
+                \int_{\S_{\text{1}} + \S_{\text{2}}}\mkern-10mu \pm(P + u_z \rho u_z)\dS + 
+                \int_{\S_{\text{w}}} \tau_{ij} z_i n_j \dS + \IntV \rho g\,\Cos(\theta) + s^u_z \dV,
+            \end{equation}
+        }
+    \end{frame}
+    \begin{frame}{Other Assumptions}
+        \begin{Itemize}
+            \item{Heat conduction and viscous heating is negligible compared to enthalpy flow}
+            \item{Fluid-fluid friction is negligible compared to fluid-wall friction and form losses}
+            \item{Time-rate of change of potential and kinetic energy is negligible to the thermal energy change}
+        \end{Itemize}
+    \end{frame}
+    \begin{frame}{Results to equations}
+        \begin{align}
+            \rho{e}           &\approx \rho{i}\\
+            q_j               &\approx 0\\
+            u_i \tau_{ij}     &\approx 0\\
+            \tau_{ij} z_i n_j &\approx \frac{1}{2} f_{\text{darcy}} \frac{L_{\text{char}}}{D_h} \Abs(\rho u_z)\,u_z
+        \end{align}
+    \end{frame}
+
+    \subsection*{Thermodynamics}
+    \begin{frame}[label=EOS]{Equation of State}
+        \begin{Itemize}
+            \item{IAPWS-95 non-ideal equation of state for water}
+            \item{Magnificently huge curve fit of Helmholtz free energy potential}
+            \item{Natural variables are \rho{} and $T$}
+            \item{Back calculate $T$ from \rho{} and $i$ (\hyperlink{irhoSpace}{plot})}
+        \end{Itemize}
+    \end{frame}
+
+
+
+
+
+% --------------------------------------------------- %
+%              Numerics: Discretization               %
+% --------------------------------------------------- %
+\section{Discretization of Conservation Equations}
+    
+    \subsection*{Set-Up}
+    \begin{frame}{Purpose}
+        Derive quasi-two-dimensional thermohydraulic equations to enable
+        adequate modeling of a branched system.
+        
+        Consider only conservation of mass, momentum, and energy.
+    \end{frame}
+    
+
+    
+    \subsection*{How-to Discretize}
+    \begin{frame}{Methodology}
+        \begin{Itemize}
+        \item{Consider a collection of control volumes and momentum cells.}
+        \item{Information is exchanged through surface fluxes.}
+        \item{Control volumes and momentum cells cover same physical space; but are off-set.}
+        \end{Itemize}
+    \end{frame}
+    \begin{frame}{Coincident Spatial Grid}
+        All equations solved on same grid:
+        \begin{center}
+            \includegraphics[scale=0.50]{BranchingProblem}
+        \end{center}
+    \end{frame}
+    \begin{frame}{Staggered Spatial Grid}
+        Mass and energy grid:\\
+        \begin{center}
+            \includegraphics[scale=0.40]{Staggered_Control}
+        \end{center}
+        Momentum grid:\\
+        \begin{center}
+            \includegraphics[scale=0.40]{Staggered_Momentum-NumberedWNormals}
+        \end{center}
+    \end{frame}
+ 
+
+    \subsection*{Discretized Forms}
+    \begin{frame}{Semi-Discretized Control Volume Equations}
+        Mass and energy for control $k$:
+        \begin{align}
+            \deriv{}{t}\!\IntV \rho_k \dV  &= s^\rho_k V_k + \sum_{n=1}^{N} u_n \rho_{d,n} A_n \\[1em]
+            \deriv{}{t}\! \IntV \rho i \dV &= s^e_k V_k + \sum_{n=1}^{N} u_n \rho{h}_{d,n} A_n
+        \end{align}
+    \end{frame}
+    
+    
+    \begin{frame}{Semi-Discretized Momentum Cell Equation}
+        Momentum for momentum cell $k$:
+        \begin{equation}
+            \deriv{}{t}\! \IntV \rho u_k \dV = 
+                (\rho_k g_k + s^u_k)\,V_k 
+                - \sum_{n=1}^{N}   (P_n z_n +  u_{\text{\textsc{i}},n} \rho{u}_{d,n}) A_n 
+                - \frac{1}{2} f\subs{\textsc{d},k}\,\frac{L\subs{char,k}}{D\subs{eff,k}}\,\Abs(\rho{u}_k) u_k A_k
+        \end{equation}
+    \end{frame}
+    
+    
+    
+    \begin{frame}{Time Stepping}
+        Semi-discrete equations are now of the form:
+        \begin{equation}
+            \pdt \qi = D_i(\qi)
+        \end{equation}
+        
+        Various choices of stepping over a time step $p$:
+        \begin{align}
+            \qi^{p} - \qi^{p-1} &= \Delta{t}\,D_i(\qi^{p-1}) \\
+            \qi^{p} - \qi^{p-1} &= \Delta{t}\,D_i(\qi^{p}) \\
+            \qi^{p} - \qi^{p-1} &= \tfrac{1}{2}\Delta{t}\,\left[D_i(\qi^{p-1}) + D_i(\qi^{p})\right]
+        \end{align}
+    \end{frame}
+
+
+
+% --------------------------------------------------- %
+%                   Numerics: Solver                  %
+% --------------------------------------------------- %
+\section{JFNK}
+    \begin{frame}{Full discretized equations}
+        Consider the Implicit Euler full discretization:
+        \begin{equation}
+            \qi^{p} - \qi^{p-1} = \Delta{t}\,D_i(\qi^{p})
+        \end{equation}
+        
+        How do you find $\qi^{p}$ to satisfy that equations assuming $D_i$ is nonlinear?
+    \end{frame}
+    
+    \subsection*{Newton-Raphson}
+    \begin{frame}{Newton-Raphson: Procedure}
+        Put the equation into ``residual'' form
+        \begin{equation}
+            r(\qi^{p}) = \qi^{p} - \qi^{p-1} - \Delta{t}\,D_i(\qi^{p})
+        \end{equation}
+        and search for the vector $\qi^{p}$ that makes $r(\qi^{p})$ equal to $0$ (or close enough).
+        \vfill
+        Common search technique is Newton-Raphson method:
+        \begin{align}
+            \text{Solve } \partial_{\qi} r(\qi^{p})\,\Delta{\qi^{p}} &= -r(\qi^{p}) \\
+            \qi^{p} &= \qi^{p} + \Delta{\qi^{p}}
+        \end{align}
+    \end{frame}
+    \begin{frame}{Newton-Raphson: Problems}
+        \begin{Itemize}
+            \item{Calculating the Jacobian $\partial_{\qi} r(\qi^{p})$ can be time and memory intensive.}
+            \item{Solving the linear system is likewise difficult}
+        \end{Itemize}
+    \end{frame}
+
+    \subsection*{JFNK}
+    \begin{frame}{JFNK}
+        JFNK: Jacobian-Free Newton-Krylov method.
+    \end{frame}
+    \begin{frame}{Krylov method}
+        A particular way of solving the linear system $A x = b$ :
+        \begin{enumerate}
+            \item{Compute a search direction $z_n$:
+                \begin{equation}
+                    z_n = \begin{cases}
+                        r_{n-1} \quad \text{if } r_{n-1} < r_{n-2} \\
+                        v_{n-1} \quad \text{otherwise}
+                    \end{cases}
+                \end{equation}
+            }
+            \item{Update a QR factorization:
+                \begin{equation}
+                    [A\,z_1,A\,z_2,...,A\,z_n] = V_n R_n
+                \end{equation}
+            }
+            \item{Update residual:
+                \begin{equation}
+                    r_n = r_{n-1} - v_n^{\text{T}} r_{n-1}  v_n
+                \end{equation}
+            }
+            \item{Solve the system
+                \begin{equation}
+                    R_n w_n = [v_1^{\text{T}} r_{1} ,...,v_n^{\text{T}} r_{n-1}]^{\text{T}};
+                    \quad
+                    x_n = x_0 + [z_1,...,z_n]w_n
+                \end{equation}
+            }
+        \end{enumerate}
+    \end{frame}
+        
+        
+        \begin{frame}{Approximate Jacobian}
+        Important part to notice
+            \begin{equation}
+                [A\,z_1,A\,z_2,...,A\,z_n]
+            \end{equation}
+        The only new computation every iteration is $A z_n$ (matrix-vector product).
+        \vfill
+        Jacobian-Free method uses the following finite difference relation:
+        \begin{equation}
+            \partial_{\qi} r(\qi^{p}) z_n \approx \frac{r(\qi^{p} + \varepsilon z_n) - r(\qi^{p})}{\varepsilon}
+        \end{equation}
+        \vfill
+        Instead of creating the Jacobian, approximate its existence using this formula (Jacobian-free) in a Krylov Method.
+        \end{frame}
+        \begin{frame}{Jacobian-Free Newton-Krylov}
+        \only<1>{
+        A particular way of solving the linear system $A x = b$ :
+        \begin{enumerate}
+            \item{Compute a search direction $z_n$:
+                \begin{equation}
+                    z_n = \begin{cases}
+                        r_{n-1} \quad \text{if } r_{n-1} < r_{n-2} \\
+                        v_{n-1} \quad \text{otherwise}
+                    \end{cases}
+                \end{equation}
+            }
+            \item{Update a QR factorization:
+                \begin{equation}
+                    [A\,z_1,A\,z_2,...,A\,z_n] = V_n R_n
+                \end{equation}
+                \vskip0.92em
+            }
+            \item{Update residual:
+                \begin{equation}
+                    r_n = r_{n-1} - v_n^{\text{T}} r_{n-1}  v_n
+                \end{equation}
+            }
+            \item{Solve the system
+                \begin{equation}
+                    R_n w_n = [v_1^{\text{T}} r_{1} ,...,v_n^{\text{T}} r_{n-1}]^{\text{T}};
+                    \quad
+                    x_n = x_0 + [z_1,...,z_n]w_n
+                \end{equation}
+            }
+        \end{enumerate}
+        }
+        \only<2>{
+        A particular way of solving the linear system $A x = b$ :
+        \begin{enumerate}
+            \item{Compute a search direction $z_n$:
+                \begin{equation}
+                    z_n = \begin{cases}
+                        r_{n-1} \quad \text{if } r_{n-1} < r_{n-2} \\
+                        v_{n-1} \quad \text{otherwise}
+                    \end{cases}
+                \end{equation}
+            }
+            \item{Update a QR factorization:
+                \begin{equation}
+                    [z_1, \frac{r(\qi^{p} + \varepsilon z_2) - r(\qi^{p})}{\varepsilon},...,\frac{r(\qi^{p} + \varepsilon z_n) - r(\qi^{p})}{\varepsilon}] = V_n R_n
+                \end{equation}
+            }
+            \item{Update residual:
+                \begin{equation}
+                    r_n = r_{n-1} - v_n^{\text{T}} r_{n-1}  v_n
+                \end{equation}
+            }
+            \item{Solve the system
+                \begin{equation}
+                    R_n w_n = [v_1^{\text{T}} r_{1} ,...,v_n^{\text{T}} r_{n-1}]^{\text{T}};
+                    \quad
+                    x_n = x_0 + [z_1,...,z_n]w_n
+                \end{equation}
+            }
+        \end{enumerate}
+        }
+    \end{frame}
+
+
+
+
+
+    % --------------------------------------------------- %
+    %                     Stability: Intro                %
+    % --------------------------------------------------- %
+    \section{Stability}
+    \subsection*{Derivation}
+    \begin{frame}[label=Perturbation]{Perturbation equations}
+        Assumed that the true solution is a summation of a steady-state and a transient
+        \begin{equation}
+            \q_i(x_i,t) = \qSS_i(x_i) + \dq_i(x_i,t).
+        \end{equation}
+        
+        \onslide<2->{
+            General nonlinear perturbation equation (\hyperlink{StabilityDiagrams}{diagrams}):
+            \begin{equation}
+                \pderiv{\dq_i}{t}  + \pderiv{}{x_j} \left[f_{ij}(\qSS_i + \dq_i)\right] = s_i(\qSS_i + \dq_i) 
+                \label{Eqn:NonlinearStabilityEquation}
+            \end{equation}
+        }
+        
+        \onslide<3->{
+            Taylor expansion about perturbation (neglecting H.O.T.) yields general linear perturbation equation:
+            \begin{equation}
+                \pderiv{\dq_i}{t}  + \pderiv{}{x_j} \left[\pderiv{f_{ij}}{\qSS_k{}}\dq_k\right] = \pderiv{s_i}{\qSS_k{}}\dq_k 
+                \label{Eqn:GeneralLinearizedCLaw}
+            \end{equation}
+        }
+    \end{frame}
+
+
+
+    % --------------------------------------------------- %
+    %                     Stability: Intro                %
+    % --------------------------------------------------- %
+    \subsection*{Linear Solutions}
+    \begin{frame}{Solution method of general linear equations}
+        Perturbations still part of spatially varying PDE.
+        
+        Discretizing like full transient equations will yield spurious, positive eigenvalues from mass/energy advection.
+        
+        Solution: integration over entire system and isolate global time-evolution on left-hand side:
+        \begin{equation}
+            \pdt\dq_i(t) = 
+                \frac{1}{\int_\Omega \dV} \left[\int_\Omega\pderiv{s_i}{\qSS_k{}}\dV - 
+                \int_\S\pderiv{f_{ij}}{\qSS_k{}}n_j\dS\right] \dq_k(t)
+        \end{equation}
+        
+    \end{frame}
+    \begin{frame}{Solution method of thermohydraulic system}
+    
+    \only<1>{
+        Apply to mass, energy, momentum system:
+        
+        \begin{align}
+            \deriv{}{t}
+            \begin{bmatrix}
+                \delta\mkern-2mu\rho \\ \delta\mkern-2mu\rho i \\ \delta\mkern-2mu\rho u_z 
+            \end{bmatrix}
+             &= 
+            -\pdj
+            \left(
+                \begin{bmatrix}
+                    \partial_{q_k}(\rho u_j)\\[1em]
+                    \partial_{q_k}[(\rho{i} + P) u_j]\\[1em]
+                    \partial_{q_k}(u_j \rho u_z + P \delta_{ij}z_i - \tau_{ij}z_i) 
+                \end{bmatrix}
+                \delta\mkern-2mu q_k
+            \right)
+            + 
+            \left(
+            \begin{bmatrix}
+                \partial_{q_k} ( s^\rho )\\
+                \partial_{q_k}(s^e )\\
+                \partial_{q_k}(\rho g_z + s^u_z ) 
+            \end{bmatrix}
+                \delta\mkern-2mu q_k
+            \right)
+        \end{align}
+    }
+        
+    \only<2->{
+        Integrating to the skin of the system and eliminating terms that vanish:
+        \begin{align}
+            \deriv{}{t}
+            \begin{bmatrix}
+                \delta\mkern-2mu\rho \\ \delta\mkern-2mu\rho i \\ \delta\mkern-2mu\rho u_z 
+            \end{bmatrix}
+             &= 
+            \frac{1}{V_{\text{sys}}}
+            \begin{bmatrix}
+                0 & 0 & 0 \\
+                0 & 0 & 0 \\
+                \alpha_\rho & \alpha_{\rho i} & \alpha_{\rho u_z} 
+            \end{bmatrix}
+            \begin{bmatrix}
+                \delta\mkern-2mu\rho \\ \delta\mkern-2mu\rho i \\ \delta\mkern-2mu\rho u_z 
+            \end{bmatrix},
+        \end{align}
+        where $\alpha_* = -\int_{\S}\partial_{*}\Delta{P}_{\text{dar}}\dS$
+     }
+    
+    \only<3>{
+        \vfill{}
+        With the solution
+        \begin{align}
+    \begin{bmatrix}
+        \delta\mkern-2mu\rho(t) \\ \delta\mkern-2mu\rho i(t) \\ \delta\mkern-2mu\rho u_z(t) 
+    \end{bmatrix}
+     &= 
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        \frac{\alpha_\rho}{\alpha_{\rho u_z}}     \left(e^{\tilde{\alpha} t} - 1 \right) &
+        \frac{\alpha_{\rho i}}{\alpha_{\rho u_z}} \left(e^{\tilde{\alpha} t} - 1 \right) &
+        e^{\tilde{\alpha} t}
+            \end{bmatrix}
+            \begin{bmatrix}
+                \delta\mkern-2mu\rho(0)\\ \delta\mkern-2mu\rho i(0) \\ \delta\mkern-2mu\rho u_z(0) 
+            \end{bmatrix},
+        \end{align}
+            where $\tilde{\alpha} = \alpha_{\rho u_z} / V_{\text{sys}}$.
+    }
+    \end{frame}
+
+
+
+
+
+
+    % --------------------------------------------------- %
+    %                         Results                     %
+    % --------------------------------------------------- %
+    \section{Results}
+    \begin{frame}{Methodology}
+    \begin{enumerate}
+        \item All closed-loop systems exhibit a singular steady-state solution.
+        \item Solution: perform a transient calculation that provided diagonal regularity and run transient to a stationary-state using all previous equations and tools.
+        \item Once the steady-state is attained, computer the eigenvalues and examine.
+    \end{enumerate}
+    \end{frame}
+    \begin{frame}{Primary Test Loop}
+        \begin{columns}
+            \begin{column}[T]{0.45\textwidth}
+                \begin{enumerate}
+                    \item 14 control volume / momentum cells
+                    \item 1.4 meters high, 0.4 meters wide (3.5 aspect ratio)
+                    \item 0.1 meter hydraulic diameter
+                \end{enumerate}
+            \end{column}
+            \hfill
+            \begin{column}[T]{0.45\textwidth}
+                \begin{figure}%
+                    \centering
+                    \includegraphics[scale=0.4]{TestLoop}%
+                \end{figure}
+            \end{column}
+        \end{columns}
+    \end{frame}
+    
+    
+%??????????????????????????????????????????????????????????????????????
+%??????????????????????????????????????????????????????????????????????
+    \subsection*{Single Phase}
+    \begin{frame}{Single Phase Results}
+        
+    \end{frame}
+%??????????????????????????????????????????????????????????????????????
+%??????????????????????????????????????????????????????????????????????    
+    \subsection*{Two-Phase}
+    \begin{frame}{Two-Phase Results}
+        
+    \end{frame}
+%??????????????????????????????????????????????????????????????????????
+%??????????????????????????????????????????????????????????????????????
+%??????????????????????????????????????????????????????????????????????
+%??????????????????????????????????????????????????????????????????????
+    \subsection*{Two-Riser}
+    \begin{frame}{Two-Riser Results}
+        Two Riser Results?
+    \end{frame}
+%??????????????????????????????????????????????????????????????????????
+%??????????????????????????????????????????????????????????????????????
+
+    \subsection*{End}
+    \begin{frame}[c]{Questions}
+        \begin{center}
+                ``The key to wisdom is this: constant and frequent questioning. 
+                  For by doubting we are led to question, and by questioning we arrive at the truth.''\\
+                \hfill --- Peter Abelard
+        \end{center}
+    \end{frame}
+
+
+
+
+
+
+
+% ======================================================= %
+%                       Appendix                          %
+% ======================================================= %
+\appendix
+\input{Appendix}
+
+\end{document}
+
