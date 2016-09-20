@@ -45,7 +45,7 @@
 %                              Document                                       %
 % =========================================================================== %
 \begin{document}
-
+ 
 
 % ======================================================= %
 %                         Titlepage                       %
@@ -274,7 +274,8 @@
         \begin{align}
             \qi^{p} - \qi^{p-1} &= \Delta{t}\,D_i(\qi^{p-1}) \\
             \qi^{p} - \qi^{p-1} &= \Delta{t}\,D_i(\qi^{p}) \\
-            \qi^{p} - \qi^{p-1} &= \tfrac{1}{2}\Delta{t}\,\left[D_i(\qi^{p-1}) + D_i(\qi^{p})\right]
+            \qi^{p} - \qi^{p-1} &= \tfrac{1}{2}\Delta{t}\,\left[D_i(\qi^{p-1}) + D_i(\qi^{p})\right] \\[1.5em]
+            \qi^{p} - \qi^{p-1} &= \Delta{t}\,\left[D_i(\qi^{p-1}) + \partial_{\qi^{p-1}}D_i(\qi^{p-1})\,(\qi^{p} - \qi^{p-1})\right]
         \end{align}
     \end{frame}
 
@@ -565,54 +566,217 @@
     % --------------------------------------------------- %
     \section{Results}
     \begin{frame}{Methodology}
-    \begin{enumerate}
+    \begin{itemize}
         \item All closed-loop systems exhibit a singular steady-state solution.
         \item Solution: perform a transient calculation that provided diagonal regularity and run transient to a stationary-state using all previous equations and tools.
         \item Once the steady-state is attained, computer the eigenvalues and examine.
-    \end{enumerate}
+    \end{itemize}
     \end{frame}
     \begin{frame}{Primary Test Loop}
         \begin{columns}
             \begin{column}[T]{0.45\textwidth}
-                \begin{enumerate}
+                \begin{itemize}
                     \item 14 control volume / momentum cells
                     \item 1.4 meters high, 0.4 meters wide (3.5 aspect ratio)
                     \item 0.1 meter hydraulic diameter
-                \end{enumerate}
+                \end{itemize}
             \end{column}
             \hfill
             \begin{column}[T]{0.45\textwidth}
                 \begin{figure}%
                     \centering
-                    \includegraphics[scale=0.4]{TestLoop}%
+                    \includegraphics[scale=0.36]{TestLoop}%
                 \end{figure}
             \end{column}
         \end{columns}
     \end{frame}
+
+
+
+  
     
-    
-%??????????????????????????????????????????????????????????????????????
-%??????????????????????????????????????????????????????????????????????
-    \subsection*{Single Phase}
-    \begin{frame}{Single Phase Results}
+    % --------------------------------------------------- %
+    %                    Single Phase                     %
+    % --------------------------------------------------- %
+    \subsection*{Single Phase Results}
+    \begin{frame}{Single Phase Test Region}
+        The single phase region was investigated over a rectangle in $P$-$T$ space:
+        \begin{itemize}
+            \item $P \in [\SI{101325}{\pascal},\SI{202650}{\pascal}]$
+            \item $T \in [\SI{300}{\kelvin},\SI{372}{\kelvin}]$
+        \end{itemize}
+        at heat loads of \num{1}, \num{2}, \num{4}, \num{8}, and \SI{16}{\kW}.
         
+        All values, such as pressure and temperature, refer the state of the cooling volume at steady-state, unless otherwise noted.
     \end{frame}
-%??????????????????????????????????????????????????????????????????????
-%??????????????????????????????????????????????????????????????????????    
+    \begin{frame}{Single Phase Thermohydraulic Summary}
+        \begin{table}%
+            \centering
+            \begin{tabular}{cccccc}
+                \toprule
+                    \multirow{2}{*}{Parameters}                     & \multicolumn{5}{c}{Heat Load \si{\kW}} \\[0.1em]\cline{2-6}
+                                                                    &    \num{1}     & \num{2}       & \num{4}      & \num{8}     & \num{16}     \\\midrule
+                Avg. Temperature Rise    [$\Delta$\si{\kelvin}]       & \num{0.2392}   & \num{0.3677}  & \num{0.5428} & \num{0.7944}& \num{1.26}   \\[0.5em]
+                Avg. Pressure Difference [$\Delta$\si{\kilo\pascal}]  & \num{12.504}   & \num{12.501}  & \num{12.501} & \num{12.500}& \num{12.500} \\[0.5em]
+                Avg. Mass Flow Rate      [\si{\kg\per\second}]      & \num{1.012}    & \num{1.33}    & \num{1.80}   & \num{2.44}  & \num{3.08}   \\[0.5em]
+                $\dot{m}c\subs{p}\Delta{T}$ [\si{\kW}]*             & \num{1.02}     & \num{2.05}    & \num{4.08}   & \num{8.10}  & \num{16.2}   \\
+                \bottomrule
+            \end{tabular}
+            \vskip0pt
+            * $c\subs{p} = \SI{4182}{\joule\per\kg\per\kelvin}$
+        \end{table}
+    \end{frame}
+    \begin{frame}{Single Phase Characterization}
+        \only<1>{ Pressure distribution at \{\SI{372}{\kelvin},\SI{101325}{\pascal}\}
+            \begin{figure}%
+                \centering
+                \includegraphics[scale=0.083]{Distribution_Pressure-372K-1Phi}%
+            \end{figure}
+        }
+        \only<2>{ Temperature distribution at \{\SI{372}{\kelvin},\SI{101325}{\pascal}\}
+            \begin{figure}%
+                \centering
+                                              
+                \includegraphics[scale=0.083]{Distribution_Temperarture-372K-1Phi}%
+            \end{figure}
+        }
+        \only<3>{ Density distribution at \{\SI{372}{\kelvin},\SI{101325}{\pascal}\}
+            \begin{figure}%
+                \centering
+                \includegraphics[scale=0.083]{Distribution_Density-372K-1Phi}%
+            \end{figure}
+        }
+    \end{frame}
+    \begin{frame}{Single Phase Eigenvalue Plots}
+        \only<1>{ Heat load: \SI{1}{\kW}
+            {\centering
+                \resizebox{3.45in}{!}{
+                    \input{EigenvalueMap_SinglePhase_01kW.tikz}
+                }
+            }
+        }
+        \only<2>{ Heat load: \SI{2}{\kW}
+            {\centering
+                \resizebox{3.45in}{!}{
+                    \input{EigenvalueMap_SinglePhase_02kW.tikz}
+                }
+            }
+        }
+        \only<3>{ Heat load: \SI{4}{\kW}
+            {\centering
+                \resizebox{3.45in}{!}{
+                    \input{EigenvalueMap_SinglePhase_04kW.tikz}
+                }
+            }
+        }
+        \only<4>{ Heat load: \SI{8}{\kW}
+            {\centering
+                \resizebox{3.45in}{!}{
+                    \input{EigenvalueMap_SinglePhase_08kW.tikz}
+                }
+            }
+        }
+        \only<5>{ Heat load: \SI{16}{\kW}
+            {\centering
+                \resizebox{3.45in}{!}{
+                    \input{EigenvalueMap_SinglePhase_16kW.tikz}
+                }
+            }
+        }
+    \end{frame}
+    \begin{frame}{Single Phase All Eigenvalue Plots}
+        \begin{figure}%
+            \resizebox{4.5in}{!}{
+                \input{EigenvalueMap_SinglePhase_ALLkW.tikz}
+            }
+        \end{figure}
+    \end{frame}
+  
+    
+    
+    
+    % --------------------------------------------------- %
+    %                     Two-Phase                       %
+    % --------------------------------------------------- %   
     \subsection*{Two-Phase}
     \begin{frame}{Two-Phase Results}
+        The two-phase region was investigated along the liquid saturation from \SI{372}{\kelvin} (\SI{0.97}{\bar}) to \SI{390}{\kelvin} (\SI{1.7964}{\bar}) at heat loads of \num{1}, \num{2}, \num{4}, and \SI{6}{\kW}.
+        The temperature range corresponds roughly to the tank saturation conditions investigated at the UW--Madison Experiment: \SI{1}{\bar} to \SI{1.75}{\bar}.
         
+        All values, such as pressure and temperature, refer the state of the cooling volume at steady-state, unless otherwise noted.
     \end{frame}
-%??????????????????????????????????????????????????????????????????????
-%??????????????????????????????????????????????????????????????????????
-%??????????????????????????????????????????????????????????????????????
-%??????????????????????????????????????????????????????????????????????
-    \subsection*{Two-Riser}
-    \begin{frame}{Two-Riser Results}
-        Two Riser Results?
+    \begin{frame}{Two-Phase Thermohydraulic Summary}
+        \begin{table}%
+            \centering
+            \begin{tabular}{ccccc}
+                \toprule
+                    \multirow{2}{*}{Parameters}                     & \multicolumn{4}{c}{Heat Load} \\[0.1em]\cline{2-5}
+                                                                    &    \SI{1}{\kW} & \SI{2}{\kW}   & \SI{4}{\kW}   & \SI{6}{\kW} \\\midrule
+                Avg. Temperature Rise    [$\Delta$\si{\kelvin}]       & \num{0.034}    & \num{0.0352}  & \num{0.0951}  & \num{0.13}  \\[0.5em]
+                Avg. Pressure Difference [$\Delta$\si{\kilo\pascal}]  & \num{12.17}    & \num{12.17}   & \num{12.29}   & \num{12.38} \\[0.5em]
+                Avg. Mass Flow Rate      [\si{\kg\per\second}]      & \num{6.89}     & \num{6.97}    & \num{9.92}    & \num{10.89} \\[0.5em]
+                Avg. Maximum Quality      [$10^4$]                  & \num{0.648}    & \num{0.671}   & \num{1.68}    & \num{2.22} \\[0.5em]
+                \bottomrule
+            \end{tabular}
+        \end{table}
     \end{frame}
-%??????????????????????????????????????????????????????????????????????
-%??????????????????????????????????????????????????????????????????????
+    \begin{frame}{Two Phase Characterization}
+        \only<1>{ Pressure distribution at \{\SI{390}{\kelvin},\SI{179645}{\pascal}\}
+            \begin{figure}%
+                \centering
+                \includegraphics[scale=0.074]{Distribution_Pressure-390K-2Phi}%
+            \end{figure}
+        }
+        \only<2>{ Temperature distribution at \{\SI{390}{\kelvin},\SI{179645}{\pascal}\}
+            \begin{figure}%
+                \centering
+                                              
+                \includegraphics[scale=0.074]{Distribution_Temperature-390K-2Phi}%
+            \end{figure}
+        }
+        \only<3>{ Density distribution at \{\SI{390}{\kelvin},\SI{179645}{\pascal}\}
+            \begin{figure}%
+                \centering
+                \includegraphics[scale=0.074]{Distribution_Density-390K-2Phi}%
+            \end{figure}
+        }
+        \only<4>{ Quality distribution at \{\SI{390}{\kelvin},\SI{179645}{\pascal}\}
+            \begin{figure}%
+                \centering
+                \includegraphics[scale=0.083]{Distribution_Quality-390K-2Phi}%
+            \end{figure}
+        }
+    \end{frame}
+    \begin{frame}{Two Phase Eigenvalue Plot}
+        \begin{figure}%
+            \resizebox{4in}{!}{
+                \input{EigenvalueMap_TwoPhase_SaturationLine.tikz}
+            }
+        \end{figure}
+    \end{frame}
+    
+    
+    \subsection*{Conclusions}
+    \begin{frame}{Conclusions}
+        \begin{itemize}
+            \item Test loop is stable under all tested states and phases under the assumptions made.
+            \item Pressure and increased heat load are stablizing forces for the system.
+        \end{itemize}
+    \end{frame}
+    
+    
+    
+\section{Future Work}
+    \begin{frame}{Future Work}
+        \begin{itemize}
+            \item \textbf{Modeling:} Explore different, larger, and more complicated geometries with the current toolset.
+            \item \textbf{Programming:} Re-write thermodynamics package in a compiled form for increased speed.
+            \item \textbf{Numerics:} Improve JFNK solver with built-in fallback routine so full system time-step fallbacks aren't so costly; explore higher-order time stepping algorithms (TR-BDF2).
+            \item \textbf{Physics:} Add in more physics to improve on the modeling: boil-off, heat diffusion, true two-phase models.
+            \item \textbf{Mathematics:} Examine the non-normal stability matrix using pseudospectra analysis to better assess the effects of short-time transients on the stability of the system.
+        \end{itemize}
+    \end{frame}
+    
 
     \subsection*{End}
     \begin{frame}[c]{Questions}
