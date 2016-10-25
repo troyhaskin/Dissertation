@@ -1,5 +1,5 @@
-\RequirePackage{expl3}[2013/07/28]
-\@ifpackagelater{expl3}{2013/07/28} {} {%
+\RequirePackage{expl3}[2016/05/01]
+\@ifpackagelater{expl3}{2016/05/01} {} {%
     \PackageError{UWMadThesis}{Version of l3kernel is too old}
       {%
         Please install an up to date version of l3kernel\MessageBreak
@@ -10,7 +10,7 @@
 \ExplSyntaxOn
 \tl_const:Nn \c__UWMad_Class_Name_tl        {UWMadThesis}
 \tl_const:Nn \c__UWMad_Class_Version_tl     {1.0}
-\tl_const:Nn \c__UWMad_Class_Date_tl        {2014/04/01}
+\tl_const:Nn \c__UWMad_Class_Date_tl        {2016/10/01}
 \tl_const:Nn \c__UWMad_Class_Description_tl {
     LaTeX2e+~Thesis~Class~for~UW-Madison
 }
@@ -85,9 +85,10 @@
 }
 \RequirePackage{hyperref}
 \RequirePackage{bookmark}
-\RequirePackage{subcaption}
 \RequirePackage[noabbrev,nameinlink]{cleveref}
 \RequirePackage[usenames,dvipsnames,svgnames,table,hyperref]{xcolor}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
 \DeclareDocumentCommand \UWMadClass { } {
     \texttt{\c__UWMad_Class_Name_tl}~class
 }
@@ -767,7 +768,9 @@
 \UWMad_Hook_Prepend:Nn \@chapter {
     \thispagestyle{myheadings}
     \int_compare:nNnTF {\value{chapter}} = {0} {
-        \pagenumbering{arabic}
+        \bool_if:NTF \g__UWmad_Appendix_Active_bool { } {
+            \pagenumbering{arabic}
+        }
     } { }
 }
 \UWMad_Hook_Prepend:Nn \@schapter {
@@ -782,22 +785,16 @@
     \StarredChapter{#1}
     \__UWMad_FrontMatter_Register:nn{chapter}{#1}
 }
-\int_new:N  \g__UWMad_Appendix_Counter_int
-\int_set:Nn \g__UWMad_Appendix_Counter_int {0}
-\cs_new:Nn \__UWMad_Appendix_Initialize:{
-    \par
-    \setcounter{section}{0}
-    \cs_gset_eq:NN \@chapapp \appendixname
-    \cs_gset:Npn \thechapter {
-        \int_to_Alph:n {
-            \g__UWMad_Appendix_Counter_int
-        }
-    }
-}
+\int_new:N          \g__UWMad_Appendix_Counter_int
+\int_set:Nn         \g__UWMad_Appendix_Counter_int {0}
+\bool_new:N         \g__UWmad_Appendix_Active_bool
+\bool_gset_false:N  \g__UWmad_Appendix_Active_bool
+\cs_new_eq:NN  \__UWMad_Appendix_Initialize: \appendix
 \cs_undefine:N \appendix
 \DeclareDocumentCommand \appendix { s o m } {
 
     \int_compare:nNnTF {\g__UWMad_Appendix_Counter_int} = {0} {
+        \bool_gset_true:N \g__UWmad_Appendix_Active_bool
         \__UWMad_Appendix_Initialize:
     } { }
     \int_gincr:N \g__UWMad_Appendix_Counter_int
@@ -930,9 +927,9 @@
         \ExplSyntaxOff
             \ListOfTablesDefault
         \ExplSyntaxOn
-        %\__UWMad_FrontMatter_Register:nn
-            %{chapter}
-            %{\listtablename}
+        \__UWMad_FrontMatter_Register:nn
+            {chapter}
+            {\listtablename}
         \clearpage
     \group_end:
 }
@@ -945,9 +942,9 @@
         \ExplSyntaxOff
             \ListOfFiguresDefault
         \ExplSyntaxOn
-        %\__UWMad_FrontMatter_Register:nn
-            %{chapter}
-            %{\listfigurename}
+        \__UWMad_FrontMatter_Register:nn
+            {chapter}
+            {\listfigurename}
         \clearpage
     \group_end:
 }
@@ -2055,16 +2052,16 @@
         \bool_gset_true:N \g__UWMad_MetaData_GenerateAux_bool
     } { }
 }
-\DeclareDocumentCommand \TheSubject { } {
+\DeclareExpandableDocumentCommand \TheSubject { } {
     \g__UWMad_PDFMetaData_Subject_tl
 }
-\DeclareDocumentCommand \TheKeywords { } {
+\DeclareExpandableDocumentCommand \TheKeywords { } {
     \g__UWMad_PDFMetaData_Keywords_tl
 }
-\DeclareDocumentCommand \TheProducer { } {
+\DeclareExpandableDocumentCommand \TheProducer { } {
     \g__UWMad_PDFMetaData_Producer_tl
 }
-\DeclareDocumentCommand \TheCreator { } {
+\DeclareExpandableDocumentCommand \TheCreator { } {
     \g__UWMad_PDFMetaData_Creator_tl
 }
 \DeclareDocumentCommand \FulfillmentClause { } {

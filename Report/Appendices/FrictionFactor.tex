@@ -1,0 +1,77 @@
+\appendix{Friction Factors}
+\label{Appendix:FrictionFactors}
+
+As mentioned in \cref{SubSubSection:StressTensor}, the mono-directional bulk momentum stress tensor is taken to have the algebraic form
+\begin{equation}
+    \tau_{ij} z_i n_j = \Delta{P}_{\text{fric}} = \frac{1}{2}
+        f\subs{\textsc{d}}\,\frac{L\subs{char}}{D\subs{eff}}\,\rho\,v^2,
+\end{equation}
+where $f\subs{\textsc{d}}$ is the Darcy friction factor, $L\subs{char}$ is a characteristic (path) length, $D\subs{eff}$ is an effective flow diameter, $\rho$ is the fluid density, and $v$ is the fluid velocity.
+For correctness, the method used to calculate the friction factor must account for different kinematic flow regimes and distinguish between single and two-phase flow.
+The following appendix outlines the methodology used in this work.
+
+For slow or very viscous flows, the friction factor is found to be a function of its Reynolds number:
+\begin{equation}
+    \text{Re} = \frac{\rho\,v\,D\subs{eff}}{\mu}
+\end{equation}
+where $mu$ is the dynamic viscosity.
+This is primarily due to the layered and ordered nature of the flow that results in much of the fluid's traction coming from its inherent viscosity \cite{nellis_heat_2009}.
+The Darcy friction approximation used for Reynolds numbers at or below \num{2000}, laminar flow, is 
+\begin{equation}
+    f\subs{\textsc{d}} = \frac{64}{\text{Re}}.
+\end{equation}
+For flows with Reynolds numbers above \num{4000}, the Darcy friction factor is well-approximated by the Colebrook-White equation
+\begin{equation}
+    \frac{1}{\Sqrt{f\subs{\textsc{d}}}} = -2 \Log_{10}\left(\frac{\varepsilon\subs{rel}}{3.7} + \frac{2.51}{\text{Re}\;\;\Sqrt{f\subs{\textsc{d}}}}\right)
+\end{equation}
+where $\varepsilon\subs{rel}$ is the relative surface roughness and $\text{Re}$ is the Reynolds number.
+The relative surface roughness is a material-dependent quantity determined by measuring how smooth the finished inner surface is and dividing that measure by the channel's hydraulic diameter.
+A constant value of \num{1E-4} was used in this work.
+
+Despite its seemingly arbitrary nature, the Colebrook-White equation is derived from physical arguments in turbulent flow theory \cite{matthew_colebrook-white_1990}; however, to avoid yet another level of implicit solution in this work, an explicit approximation to the implicit Colebrook-White equation due to Serghides is used
+\begin{equation}
+    \frac{1}{\Sqrt{f\subs{\textsc{d}}}} = f_a - \frac{(f_b - f_a)^2}{f_c - 2 f_b + f_a}
+\end{equation}
+where
+\begin{subequations}
+    \begin{align}
+        f_a &= -2 \Log_{10}\left( \frac{12}       {\text{Re}} + \frac{\varepsilon\subs{rel}}{3.7}\right) \\[0.5em]
+        f_b &= -2 \Log_{10}\left( \frac{2.51\,f_a}{\text{Re}} + \frac{\varepsilon\subs{rel}}{3.7}\right)\\[0.5em]
+        f_c &= -2 \Log_{10}\left( \frac{2.51\,f_b}{\text{Re}} + \frac{\varepsilon\subs{rel}}{3.7}\right)
+    \end{align}
+\end{subequations}
+The method is derived by applying Steffensen's Method to the Colebrook-White equation for a particular initial guess value, and the additional arithmetic overhead is balanced by its explicit nature and excellent comparison to Colebrook-White over a large sample space as detailed in \cite{burden_numerical_2004,winning_explicit_2012}.
+For flows between the upper and lower Reynolds number bounds of \num{2000} and \num{4000}, the so-called \textit{transition region}, a log-linear affine homotopy similar to the mixture property calculation was used
+\begin{equation}
+    f_{\text{\textsc{d},tran}} =    (1-w_{\text{\textsc{d}}}) f_{\text{\textsc{d}}}(\text{Re} = \num{2000}) + 
+                                       w_{\text{\textsc{d}}}  f_{\text{\textsc{d}}}(\text{Re} = \num{4000})
+\end{equation}
+where the weight function is 
+\begin{equation}
+    w_{\text{\textsc{d}}} = \frac{\Log_{10}(\text{Re}) - \Log_{10}(\text{2000})}{\Log_{10}(\text{4000}) - \Log_{10}(\text{2000})}.
+\end{equation}
+
+The above functional forms and correlations are all based upon the presence of a single phase.
+There are a number of methods used to account for the increased frictional pressure drop due to the existence of another phase; the particular one chosen here is the two-phase multiplier.
+That is, the two-phase pressure drop is expressed as a scalar multiple of the saturated liquid drop:
+\begin{equation}
+    \Delta{P}_{\text{fric,two}} = \alpha_{\text{two}}\,\Delta{P}_{\text{fric,}\ell}
+\end{equation}
+where $\Delta{P}_{\text{fric,}\ell}$ is calculated per above and the two-phase multiplier $\alpha_{\text{two}}$ is calculated using the model proposed by Friedel:
+\begin{equation}
+    \alpha_{\text{two}} = \beta_1 + \frac{3.24 \beta_2 \beta_3}{\text{Fr}^{0.045}\,\text{We}^{0.035}}
+\end{equation}
+where 
+\begin{align*}
+    \beta_1   &= (1-x)^2 + x^2 \left( \frac{\rhol}{\rhog}\,\frac{f_{\text{\textsc{d,}}\mathit{g}}}{f_{\text{\textsc{d,}}\ell}} \right) \\[1em]
+    \beta_2   &= x^{0.78} (1-x)^{0.24} \\[1em]
+    \beta_3   &= \left(\frac{\rhol}{\rhog}\right)^{0.91}\,\left(\frac{\mu\SubG}{\mu\SubL}\right)^{0.19}\,\left(1 -\frac{\mu\SubG}{\mu\SubL}\right)^{0.7} \\[1em]
+    \text{Fr} &= \frac{v^2}{g\,D_{\text{eff}}} \\[1em]
+    \text{We} &= \frac{\rho\,v^2\,D_{\text{eff}}}{\sigma}
+\end{align*}
+where $x$ is the quality and $\sigma$ is the surface tension \cite{collier_convective_1994}.
+The dimensionless quantities $\text{Fr}$ and $\text{We}$ are the Froude number and Weber number, respectively.
+As may seem evident, this correlation is extremely empirical but is the recommended correlation to use for the set of states expected to be seen in this work.
+
+
+

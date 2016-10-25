@@ -48,13 +48,13 @@
 % ----------------------------------- %
 %          Title/License Pages        %
 % ----------------------------------- %
-\MakeTitlePage{}
-\begin{LicensePage}
-    \CreativeCommons
-    \Attribution
-    \NonCommercial
-    \ShareAlike
-\end{LicensePage}
+    \MakeTitlePage{}
+    \begin{LicensePage}
+        \CreativeCommons
+        \Attribution
+        \NonCommercial
+        \ShareAlike
+    \end{LicensePage}
 
 
 
@@ -63,28 +63,28 @@
 % ----------------------------------- %
 %              List Pages             %
 % ----------------------------------- %
-\TableOfContents
-\ListOfTables
-\ListOfFigures
+    \TableOfContents
+    \ListOfTables
+    \ListOfFigures
 
-\begin{Acronym}
-    \Entry{ANL}{Argonne National Laboratory}
-    \Entry{EOS}{equation of state}
-    \Entry{FDM}{Finite Difference Method}
-    \Entry{FEM}{Finite Element Method}
-    \Entry{FVM}{Finite Volume Method}
-    \Entry{GMRES}{Generalized Minimal Residual (Method)}
-    \Entry{HEM}{Homogenous Equilibrium Model}
-    \Entry{IAPWS}{International Association for the Properties of Water and Steam}
-    \Entry{IAPWS-95}{IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use}
-    \Entry{MOL}{Method of Lines}
-    \Entry{NGNP}{Next Generation Nuclear Plant}
-    \Entry{NRC}{Nuclear Regulatory Commission}
-    \Entry{ODE}{Ordinary differential equation}
-    \Entry{PDE}{Partial differential equation}
-    \Entry{RCCS}{Reactor Cavity Cooling System}
-    \Entry{SFM}{Separated Flow Model}
-\end{Acronym}
+    \begin{Acronym}
+        \Entry{ANL}{Argonne National Laboratory}
+        \Entry{EOS}{equation of state}
+        \Entry{FDM}{Finite Difference Method}
+        \Entry{FEM}{Finite Element Method}
+        \Entry{FVM}{Finite Volume Method}
+        \Entry{GMRES}{Generalized Minimal Residual (Method)}
+        \Entry{HEM}{Homogenous Equilibrium Model}
+        \Entry{IAPWS}{International Association for the Properties of Water and Steam}
+        \Entry{IAPWS-95}{IAPWS Formulation 1995 for the Thermodynamic Properties of Ordinary Water Substance for General and Scientific Use}
+        \Entry{MOL}{Method of Lines}
+        \Entry{NGNP}{Next Generation Nuclear Plant}
+        \Entry{NRC}{Nuclear Regulatory Commission}
+        \Entry{ODE}{Ordinary differential equation}
+        \Entry{PDE}{Partial differential equation}
+        \Entry{RCCS}{Reactor Cavity Cooling System}
+        \Entry{SFM}{Separated Flow Model}
+    \end{Acronym}
 
 
 
@@ -93,9 +93,9 @@
 % ----------------------------------- %
 %           Chapter Includes          %
 % ----------------------------------- %
-\Include{Chapter}{Introduction}
-\Include{Chapter}{Theory}
-\Include{Chapter}{Simulations}
+    \Include{Chapter}{Introduction}
+    \Include{Chapter}{Theory}
+    \Include{Chapter}{Simulations}
 
 
 \chapter{Conclusion}
@@ -123,12 +123,15 @@ Even adding a higher level of geometric specification and mathematical rigor can
 % ----------------------------------- %
 %           Appendix Includes         %
 % ----------------------------------- %
-\UWMadSetup{
-    RelativeDirectory / {
-        chapter-directory-prefix = Appendix-
+    \UWMadSetup{
+        RelativeDirectory / {
+            chapter-directory-prefix = Appendices,
+            chapter-directory-name   = none,
+            section-directory-name   = none
+        }
     }
-}
-\Include{Chapter}{Thermodynamics}
+    \Include{Chapter}{Thermodynamics}
+    \Include{Chapter}{FrictionFactor}
 
 
 

@@ -142,7 +142,7 @@ Performing the dot operation and letting $a_z = a_i z_i$ for any vector $a_i$, t
 A further simplification that conserves \textit{channel momentum} is also employed by a number of modeling tools.
 The channel flow equations are derived from bulk momentum conservation by placing the following restrictions on the integration volume:
 \begin{itemize}
-	\item{there are exactly two open surfaces that parallel to one another and everywhere perpendicular to the bulk flow direction;}
+	\item{there are exactly two open surfaces that are parallel to each another and everywhere perpendicular to the bulk flow direction;}
 	\item{the outward normal of the surface connecting the two openings and enclosing the volume is always perpendicular to the bulk flow direction.}
 \end{itemize}
 By imposing these requirements, \cref{Eqn:IntegralCoB} takes on the simpler form
@@ -153,7 +153,7 @@ By imposing these requirements, \cref{Eqn:IntegralCoB} takes on the simpler form
     \label{Eqn:IntegralCoCF}
 \end{equation}
 where $\S_{\text{1}}$ and $\S_{\text{2}}$ are open surfaces one and two, $\S_{\text{w}}$ is the third (wetted) surface, and $\theta$ is the angle between the bulk flow direction and gravity with counter-clockwise sense.
-The plus-minus accounts for the sign flip which occurs between surfaces one and two, which technically embody inflow and outflow once the sense of the bulk flow direction is chosen.
+The plus-minus accounts for the sign flip which occurs between surfaces one and two, which embody inflow and outflow once the sense of the bulk flow direction is chosen.
 
 
 
@@ -172,7 +172,7 @@ A more detailed discussion of the conductive heat flux is presented in \cref{Sec
 
 As in the momentum equation, all right-hand side terms serve a purpose.
 The first term, $\rho{e} + P$, represents the advected energy in addition to the associated flow work due to pressure.
-The second term accounts for energy loss due to molecular friction.
+The second term accounts for thermal energy gain due to molecular friction, also referred to as \textit{viscous dissipation}.
 The third term arises due to molecular diffusion of heat across the boundary.
 The final term acts as a source or sink of energy due to the buoyancy force from momentum.
 
@@ -184,7 +184,7 @@ For the purposes of this work, several approximations were made to the general e
     \rho e = \rho i + \frac{1}{2}\rho u_i u_i + \phi_{\text{poten}}.
 \end{equation}
 This work assumes that the time rate-of-change of kinetic energy and potential energy is small compared to the internal, and therefore, $\rho i$ is synonymous to $\rho e$ for the remainder of this work.
-Further, the gradient of the advected enthalpy $(\rho i + P)u_j$ is taken to be of higher-order than both the thermal dissipation, heat diffusion, and the potential energy advection.
+Further, the gradient of the advected enthalpy $(\rho i + P)u_j$ is taken to be of higher-order than both the viscous dissipation, heat diffusion, and the potential energy advection.
 The resulting energy equation is then 
 \begin{equation}
     \deriv{}{t}\! \IntV \rho i \dV = \IntS \left[- (\rho{i} + P) u_j\right] n_j\dS + \IntV s^e \dV.
@@ -227,7 +227,7 @@ The details of the formulation are left partially to \cref{Appendix:THProperties
 
 
 
-\subsubsection{Stress Tensor}
+\subsubsection{Stress Tensor}\label{SubSubSection:StressTensor}
 The stress tensor requires a model that relates molecular friction, continuum deformation, and system variables.
 There are, like an EOS for a fluid, several different stress tensor models for any given system.
 These models vary in terms of the type of valid fluid, dimensionality of usage, and fidelity to data.
@@ -240,34 +240,18 @@ With all of these observations and assumptions considered, the Newton stress ten
     \tau_{ij} = \mu \left(\pderiv{u_i}{x_j} + \pderiv{u_j}{x_i}\right) + \lambda \delta_{ij} \pderiv{u_k}{x_k}
 \end{equation}
 where $\mu$ is the dynamic viscosity and $\lambda$ is the bulk viscosity \cite{johnson_handbook_1998-2}.
+The dynamic viscosity term accounts for the pure shearing experienced by the fluid, and the bulk viscosity term accounts for the volumetric strain.
 
 While the above relation is suitable for \cref{Eqn:IntegralCoP}, the bulk and channel momentum conservation equations require a different relation since the multi-dimensional nature of the flow has been dotted away.
-One such relation is the Darcy friction factor which poses the traction from the walls as a loss of kinetic energy:
+One such relation is the Darcy friction factor which poses the traction from the walls as a loss of bulk kinetic energy:
 \begin{equation}
-    \tau_{ij} z_i n_j = \Delta{P}_{\text{dar}} = \frac{1}{2}
+    \tau_{ij} z_i n_j = \Delta{P}_{\text{fric}} = \frac{1}{2}
         f\subs{\textsc{d}}\,\frac{L\subs{char}}{D\subs{eff}}\,\rho\,v^2,
 \end{equation}
-where $f\subs{\textsc{d}}$ is the Darcy friction factor, $L\subs{char}$ is a characteristic (path) length, and $D\subs{eff}$ is an effective flow diameter.
+where $L\subs{char}$ is a characteristic (path) length, and $D\subs{eff}$ is an effective flow diameter.
 The details of what densities and velocities to use is left to the numerical discretization portion that discusses the averaging process.
-The Darcy friction factor is well-approximated by the Colebrook-White equation
-\begin{equation}
-    \frac{1}{\Sqrt{f\subs{\textsc{d}}}} = -2 \Log_{10}\left(\frac{\varepsilon\subs{rel}}{3.7} + \frac{2.51}{\text{Re}\;\;\Sqrt{f\subs{\textsc{d}}}}\right)
-\end{equation}
-where $\varepsilon\subs{rel}$ is the relative surface roughness and $\text{Re}$ is the Reynolds number.
-Despite its seemingly arbitrary nature, it is noted that the Colebrook-White equation is derived from physical arguments in turbulent flow theory \cite{matthew_colebrook-white_1990}.
-However, to avoid yet another level of implicit solution in this work, an explicit approximation to the implicit Colebrook-White equation due to Serghides is used
-\begin{equation}
-    \frac{1}{\Sqrt{f\subs{\textsc{d}}}} = f_a - \frac{(f_b - f_a)^2}{f_c - 2 f_b + f_a}
-\end{equation}
-where
-\begin{subequations}
-    \begin{align}
-        f_a &= -2 \Log_{10}\left( \frac{12}       {\text{Re}} + \frac{\varepsilon\subs{rel}}{3.7}\right) \\[0.5em]
-        f_b &= -2 \Log_{10}\left( \frac{2.51\,f_a}{\text{Re}} + \frac{\varepsilon\subs{rel}}{3.7}\right)\\[0.5em]
-        f_c &= -2 \Log_{10}\left( \frac{2.51\,f_b}{\text{Re}} + \frac{\varepsilon\subs{rel}}{3.7}\right)
-    \end{align}
-\end{subequations}
-The method is derived by applying Steffensen's Method to the Colebrook-White equation for a particular initial guess value, and the additional arithmetic overhead is balanced by its explicit nature and compares extremely well to Colebrook-White over a large sample space as detailed in \cite{burden_numerical_2004,winning_explicit_2012}.
+The key kinematic property is the Darcy friction factor $f\subs{\textsc{d}}$ that aims to encompass all of the molecular and wall traction experienced by the fluid using bulk properties.
+Similar to the prior \Acro{EOS} discussion, a full description of the relations used to calculate the friction factor is presented in \cref{Appendix:FrictionFactors}, but all of the models used are fully nonlinear in conserved quantities and highly accurate to data.
 
 
 \subsubsection{Conductive Flux}
