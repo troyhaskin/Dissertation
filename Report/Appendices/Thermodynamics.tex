@@ -44,7 +44,7 @@ The relationships are valid for the entire set of single phase states.
     \newcommand{\Pull     }[1][-0.8em]{\hspace{#1}}
     \newcommand{\Push     }[1][ 0.5em]{\hspace{#1}}
     \newcommand{\EqualSign}[1][-0.8em]{\Pull[#1]$=$}
-    \caption{Select thermodynamic properties and associated dimensionless \HFE relationships.}
+    \caption{Select thermodynamic properties and their \HFE relationships in a dimensionless form.}
     \label{Table:HFERelations}
     \rowcolors{2}{}{Gray}
     \begin{tabular}{c c c l}
@@ -81,27 +81,24 @@ The above system consists of three equations and four unknowns: \Psat, \tauSat, 
 A pressure-volume diagram is shown in \cref{Fig:PvDiagram} calculated from an implementation of the IAPWS-95 formulation.
 \begin{figure}%
     \centering
-    \begin{subfigure}{\textwidth}
-        \centering
-        \caption{Pressure versus specific volume with several isotherms.  The gray line denotes the phase coexistence curve.}%
-        \label{Fig:PvDiagram}%
-        \resizebox{4.75in}{!}{
-            \Include{Section}{PressureVsVolume.tikz}
-        }
-    \end{subfigure}
+    \caption{Pressure versus specific volume with several isotherms.  The gray line denotes the phase coexistence curve.}%
+    \label{Fig:PvDiagram}%
+    \resizebox{4.75in}{!}{
+        \Include{Section}{PressureVsVolume.tikz}
+    }
+\end{figure}
     \vskip0.3in
-    \begin{subfigure}{\textwidth}
-        \centering
-        \caption[Internal energy versus density with an arbitrary isochore]{ 
-                    Internal energy versus density with an arbitrary isochore.  
-                    From the shape of the vapor dome in \Density-\IntEnergy space, it is clear that the saturation internal energy 
-                    is always less than the single phase along an isochore.
-        }%
-        \label{Fig:IntERhoDiagram}%
-        \resizebox{4.75in}{!}{
-            \Include{Section}{IntEnergyVsTemperature.tikz}
-        }
-    \end{subfigure}
+\begin{figure}
+    \centering
+    \caption[Internal energy versus density with an arbitrary isochore]{ 
+                Internal energy versus density with an arbitrary isochore.  
+                From the shape of the vapor dome in \Density-\IntEnergy space, it is clear that the saturation internal energy 
+                is always less than the single phase along an isochore.
+    }%
+    \label{Fig:IntERhoDiagram}%
+    \resizebox{4.75in}{!}{
+        \Include{Section}{IntEnergyVsTemperature.tikz}
+    }
 \end{figure}
 
 

@@ -1,0 +1,256 @@
+\appendix{Extra Plots}
+
+This appendix is used to display all plots not shown in the results section.
+
+
+
+
+\cleardoublepage
+\section{Separated Single Phase Eigenvalue Maps}\label{Appendix:Section:1PhiMaps}
+
+\begin{figure}[ht]%
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{\SI{1}{\kW} heat load.}%
+        \resizebox{3.5in}{!}{
+            \tikzsetnextfilename{EigenvalueMap_SinglePhase_01kW}
+            \input{Graphics/EigenvalueMap_SinglePhase_01kW.tikz}
+        }
+    \end{subfigure}
+    \vskip1em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{\SI{2}{\kW} heat load.}%
+        \resizebox{3.5in}{!}{
+            \tikzsetnextfilename{EigenvalueMap_SinglePhase_02kW}
+            \input{Graphics/EigenvalueMap_SinglePhase_02kW.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+\begin{figure}[ht]\ContinuedFloat
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{\SI{4}{\kW} heat load.}%
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{EigenvalueMap_SinglePhase_04kW}
+            \input{Graphics/EigenvalueMap_SinglePhase_04kW.tikz}
+        }
+    \end{subfigure}
+    \vskip1em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{\SI{8}{\kW} heat load.}%
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{EigenvalueMap_SinglePhase_08kW}
+            \input{Graphics/EigenvalueMap_SinglePhase_08kW.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+\begin{figure}[t]\ContinuedFloat
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{\SI{16}{\kW} heat load.}%
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{EigenvalueMap_SinglePhase_16kW}
+            \input{Graphics/EigenvalueMap_SinglePhase_16kW.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+
+
+\cleardoublepage
+\section{Short-time Dynamics of Steady-State Evolutions}\label{Appendix:Section:SSTimeEvolution}
+\begin{figure}[ht]%
+    \centering
+    \caption{The initial dynamics of the steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{372}{\kelvin}. }
+    \label{Simulations:Figure:SSTimeEvolution372K-ShortTime}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \hskip-3em
+        \resizebox{3.6in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Quality}
+            \input{Graphics/Transient_TwoPhase-372K-Quality.tikz}
+        }
+    \end{subfigure}
+    \vskip1em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-3em
+        \resizebox{3.6in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Void}
+            \input{Graphics/Transient_TwoPhase-372K-Void.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+\begin{figure}[ht]\ContinuedFloat%
+        \caption{(cont.) The initial dynamics of the steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{372}{\kelvin}. }
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Temperature}
+            \input{Graphics/Transient_TwoPhase-372K-Temperature.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Pressure}
+            \input{Graphics/Transient_TwoPhase-372K-Pressure.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[ht]%
+    \centering
+    \caption{The initial dynamics of the steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{390}{\kelvin}. }
+    \label{Simulations:Figure:SSTimeEvolution390K-ShortTime}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \hskip-3em
+        \resizebox{3.8in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Quality}
+            \input{Graphics/Transient_TwoPhase-390K-Quality.tikz}
+        }
+    \end{subfigure}
+    \vskip1em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-3em
+        \resizebox{3.8in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Void}
+            \input{Graphics/Transient_TwoPhase-390K-Void.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+\begin{figure}[ht]\ContinuedFloat%
+        \caption{(cont.) The initial dynamics of the steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{390}{\kelvin}. }
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Temperature}
+            \input{Graphics/Transient_TwoPhase-390K-Temperature.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Pressure}
+            \input{Graphics/Transient_TwoPhase-390K-Pressure.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+
+
+\cleardoublepage
+\section{Long-time Dynamics of Pulse Evolutions}\label{Appendix:Section:PulseTimeEvolution}
+\begin{figure}[ht]%
+    \centering
+    \caption{Nonlinear response of the \SI{1}{\kW} system to various point-power insertions.}
+    \label{Simulations:Figure:01kWPulse-AllTime}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \hskip-3em
+        \resizebox{3.9in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Quality-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-01kW-Quality-ALLTIME.tikz}
+        }
+    \end{subfigure}
+    \vskip1em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-3em
+        \resizebox{3.9in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Void-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-01kW-Void-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+\begin{figure}[ht]\ContinuedFloat
+    \caption{(cont.) Nonlinear response of the \SI{1}{\kW} system to various point-power insertions.}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Temperature-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-01kW-Temperature-ALLTIME.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Pressure-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-01kW-Pressure-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+
+
+\begin{figure}[ht]%
+    \centering
+    \caption{Nonlinear response of the \SI{16}{\kW} system to various point-power insertions.}
+    \label{Simulations:Figure:16kWPulse-AllTime}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \hskip-3em
+        \resizebox{3.9in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Quality-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-16kW-Quality-ALLTIME.tikz}
+        }
+    \end{subfigure}
+    \vskip1em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-3em
+        \resizebox{3.9in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Void-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-16kW-Void-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+\begin{figure}[ht]\ContinuedFloat
+    \caption{(cont.) Nonlinear response of the \SI{16}{\kW} system to various point-power insertions.}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Temperature-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-16kW-Temperature-ALLTIME.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-3em
+        \resizebox{4in}{!}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Pressure-ALLTIME}
+            \input{Graphics/Pulse_TwoPhase-16kW-Pressure-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}

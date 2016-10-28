@@ -819,10 +819,15 @@
     } { }
 
     \int_gincr:N \g__UWMad_FrontMatter_Counter_int
-    \addcontentsline
-        {toc}
-        {#1}
-        {#2}
+    \bool_gset_true:N \g__UWMad_TOC_Registering_LOF_bool
+    %\bool_if:nTF {
+        %\g__UWMad_TOC_Registering_LOT_bool ||
+        %\g__UWMad_TOC_Registering_LOF_bool } { } {
+            \addcontentsline
+                {toc}
+                {#1}
+                {#2}
+        %}
 }
 \tl_new:N   \g__UWMad_FrontMatter_Title_Dedications_tl
 \tl_new:N   \g__UWMad_FrontMatter_Title_Acknowledgments_tl
@@ -892,9 +897,9 @@
        \FrontMatterSetSection{#1}{Preface}
     }
 }
-\cs_gset_eq:NN \TableOfContentsDefault \tableofcontents
-\cs_gset_eq:NN \ListOfTablesDefault    \listoftables
-\cs_gset_eq:NN \ListOfFiguresDefault   \listoffigures
+\cs_new_eq:NN \TableOfContentsDefault \tableofcontents
+\cs_new_eq:NN \ListOfTablesDefault    \listoftables
+\cs_new_eq:NN \ListOfFiguresDefault   \listoffigures
 \cs_undefine:N \tableofcontents
 \cs_undefine:N \listoftables
 \cs_undefine:N \listoffigures
@@ -904,16 +909,21 @@
 \tl_gset:Nn \g__UWMad_TOC_Name_TOC_tl {Table~of~Contents}
 \tl_gset:Nn \g__UWMad_TOC_Name_LOT_tl {List~of~Tables}
 \tl_gset:Nn \g__UWMad_TOC_Name_LOF_tl {List~of~Figures}
+\bool_new:N \g__UWMad_TOC_Registering_LOT_bool
+\bool_new:N \g__UWMad_TOC_Registering_LOF_bool
+\bool_gset_false:N \g__UWMad_TOC_Registering_LOT_bool
+\bool_gset_false:N \g__UWMad_TOC_Registering_LOF_bool
 \DeclareDocumentCommand \tableofcontents { } {
 
     \tl_gset_eq:NN \contentsname \g__UWMad_TOC_Name_TOC_tl
 
     \group_begin:
-        \setstretch{1.05}
         \cleardoublepage
         \phantomsection
         \ExplSyntaxOff
-            \TableOfContentsDefault
+            \begin{spacing}{1.2}
+                \TableOfContentsDefault
+            \end{spacing}
         \ExplSyntaxOn
         \cleardoublepage
     \group_end:
@@ -923,13 +933,11 @@
     \cs_set_eq:NN \listtablename \g__UWMad_TOC_Name_LOT_tl
 
     \group_begin:
-        \setstretch{1.05}
         \ExplSyntaxOff
-            \ListOfTablesDefault
+            \begin{spacing}{1.2}
+                \ListOfTablesDefault
+            \end{spacing}
         \ExplSyntaxOn
-        \__UWMad_FrontMatter_Register:nn
-            {chapter}
-            {\listtablename}
         \clearpage
     \group_end:
 }
@@ -938,13 +946,11 @@
     \cs_set_eq:NN \listfigurename \g__UWMad_TOC_Name_LOF_tl
 
     \group_begin:
-        \setstretch{1.05}
         \ExplSyntaxOff
-            \ListOfFiguresDefault
+            \begin{spacing}{1.2}
+                \ListOfFiguresDefault
+            \end{spacing}
         \ExplSyntaxOn
-        \__UWMad_FrontMatter_Register:nn
-            {chapter}
-            {\listfigurename}
         \clearpage
     \group_end:
 }
@@ -1982,8 +1988,10 @@
             \g__UWMad_ThesisInfo_Committee_InfoSeparator_tl{}
             \
             \textsl{#3}
-            \
-            (\g__UWMad_ThesisInfo_AdvisorMarker_tl{})
+            \bool_if:NTF \g__UWMad_ThesisInfo_PrintAdvisorMarker_bool {
+                \
+                (\g__UWMad_ThesisInfo_AdvisorMarker_tl{})
+            } { }
         }
         \coffin_join:NnnNnnnn
             \g__UWMad_ThesisInfo_Committee_coffin {l} {b}
@@ -1991,6 +1999,8 @@
             {0pt}{-0.75em}
     }
 }
+\bool_new:N        \g__UWMad_ThesisInfo_PrintAdvisorMarker_bool
+\bool_gset_false:N \g__UWMad_ThesisInfo_PrintAdvisorMarker_bool
 \cs_new:Nn \UWMad_ThesisInfo_AdvisorInfo:nnn {
     \tl_gset:Nn \g__UWMad_ThesisInfo_AdvisorName_tl        {#1}
     \tl_gset:Nn \g__UWMad_ThesisInfo_AdvisorPosition_tl    {#2}
@@ -2097,13 +2107,13 @@
 
 \DeclareDocumentCommand \TitlePageDegree { } {
     \IfInfoIsSetT {Degree} {
-        (\TheDegree{})
+        \TheDegree{}
     }
 }
 
 \DeclareDocumentCommand \TitlePageProgram { } {
     \IfInfoIsSetT {Program} {
-        \TheProgram{}
+        (\TheProgram{})
     }
 }
 
@@ -2121,6 +2131,10 @@
     }
 }
 
+\DeclareDocumentCommand \TitlePageCommitteLeadIn { } {
+    The~dissertation~is~approved~by~the~following~members~of~the~Final~Oral~Committee:
+}
+
 \DeclareDocumentCommand \MakeTitlePage { } {
     \clearpage
     \thispagestyle{empty}
@@ -2135,7 +2149,8 @@
         \TitlePageInstitution{}
         \vfill
     \end{center}
-    \TitlePageDefenseDate{}\\[-1em]
+    \TitlePageDefenseDate{}\\
+    \TitlePageCommitteLeadIn{} \\[-1.5em]
     \PrintCommitteeMemberList{}
     \cleardoublepage
 }

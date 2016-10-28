@@ -14,20 +14,19 @@ For slow or very viscous flows, the friction factor is found to be a function of
 \begin{equation}
     \text{Re} = \frac{\rho\,v\,D\subs{eff}}{\mu}
 \end{equation}
-where $mu$ is the dynamic viscosity.
+where $\mu$ is the dynamic viscosity.
 This is primarily due to the layered and ordered nature of the flow that results in much of the fluid's traction coming from its inherent viscosity \cite{nellis_heat_2009}.
-The Darcy friction approximation used for Reynolds numbers at or below \num{2000}, laminar flow, is 
+The Darcy friction approximation used for Reynolds numbers at or below \num{2000}, called \textit{laminar flow}, is 
 \begin{equation}
     f\subs{\textsc{d}} = \frac{64}{\text{Re}}.
 \end{equation}
-For flows with Reynolds numbers above \num{4000}, the Darcy friction factor is well-approximated by the Colebrook-White equation
+For flows with Reynolds numbers above \num{4000}, called \textit{turbulent flow}, the Darcy friction factor is well-approximated by the Colebrook-White equation
 \begin{equation}
     \frac{1}{\Sqrt{f\subs{\textsc{d}}}} = -2 \Log_{10}\left(\frac{\varepsilon\subs{rel}}{3.7} + \frac{2.51}{\text{Re}\;\;\Sqrt{f\subs{\textsc{d}}}}\right)
 \end{equation}
 where $\varepsilon\subs{rel}$ is the relative surface roughness and $\text{Re}$ is the Reynolds number.
 The relative surface roughness is a material-dependent quantity determined by measuring how smooth the finished inner surface is and dividing that measure by the channel's hydraulic diameter.
 A constant value of \num{1E-4} was used in this work.
-
 Despite its seemingly arbitrary nature, the Colebrook-White equation is derived from physical arguments in turbulent flow theory \cite{matthew_colebrook-white_1990}; however, to avoid yet another level of implicit solution in this work, an explicit approximation to the implicit Colebrook-White equation due to Serghides is used
 \begin{equation}
     \frac{1}{\Sqrt{f\subs{\textsc{d}}}} = f_a - \frac{(f_b - f_a)^2}{f_c - 2 f_b + f_a}

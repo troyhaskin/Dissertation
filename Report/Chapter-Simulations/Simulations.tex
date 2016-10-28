@@ -1,33 +1,22 @@
 \chapter{Simulations}\label{Chapter:Simulations}
 
 The model used to test all of the aforementioned theory is a simple, closed loop model with 14 control volume and 14 momentum cells.
-The model's steady-states and stability were characterized and test both in single and two phase states.
-The single phase tests were performed in the sub-cooled liquid regime of water over a chosen rectangle in pressure-temperature space at two different heating loads.
-The two-phase tests were performed along the saturated liquid line of the vapor dome over several saturation temperatures at four different heating loads.
+The model's steady-states and stability were characterized and tested both in single and two-phase states.
+The single phase tests were performed in the subcooled liquid regime of water over a chosen rectangle in pressure-temperature space at several different heating loads.
+The two-phase tests were performed along the saturated liquid line of the vapor dome over several saturation temperatures and heating loads.
 
-\section{Solution Methology}
-
-Despite the simple geometry, the steady-state solutions required for the stability analysis are not easily solved because any closed-loop system presents an inherently singular steady-state balance between fluxes and sources.
-Therefore, all of the steady-states that will be presented were acquired from transient simulations that were run until the absolute value of the time rate-of-change of all system variables fell below 10.
-The limiting variable using that metric was the energy of the control volumes since their values were on the order of \SIrange{1E5}{1E6}{\joule} with all other system variables being driven to very small rates-of-change relative to their inherent scales.
-
-The eigenvalue calculations were performed using a central finite difference on the momentum value to approximate the required derivatives.
-A numerical approximation was chosen to overcome the complexities of the derivatives due to models used in single phase and primarily those in two-phase for the friction factor multiplier.
-
-
-\begin{figure}[t]%
+\begin{figure}[H]%
     \centering
     \caption{Test loop geometry.  Black lines enclose control volumes, dashed red lines indicate the extents of the momentum cells, the blue control volume is removing the heat load, and the yellow control volume is receiving the heat load.}%
     \label{Fig:TestLoopSetUp}%
     \includegraphics[height=4in]{TestLoop.png}%
 \end{figure}
 
-
 \section{Geometry}
 
 The loop geometry and problem set-up are summarized in \cref{Fig:TestLoopSetUp}.
 All of the control volumes have a hydraulic diameter or \SI{0.1}{\meter} and exchange surface flow areas of \SI{1E-2}{\meter\squared}.
-The lengths of the corner volumes is \SI{0.1}{\meter} on all sides, the horizontal bridges are \SI{0.2}{\meter} in length, and the vertical volumes are \SI{0.3}{\meter} tall.
+The lengths of the corner volumes are \SI{0.1}{\meter} on all sides, the horizontal bridges are \SI{0.2}{\meter} in length, and the vertical volumes are \SI{0.3}{\meter} tall.
 The total volume of the system is \SI{0.032}{\meter\cubed} with an aspect ratio of \num{3.5}.
 
 The geometry was chosen to be a smaller scale version of the UW--Madison RCCS experiment.
@@ -35,94 +24,317 @@ The size of the model, number of control volumes, and total amount of water in t
 As such, a small numerical experiment was settled upon to allow efficient investigation into both the single and two-phase systems before any in-depth efforts were made to improve performance beyond the code optimizations of the implementation language and platform.
 
 
+
+
+\section{Solution Methodology}
+
+Despite the simple geometry, the steady-state solutions required for the stability analysis are not easily solved because any closed-loop system presents an inherently singular steady-state balance between fluxes and sources.
+Therefore, all of the steady-states that will be presented were acquired from transient simulations that were run until the absolute value of the time rate-of-change of all system variables fell below 10.
+The limiting variable using that metric was the energy of the control volumes since their values were on the order of \SIrange{1E5}{1E6}{\joule} with all other system variables being driven to very small rates-of-change relative to their inherent scales.
+A time evolution of some system parameters can be seen in \cref{Simulations:Figure:SSTimeEvolution372K,Simulations:Figure:SSTimeEvolution390K}.
+
+To aid in proper gauging of the system, the cooling volume for steady-state simulations was set to a fixed state.
+This Dirichlett condition allowed for exact specification of a state within the system such that a map of states could be precisely traversed for the linear stability analysis.
+The system was changed to one with pure Neumann boundary conditions when the transient, pulsed simulations were performed to more adequately simulate the dynamics of the loop.
+
+The eigenvalue calculations were performed using a central finite difference on the momentum value to approximate the required derivatives.
+A numerical approximation was chosen to overcome the complexities of the derivatives due to models used in single phase and primarily those in two-phase for the friction factor multiplier (see \cref{Appendix:FrictionFactors}).
+
+
+\begin{figure}%
+    \centering
+    \caption{Steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{372}{\kelvin}. }
+    \label{Simulations:Figure:SSTimeEvolution372K}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \tikzsetnextfilename{Transient_TwoPhase-372K-Quality-ALLTIME}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \input{Graphics/Transient_TwoPhase-372K-Quality-ALLTIME.tikz}
+        }
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Void-ALLTIME}
+            \input{Graphics/Transient_TwoPhase-372K-Void-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}%
+\begin{figure}\ContinuedFloat
+    \centering
+    \caption{(cont.) Steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{372}{\kelvin}. }
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-4em
+        \resizebox{!}{2.9in}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Temperature-ALLTIME}
+            \input{Graphics/Transient_TwoPhase-372K-Temperature-ALLTIME.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-4em
+        \resizebox{!}{2.9in}{
+            \tikzsetnextfilename{Transient_TwoPhase-372K-Pressure-ALLTIME}
+            \input{Graphics/Transient_TwoPhase-372K-Pressure-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}%
+    \centering
+    \caption{Steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{390}{\kelvin}. }
+    \label{Simulations:Figure:SSTimeEvolution390K}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \tikzsetnextfilename{Transient_TwoPhase-390K-Quality-ALLTIME}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \input{Graphics/Transient_TwoPhase-390K-Quality-ALLTIME.tikz}
+        }
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Void-ALLTIME}
+            \input{Graphics/Transient_TwoPhase-390K-Void-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}%
+\begin{figure}\ContinuedFloat
+    \centering
+    \caption{(cont.) Steady-state time evolutions of the test loop with the cooled control volume fixed at a saturated liquid state at \SI{390}{\kelvin}. }
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Temperature-ALLTIME}
+            \input{Graphics/Transient_TwoPhase-390K-Temperature-ALLTIME.tikz}
+        }
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \tikzsetnextfilename{Transient_TwoPhase-390K-Pressure-ALLTIME}
+            \input{Graphics/Transient_TwoPhase-390K-Pressure-ALLTIME.tikz}
+        }
+    \end{subfigure}
+\end{figure}
+
+\section{Linear Stability Results}
+
+\subsection{Single Phase}
+
+The single phase simulations were carried out by setting the cooling corner of the model to a set temperature and pressure and letting the simulation run to a steady-state.
+Steady-states were generated using a grid of temperatures ranging from \SIrange{300}{372}{\kelvin} and pressure ranging from \SIrange{101325}{202650}{\pascal} and heat loads of \num{1}, \num{2}, \num{4}, \num{8} and \SI{16}{\kW}.
+Pertinent average parameters and a crude energy balance for comparison are presented in \cref{Table:DataSummary}.
+
+
+The results of the eigenvalue calculations for each of the power levels over the computational rectangle can be found in \cref{Appendix:Section:1PhiMaps}.
+As show in \cref{Simulations:Figure:AllEigMap}, all of the individual stability maps have been compressed into a single multiple-surface plot to facilitate the summary of results and notice trends.
+As can be seen, all of the computed eigenvalues are below zero, and thus the system doesn't exhibit any instabilities in the single phase region.
+The lack of a boundary is not all that shocking given that water is an extremely dense and robust fluid while it is in the subcooled regime.
+Additionally, since the only remaining system-wide terms in the perturbation equations were dissipative in nature, the absolute stability of the simulations is not that surprising.
+
+It is also noted that the eigenvalues become more negative as either the heat load increases or the system pressure increases and remains relative constant with varying temperature.
+Considering the power variation, the increase in system stability is attributed to the ever-increasing mass flow.  As the system's fluid travels faster, the greater inertia works to damp out small perturbations more effectively than a slower system.
+Likewise, an increase in pressure stiffens the water system and allows for a more potent mitigation of small perturbations in the system.
+These trends will also be seen in the two-phase results.
+
+\begin{figure}%
+    \centering
+    \caption{Eigenvalue maps of the simple, closed loop over the chosen state space at varying heat loads; the top most surface is the \SI{1}{\kW} simulation and the bottom surface is the \SI{16}{\kW} simulation. All eigenvalues are negative.}%
+    \label{Simulations:Figure:AllEigMap}
+    \resizebox{6in}{!}{
+        \tikzsetnextfilename{EigenvalueMap_SinglePhase_ALLkW}
+        \input{Graphics/EigenvalueMap_SinglePhase_ALLkW.tikz}
+    }
+\end{figure}
+
+
+\subsection{Two-Phase}
+
+The two-phase simulations were carried out by setting the cooling corner of the model to a saturation temperature with the associated pressure and liquid density; the system was then heated and allowed to evolve to a steady-state.
+Steady-states were generated using saturation temperatures ranging from \SIrange{372}{390}{\kelvin}, which corresponds to a pressure range of \SIrange{97.33}{179.64}{\kilo\pascal}, with heat loads of \SI{1}{\kW} and from \num{2} to \SI{16}{\kW} by increments of \num{2}.
+Pertinent average parameters and a crude energy balance for comparison are presented in \cref{Table:DataSummary}.
+Although the usage of heat capacity isn't valid with two-phase results, it should provide a close estimate for a hand-calculation comparison to the simulation given the small maximum quality of the system.
+
+
+The results of the eigenvalue calculations over the saturation temperatures and across the powers is presented in \cref{Fig:2PhiEigenvalues}.
+As can be seen, all of the computed eigenvalues are below zero, and thus the system doesn't exhibit any instabilities when portions of the upper hot leg undergo flashing.
+The lack of any positive eigenvalues is a little surprising given the chaotic nature two-phase flashing is known to have.
+As in the single phase results, the two-phase system becomes more stable as either the heat load or the saturation pressure (parametrized by the saturation temperature) are increased.
+The pressure dependence is more clear for the two-phase results as it will result in a smaller latent heat and, thus, more liquid water in the system to act as a stabilizing force.
+The heat load dependence is analogous to the single phase case in that a faster flowing system will damp out small perturbations very well.
+
+As a side note, the eigenvalue map shown has a corrugated shape and is not smooth like the single phase maps.
+The behavior is attributed to the extra complications introduced by the presence of another phase: the nonlinear system solver, the nonlinear solution of the saturation state, the nonlinear nature of the two-phase friction factor in the flashing portions, and the numerical approximation of the eigenvalues.
+Since eigenvalues are a smooth function of the system parameters, all of the delineated numerical facets are taken to be the primary culprit and indicate nothing more.
+
+
+\begin{figure}%
+    \centering
+    \caption{Eigenvalue map of the simple, closed loop undergoing phase-change along the liquid saturation line at various heating loads. All eigenvalues are negative.}%
+    \label{Fig:2PhiEigenvalues}
+    \tikzsetnextfilename{EigenvalueMap_TwoPhase_AllStates}
+    \input{Graphics/EigenvalueMap_TwoPhase_AllStates.tikz}%
+\end{figure}
+
+
 \begin{table}[b]%
     \centering
     \centering
-    \caption{Summary of pertinent system parameters for the single phase simulations.}
-    \label{Table:1PhiSummary}
-    \begin{tabular}{ccc}
+    \caption{
+        Summary of pertinent average system parameters (indicated by an over-bar) for the single and two-phase simulations: heat load $\dot{Q}$, temperature rise $\Delta{T}$, Pressure difference $\Delta{P}$, mass flow rate $\dot{m}$, and a naive heat balance.
+        The two-phase results also contain values for the quality $x$ (vapor mass fraction) and void $\alpha$ (homogeneous vapor volume fraction) as defined in \cref{Appendix:Thermodynamics::Section:MixtureProperties}.}
+    \label{Table:DataSummary}
+    \definecolor{lightGray}{gray}{0.85}
+    \rowcolors{7}{lightGray}{lightGray}
+    \begin{tabular}{cccccccc}
         \toprule
-            \multirow{2}{*}{Parameters} & \multicolumn{2}{c}{Heat Load} \\[0.1em]\cline{2-3}
-                                       &    \SI{1}{\kW} & \SI{8}{\kW} \\\midrule
-        Avg. Temperature Rise    [\si{\Delta\kelvin}] & \num{0.2392}   & \num{0.7944} \\[0.5em]
-        Avg. Pressure Difference [\si{\Delta\kilo\pascal}]  & \num{12.504} & \num{12.500} \\[0.5em]
-        Avg. Mass Flow Rate      [\si{\kg\per\second}]      & \num{1.012}    & \num{2.437} \\[0.5em]
-        $\dot{m}c\subs{p}\Delta{T}$ [\si{\kW}]*            & \num{1.02}     & \num{8.097}\\
+           Phases & $\dot{Q}$ [\si{\kW}] & $\bar{T}$ [\si{\Delta\kelvin}] & $\bar{P}$ [\si{\Delta\kilo\pascal}] & $\bar{\dot{m}}$ [\si{\kg\per\second}] & $\bar{x}$ [pcm] & $\bar{\alpha}$ [\si{\percent}] & $\bar{\dot{m}}\,c\subs{p}\,\bar{\Delta{T}}$ [\si{\kW}]* \\\midrule
+              &1  & 0.239 & 12.504 & 1.01 & -- & -- & 1.02 \\[0.2em]
+              &2  & 0.368 & 12.501 & 1.33 & -- & -- & 2.05 \\[0.2em]
+             1&4  & 0.543 & 12.501 & 1.80 & -- & -- & 4.08 \\[0.2em]
+              &8  & 0.794 & 12.500 & 2.44 & -- & -- & 8.10 \\[0.2em]
+              &16 & 1.260 & 12.500 & 3.08 & -- & -- & 16.2 \\[0.3em]
+              & 1  & 0.034 & 12.166 & 6.89 & 6.49  & 7.46 & 0.981\rule{0pt}{1em}\\[0.2em]
+              & 2  & 0.056 & 12.202 & 8.34 & 10.5  & 11.5 & 1.97 \\[0.2em]
+              & 4  & 0.095 & 12.287 & 9.92 & 16.8  & 17.2 & 3.94 \\[0.2em]
+              & 6  & 0.130 & 12.378 & 10.9 & 22.2  & 21.5 & 5.92 \\[0.2em]
+             2& 8  & 0.163 & 12.472 & 11.6 & 27.0  & 25.0 & 7.90 \\[0.2em]
+              & 10 & 0.195 & 12.567 & 12.1 & 31.4  & 27.9 & 9.88 \\[0.2em]
+              & 12 & 0.225 & 12.663 & 12.6 & 35.6  & 30.5 & 11.9 \\[0.2em]
+              & 14 & 0.255 & 12.759 & 13.0 & 39.5  & 32.7 & 13.8 \\[0.2em]
+              & 16 & 0.285 & 12.855 & 13.3 & 43.3  & 34.7 & 15.8 \\[0.2em]
         \bottomrule
     \end{tabular}
     \vskip0pt
     * $c\subs{p} = \SI{4182}{\joule\per\kg\per\kelvin}$
 \end{table}
 
-\section{Single Phase Results}
+\clearpage
 
-The single phase simulations were carried out by setting the cooling corner of the model to a set temperature and pressure and letting the simulation run to a steady-state.
-Steady-states were generated using a grid of temperatures ranging from \SIrange{300}{372}{\kelvin} and pressure ranging from \SIrange{101325}{202650}{\pascal} and heat loads of \SI{1}{\kW} and \SI{8}{\kW}.
-Pertinent average parameters and a crude energy balance for comparison are presented in \cref{Table:1PhiSummary}.
+\section{Nonlinear Pulsed Stability}
+This section aims to show that the test loops is nonlinearly stable when subject to relatively large perturbations off of the steady-state.
+The simulations done to show this stability all have the cooling volume at about \SI{372}{\kelvin} at saturated conditions; the ``about'' is added because these simulations are purely Neumann in nature with no fixed state.
+From steady-states acquired with heat loads of \num{1} and \SI{16}{\kW} and possessing a \SI{372}{\kelvin} saturated cooled volume, the heated volume was subjected to a point pulse one second into the simulation of \num{1}, \num{2}, \num{5}, \num{10}, and \SI{15}{\kW}.
+Various system parameters for all the simulations are plotted in \cref{Simulations:Figure:01kWPulse,Simulations:Figure:16kWPulse} for the first ten seconds of simulation (fifty second results are given in \cref{Appendix:Section:PulseTimeEvolution}).
 
-
-The results of the eigenvalue calculations over the computational rectangles are presented in \cref{Fig:Eigenvalue1kW,Fig:Eigenvalue8kW}.
-As can be seen, all of the computed eigenvalues are below zero, and thus the system doesn't exhibit any instabilities in the single phase region.
-The lack of a boundary is not all that shocking given that water is an extremely dense and robust fluid while it is in the subcooled regime.
-Additionally, since the only remaining system-wide terms in the perturbation equations were dissipative in nature, the absolute stability of the simulations is not that surprising.
-It is noted, however, that the eigenvalues for the \SI{8}{\kW} heat load are an order of magnitude higher than the \SI{1}{\kW} simulation, and future simulations examining behavior at higher heating levels is worth considering.
-
-
-\section{Two-Phase Results}
-
-The two-phase simulations were carried out by setting the cooling corner of the model to a saturation temperature with the associated pressure and liquid density; the system was then heated and allowed to evolve to a steady-state.
-Steady-states were generated using saturation temperatures ranging from \SIrange{372}{390}{\kelvin}, which corresponds to a pressure range of \SIrange{97.33}{179.64}{\kilo\pascal}, with heat loads of \num{1}, \num{2}, \num{4}, and \SI{6}{\kW}.
-Pertinent average parameters and a crude energy balance for comparison are presented in \cref{Table:2PhiSummary}.
-
-\begin{table} 
-    \centering
-    \centering
-    \caption{Summary of pertinent system parameters for the two-phase simulations.}
-    \label{Table:2PhiSummary}
-    \begin{tabular}{ccccc}
-        \toprule
-            \multirow{2}{*}{Parameters}                     & \multicolumn{4}{c}{Heat Load} \\[0.1em]\cline{2-5}
-                                                            &    \SI{1}{\kW} & \SI{2}{\kW}   & \SI{4}{\kW}   & \SI{6}{\kW} \\\midrule
-        Avg. Temperature Rise    [\si{\Delta\kelvin}]       & \num{0.034}    & \num{0.0352}  & \num{0.0951}  & \num{0.13}  \\[0.5em]
-        Avg. Pressure Difference [\si{\Delta\kilo\pascal}]  & \num{12.17}    & \num{12.17}   & \num{12.29}   & \num{12.38} \\[0.5em]
-        Avg. Mass Flow Rate      [\si{\kg\per\second}]      & \num{6.89}     & \num{6.97}    & \num{9.92}    & \num{10.89} \\[0.5em]
-        Avg. Maximum Quality      [--]                      & \num{6.48E-5}  & \num{6.71E-5} & \num{1.68E-4} & \num{2.22E-4} \\[0.5em]
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-
-The results of the eigenvalue calculations over the saturation temperatures and across the powers is presented in \cref{Fig:2PhiEigenvalues}.
-As can be seen, all of the computed eigenvalues are below zero, and thus the system doesn't exhibit any instabilities when portions of the upper hot leg undergo flashing.
-The lack of a any positive eigenvalues is a little surprising given the chaotic nature two-phase flash is known to have.
-However, the state space presented is not that refined, so there may be positions along the saturation line that were not captured in these simulations.
-Additionally, the heating levels turned out to be two low for even a modestly wet two-phase mixture, not even achieving a tenth of a percent in quality.
-Refinement of the simulation state space and higher power levels are left to future work.
+As can be seen, the system exhibits extremely strong stability when exposed to large perturbations off of the steady-state.
+The system at \SI{1}{\kW} experiences a pulse fifteen times its nominal value and quickly returns to the initial state; the system at \SI{16}{\kW} experiences a pulse to almost double its nominal value and returns to the initial state quickly as well.
+Whereas the previous section showed the system to be stable for small perturbation in general, these simulations show that the test loop is extremely stable even in the face of large injections while operating at steady-state.
 
 
 \begin{figure}%
-    \caption{Eigenvalue map of the simple, closed loop over the chosen state space. All eigenvalues are negative}%
+    \centering
+    \caption{Nonlinear response of the \SI{1}{\kW} system to various point-power insertions.}
+    \label{Simulations:Figure:01kWPulse}
     \begin{subfigure}{\textwidth}
         \centering
-        \caption{\SI{1}{\kW}}
-        \label{Fig:Eigenvalue1kW}
-        \vskip-1.1em
-        \IncludeSection{EigenvalueMap_SinglePhase_1kW.tikz}%
+        \caption{Maximum Quality}
+        \tikzsetnextfilename{Pulse_TwoPhase-01kW-Quality}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \input{Graphics/Pulse_TwoPhase-01kW-Quality.tikz}
+        }
     \end{subfigure}
-    \vskip1.5em
+    \vskip2em
     \begin{subfigure}{\textwidth}
         \centering
-        \caption{\SI{8}{\kW}}
-        \label{Fig:Eigenvalue8kW}
-        \vskip-0.75em
-        \IncludeSection{EigenvalueMap_SinglePhase_8kW.tikz}%
+        \caption{Maximum Void Fraction}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Void}
+            \input{Graphics/Pulse_TwoPhase-01kW-Void.tikz}
+        }
+    \end{subfigure}
+\end{figure}%
+\begin{figure}\ContinuedFloat
+    \centering
+    \caption{(cont.)Nonlinear response of the \SI{1}{\kW} system to various point-power insertions.}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-4em
+        \resizebox{!}{2.9in}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Temperature}
+            \input{Graphics/Pulse_TwoPhase-01kW-Temperature.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-4em
+        \resizebox{!}{2.9in}{
+            \tikzsetnextfilename{Pulse_TwoPhase-01kW-Pressure}
+            \input{Graphics/Pulse_TwoPhase-01kW-Pressure.tikz}
+        }
     \end{subfigure}
 \end{figure}
 
 \begin{figure}%
     \centering
-    \caption{Eigenvalue map of the simple, closed loop undergoing phase-change along the liquid saturation line at various heating loads.All eigenvalues are negative}%
-    \label{Fig:2PhiEigenvalues}
-    \vskip-0.75em
-    \IncludeSection{EigenvalueMap_TwoPhase_1kW.tikz}%
+    \caption{Nonlinear response of the \SI{16}{\kW} system to various point-power insertions.}
+    \label{Simulations:Figure:16kWPulse}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Quality}
+        \tikzsetnextfilename{Pulse_TwoPhase-16kW-Quality}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \input{Graphics/Pulse_TwoPhase-16kW-Quality.tikz}
+        }
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{Maximum Void Fraction}
+        \hskip-4em
+        \resizebox{!}{3in}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Void}
+            \input{Graphics/Pulse_TwoPhase-16kW-Void.tikz}
+        }
+    \end{subfigure}
+\end{figure}%
+\begin{figure}\ContinuedFloat
+    \centering
+    \caption{(cont.)Nonlinear response of the \SI{16}{\kW} system to various point-power insertions.}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Temperature Rise}
+        \hskip-4em
+        \resizebox{!}{2.9in}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Temperature}
+            \input{Graphics/Pulse_TwoPhase-16kW-Temperature.tikz}
+        }            
+    \end{subfigure}
+    \vskip2em
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{System Pressure Difference}
+        \hskip-4em
+        \resizebox{!}{2.9in}{
+            \tikzsetnextfilename{Pulse_TwoPhase-16kW-Pressure}
+            \input{Graphics/Pulse_TwoPhase-16kW-Pressure.tikz}
+        }
+    \end{subfigure}
 \end{figure}
+

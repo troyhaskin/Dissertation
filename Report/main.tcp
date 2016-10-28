@@ -6,7 +6,7 @@ Version=4
 MainFile=main.tex
 UseBibTeX=0
 UseMakeIndex=0
-ActiveProfile=LaTeX ⇨ PDF
+ActiveProfile=LaTeX ⇨ PDF (write18 enabled)
 ProjectLanguage=en
 ProjectDialect=US
 

@@ -1,11 +1,17 @@
-\usepackage{environ,xspace,booktabs,esint}
+%   Set-up tikz stuff
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.12}
 \usetikzlibrary{quotes,angles}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=Graphics/tikz/,shell escape=-enable-write18]
+
+%
+\usepackage{environ,xspace,booktabs,esint}
 \usepackage[linesnumbered,ruled]{algorithm2e}
 \usepackage[inline]{enumitem}
 \usepackage{siunitx,multirow}
+
 
 
 
